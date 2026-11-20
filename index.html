@@ -955,6 +955,76 @@ body:has(.modal) .sufloat,body:has(.drawer) .sufloat{opacity:0;pointer-events:no
 @keyframes bgheart{from{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:1}to{opacity:0;transform:translate(var(--dx),-140px) scale(1.2)}}
 @media (max-width:640px){.bigcat{width:150px;height:123px;bottom:-24px}.bigcat.duck .bg-body{transform:translateY(86px)}.bg-say{font-size:.88rem;padding:8px 12px}}
 
+/* stream champion slot */
+.stmid{position:relative;isolation:isolate;align-self:stretch;align-content:center;min-width:190px;overflow:hidden;border:0;background:transparent;color:inherit;font:inherit}
+.stmid-art{position:absolute;inset:0;z-index:-1;background-repeat:no-repeat;opacity:.38;filter:saturate(1.1);-webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent 100%);mask-image:radial-gradient(closest-side,#000 30%,transparent 100%);animation:start .8s ease-out both}
+@keyframes start{from{opacity:0;transform:scale(1.15)}}
+.stch-n{font-family:var(--display);font-weight:800;font-size:1.05rem;color:var(--gold2);letter-spacing:.04em;white-space:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.stch.pop{animation:stpop .7s cubic-bezier(.2,1.6,.4,1)}
+.stch-n.pop{animation:stnpop .6s .15s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes stpop{0%{transform:scale(.2) rotate(-12deg);opacity:0}60%{transform:scale(1.25);box-shadow:0 0 0 2px var(--gold2),0 0 40px rgba(240,213,140,.9)}100%{transform:none}}
+@keyframes stnpop{from{opacity:0;transform:translateY(8px);letter-spacing:.3em}}
+.stmid.pickable{cursor:pointer;transition:background .2s}
+.stmid.pickable:hover{background:radial-gradient(closest-side,rgba(240,213,140,.12),transparent)}
+.stpick-ic{display:grid;place-items:center;width:54px;height:54px;font-size:1.9rem;font-weight:300;color:var(--gold2);border:2px dashed rgba(240,213,140,.6);clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);animation:stpk 2s ease-in-out infinite}
+.stmid.pickable:hover .stpick-ic{border-style:solid;background:rgba(240,213,140,.12)}
+@keyframes stpk{50%{box-shadow:0 0 22px rgba(240,213,140,.35);transform:scale(1.04)}}
+.stmid-t.pick{color:var(--gold2);font-weight:700}
+.stmid-edit{position:absolute;top:6px;right:8px;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);opacity:0;transition:opacity .2s}
+.stmid.pickable:hover .stmid-edit{opacity:.9}
+/* champion select overlay */
+.cs{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 30%,rgba(20,32,54,.88),rgba(3,6,11,.94));backdrop-filter:blur(6px);animation:csin .25s ease-out both}
+.cs.out{animation:csout .22s ease-in both}
+@keyframes csin{from{opacity:0}}@keyframes csout{to{opacity:0}}
+.cs-box{position:relative;width:min(980px,100%);max-height:calc(100vh - 48px);display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto;gap:14px;padding:22px 24px 18px;
+  background:linear-gradient(180deg,#152238,#0c1422);border:1px solid rgba(200,165,90,.5);clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);
+  box-shadow:0 30px 80px rgba(0,0,0,.6);animation:csbox .4s cubic-bezier(.2,1.1,.3,1) both;overflow:hidden}
+@keyframes csbox{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.cs-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
+.cs-pl{display:flex;align-items:center;gap:12px;min-width:0;opacity:.55;transition:opacity .2s}
+.cs-pl.b{flex-direction:row-reverse;text-align:right}
+.cs-pl.on{opacity:1}
+.cs-pl .bav{width:48px;height:48px;flex:none}
+.cs-pl.on .bav{box-shadow:inset 0 0 0 2px var(--gold2),0 0 18px rgba(240,213,140,.6)}
+.cs-pl b{font-family:var(--display);font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs-pl small{font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#1a1408;background:var(--gold2);padding:2px 7px;animation:pulse 1.4s infinite}
+.cs-mid{text-align:center}
+.cs-k{font-size:.66rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.cs-t{font-family:var(--display);font-weight:800;font-size:1.45rem;color:var(--gold2);white-space:nowrap}
+.cs-s{font-size:.75rem;color:var(--mute)}
+.cs-roll{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;padding:10px;background:rgba(240,213,140,.07);border:1px dashed rgba(240,213,140,.4);font-size:.88rem}
+.cs-bar{display:flex;align-items:center;gap:12px;padding:0 14px;height:48px;background:#0a111c;border:1px solid var(--line);transition:border-color .2s,box-shadow .2s}
+.cs-bar:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,165,90,.15)}
+.cs-qi{width:16px;height:16px;border:2px solid var(--mute);border-radius:50%;position:relative;flex:none}
+.cs-qi::after{content:"";position:absolute;right:-6px;bottom:-5px;width:7px;height:2px;background:var(--mute);transform:rotate(45deg)}
+.cs-q{flex:1;min-width:0;height:100%;border:0;background:transparent;color:var(--fg);font:inherit;font-size:1.05rem;outline:none}
+.cs-count{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.cs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px;overflow-y:auto;padding:4px 4px 8px;min-height:120px;scrollbar-color:var(--line) transparent}
+.cs-c{position:relative;display:grid;justify-items:center;gap:6px;padding:8px 4px;border:0;background:transparent;color:var(--fg);cursor:pointer;font:inherit;animation:cscin .35s ease-out both}
+@keyframes cscin{from{opacity:0;transform:translateY(8px)}}
+.cs-ic{width:62px;height:62px;background-color:#0b111b;background-repeat:no-repeat;box-shadow:0 0 0 1px #2b3c5c;transition:transform .18s cubic-bezier(.2,1.4,.4,1),box-shadow .18s,filter .18s}
+.cs-n{font-size:.74rem;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#b9c2d3}
+.cs-c:hover .cs-ic,.cs-c.act .cs-ic{transform:translateY(-3px) scale(1.08);box-shadow:0 0 0 2px var(--gold2),0 8px 22px rgba(240,213,140,.35)}
+.cs-c:hover .cs-n,.cs-c.act .cs-n{color:var(--gold2)}
+.cs-c.cur .cs-ic{box-shadow:0 0 0 2px var(--teal),0 0 18px rgba(63,183,196,.5)}
+.cs-c.used .cs-ic{filter:grayscale(.8) brightness(.6)}
+.cs-tag{position:absolute;top:4px;right:10px;font-size:.55rem;font-weight:800;letter-spacing:.08em;background:#3a4a66;color:#dfe6f2;padding:1px 5px}
+.cs-none{grid-column:1/-1;text-align:center;color:var(--mute);padding:30px 0}
+.cs-foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cs-hint{font-size:.72rem;color:#5d6a82;text-align:center}
+.cs-btn{padding:9px 16px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--fg);font:inherit;font-weight:600;font-size:.88rem;cursor:pointer;transition:border-color .2s,background .2s}
+.cs-btn:hover{border-color:var(--gold);background:rgba(240,213,140,.08)}
+.cs-btn.gold{border:0;background:linear-gradient(180deg,#ffe9a8,#e0b45a 55%,#b9853a);color:#1a1206;font-weight:800;letter-spacing:.04em}
+.cs-lock{position:absolute;inset:0;z-index:5;display:grid;place-items:center;background:rgba(5,9,16,.7);animation:csin .2s ease-out both}
+.cs-lock-art{position:absolute;inset:0;background-repeat:no-repeat;background-size:cover;opacity:.55;animation:cslart .9s ease-out both;-webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent);mask-image:radial-gradient(closest-side,#000 40%,transparent)}
+@keyframes cslart{from{transform:scale(1.3);opacity:0}}
+.cs-lock-t{position:relative;text-align:center;animation:cslt .5s cubic-bezier(.2,1.6,.4,1) both}
+.cs-lock-t small{display:block;font-size:.8rem;font-weight:800;letter-spacing:.4em;text-transform:uppercase;color:var(--gold)}
+.cs-lock-t b{font-family:var(--display);font-weight:900;font-size:3.2rem;color:var(--gold2);text-shadow:0 0 30px rgba(240,213,140,.6),0 4px 0 #5a3d12}
+@keyframes cslt{from{opacity:0;transform:scale(1.6)}}
+.cs-box{min-width:0}.cs-mid{min-width:0}
+@media (max-width:700px){.cs-t{white-space:normal;font-size:1.1rem}.cs{padding:10px;grid-template-columns:minmax(0,1fr)}.cs-box{padding:16px 14px 12px}.cs-head{grid-template-columns:1fr}.cs-pl{display:none}.cs-hint{display:none}.cs-grid{grid-template-columns:repeat(auto-fill,minmax(72px,1fr))}.cs-ic{width:52px;height:52px}}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1208,6 +1278,90 @@ function upNext(B){
 /* ---------- rendering ---------- */
 var tickEls = null;
 var streamAnimated = false, lowAnimated = false, nextAnimated = false;
+/* ---------- stream: champion slot + champion select ---------- */
+var stChSeen = {}, csEl = null;
+function streamMid(B, m, gi, ch, V){
+  var canPick = isAdmin && m.ready && !m.winner && m.a && m.b;
+  var roller = m.need === 1 || gi === 2;
+  var k = m.key + ":" + gi, fresh = ch && stChSeen[k] !== undefined && stChSeen[k] !== ch; stChSeen[k] = ch || "";
+  var who = roller ? "Champion roller" : (gi === 0 ? pname(m.a) : pname(m.b)) + "'s pick";
+  var top = ch ? h("span", {class:"stch" + (fresh ? " pop" : ""), style:artStyle(ch, ICONS_URL)})
+               : canPick ? h("span", {class:"stpick-ic", "aria-hidden":"true"}, "+") : h("span", {class:"stvs"}, "VS");
+  var label = ch ? h("div", {class:"stch-n" + (fresh ? " pop" : "")}, ch) : canPick ? h("div", {class:"stmid-t pick"}, "Pick champion") : null;
+  var meta = h("div", {class:"stmid-t"}, (m.need > 1 ? "Game " + (gi + 1) + " of 3" : "Sudden death") + (ch || canPick ? " \u00b7 " + who : ""));
+  var kids = [ch ? h("span", {class:"stmid-art", style:artStyle(ch, CARDS_URL), "aria-hidden":"true"}) : null, top, label, meta,
+    h("div", {class:"stcrowd"}, V.pct != null ? [h("b", {class:"a"}, V.pct + "%"), " crowd ", h("b", {class:"b"}, (100 - V.pct) + "%")] : "No votes yet")];
+  if (!canPick) return h("div", {class:"stmid" + (ch ? " has" : "")}, kids);
+  return h("button", {class:"stmid pickable" + (ch ? " has" : ""), type:"button", title:ch ? "Change the champion for this game" : "Pick the champion for this game", onclick:function(){ openChampSelect(m.key); }}, kids,
+    ch ? h("span", {class:"stmid-edit"}, "Change") : null);
+}
+function closeChampSelect(){ if (csEl){ var e = csEl; csEl = null; e.classList.add("out"); setTimeout(function(){ e.remove(); }, 220); } }
+function openChampSelect(key){
+  closeChampSelect();
+  var B = compute(), m = B ? findAny(B, key) : null; if (!m || !m.ready || m.winner) return;
+  var gi = gameIndex(m), roller = m.need === 1 || gi === 2, cur = champFor(m.key, gi) || "";
+  var picker = roller ? null : (gi === 0 ? m.a : m.b);
+  var used = {}; (S.champs[m.key] || []).forEach(function(c, i){ if (c && i !== gi) used[norm(c)] = i + 1; });
+  var q = "", act = 0, list = [];
+  var search = h("input", {class:"cs-q", placeholder:"Search champions", autocomplete:"off", spellcheck:"false", "aria-label":"Search champions"});
+  var grid = h("div", {class:"cs-grid", role:"listbox", "aria-label":"Champions"});
+  var count = h("span", {class:"cs-count"});
+  function choose(name){
+    var a = S.champs[m.key] = S.champs[m.key] || []; a[gi] = name || null;
+    if (name){
+      var lock = h("div", {class:"cs-lock"}, h("span", {class:"cs-lock-art", style:artStyle(name, CARDS_URL)}), h("div", {class:"cs-lock-t"}, h("small", null, "Locked in"), h("b", null, name)));
+      csEl.querySelector(".cs-box").appendChild(lock); sfx("lock");
+      setTimeout(closeChampSelect, 900);
+    } else closeChampSelect();
+    commit();
+  }
+  function draw(){
+    var nq = norm(q);
+    list = SPRITE.names.filter(function(n){ return !nq || norm(n).indexOf(nq) >= 0; })
+      .sort(function(a, b){ return (norm(a).indexOf(nq) === 0 ? 0 : 1) - (norm(b).indexOf(nq) === 0 ? 0 : 1) || a.localeCompare(b); });
+    if (act >= list.length) act = 0;
+    grid.textContent = "";
+    list.forEach(function(n, i){
+      grid.appendChild(h("button", {class:"cs-c" + (i === act ? " act" : "") + (norm(n) === norm(cur) ? " cur" : "") + (used[norm(n)] ? " used" : ""), type:"button", role:"option", title:used[norm(n)] ? n + " (played in game " + used[norm(n)] + ")" : n,
+        style:"animation-delay:" + Math.min(i * 8, 320) + "ms", onclick:function(){ choose(n); }},
+        h("span", {class:"cs-ic", style:artStyle(n, ICONS_URL)}), h("span", {class:"cs-n"}, n), used[norm(n)] ? h("span", {class:"cs-tag"}, "G" + used[norm(n)]) : null));
+    });
+    if (!list.length) grid.appendChild(h("div", {class:"cs-none"}, "No champion called \u201c" + q + "\u201d"));
+    count.textContent = list.length + (list.length === 1 ? " champion" : " champions");
+  }
+  search.addEventListener("input", function(){ q = search.value; act = 0; draw(); });
+  search.addEventListener("keydown", function(e){
+    var cols = Math.max(1, Math.round(grid.clientWidth / 96));
+    if (e.key === "Enter"){ e.preventDefault(); if (list[act]) choose(list[act]); }
+    else if (e.key === "ArrowRight" || e.key === "ArrowLeft" || e.key === "ArrowDown" || e.key === "ArrowUp"){
+      e.preventDefault(); act += e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : e.key === "ArrowDown" ? cols : -cols;
+      act = Math.max(0, Math.min(list.length - 1, act));
+      Array.prototype.forEach.call(grid.children, function(c, i){ c.classList.toggle("act", i === act); });
+      var el = grid.children[act]; if (el && el.scrollIntoView) el.scrollIntoView({block:"nearest"});
+    }
+  });
+  var pv = function(id, sd){ var p = P(id); return h("div", {class:"cs-pl " + sd + (picker === id ? " on" : "")}, h("span", {class:"bav", style:profStyle(p ? p.pi : 29)}), h("b", null, pname(id)), picker === id ? h("small", null, "Picking") : null); };
+  var box = h("div", {class:"cs-box", role:"dialog", "aria-modal":"true", "aria-label":"Champion select"},
+    h("div", {class:"cs-head"},
+      pv(m.a, "a"),
+      h("div", {class:"cs-mid"}, h("div", {class:"cs-k"}, "Champion select"), h("div", {class:"cs-t"}, (m.need > 1 ? "Game " + (gi + 1) : "Sudden death") + " \u00b7 " + (roller ? "Champion roller" : pname(picker) + "'s pick")),
+        h("div", {class:"cs-s"}, "Both players play the same champion")),
+      pv(m.b, "b")),
+    roller ? h("div", {class:"cs-roll"}, h("span", null, "This game uses the champion roller."), h("button", {class:"cs-btn gold", type:"button", onclick:function(){ closeChampSelect(); newDraft(false); }}, "Roll 3 champions"), h("span", {class:"mute"}, "or pick one by hand below")) : null,
+    h("div", {class:"cs-bar"}, h("span", {class:"cs-qi", "aria-hidden":"true"}), search, count),
+    grid,
+    h("div", {class:"cs-foot"},
+      cur ? h("button", {class:"cs-btn", type:"button", onclick:function(){ choose(""); }}, "Clear " + cur) : h("span"),
+      h("span", {class:"cs-hint"}, "Type to search \u00b7 arrows to move \u00b7 Enter to lock in \u00b7 Esc to close"),
+      h("button", {class:"cs-btn", type:"button", onclick:closeChampSelect}, "Cancel")));
+  csEl = h("div", {class:"cs"}, box);
+  csEl.addEventListener("click", function(e){ if (e.target === csEl) closeChampSelect(); });
+  csEl.addEventListener("keydown", function(e){ if (e.key === "Escape"){ e.stopPropagation(); closeChampSelect(); } });
+  document.body.appendChild(csEl);
+  draw();
+  setTimeout(function(){ search.focus(); }, 30);
+}
+window.addEventListener("hashchange", function(){ if (location.hash !== "#stream") closeChampSelect(); });
 function renderStream(B, started){
   var live = S.live && B ? findMatch(B, S.live) : null; if (live && (!live.ready || live.winner)) live = null;
   var nx = B ? upNext(B) : null;
@@ -1261,9 +1415,7 @@ function renderStream(B, started){
     low = h("footer", {class:"stlow"},
       h("div", {class:"stl-tag"}, live ? "Now playing" : started ? "Up next" : "First up", h("small", null, matchLabel(B, m))),
       side("a"),
-      h("div", {class:"stmid"}, ch ? h("span", {class:"stch", style:artStyle(ch, ICONS_URL)}) : h("span", {class:"stvs"}, "VS"),
-        h("div", {class:"stmid-t"}, ch ? ch : m.need > 1 ? "Game " + (gi+1) + " of 3" : "Sudden death"),
-        h("div", {class:"stcrowd"}, V.pct != null ? [h("b", {class:"a"}, V.pct + "%"), " crowd ", h("b", {class:"b"}, (100 - V.pct) + "%")] : "No votes yet")),
+      streamMid(B, m, gi, ch, V),
       side("b"),
       h("div", {class:"stbar"}, h("span", {class:"a", style:"width:" + (V.pct == null ? 50 : V.pct) + "%"}), h("span", {class:"b", style:"width:" + (V.pct == null ? 50 : 100 - V.pct) + "%"})));
     if (lowAnimated) low.classList.add("noanim");
