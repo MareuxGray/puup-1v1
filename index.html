@@ -470,6 +470,11 @@ html,body{overflow-x:clip}
 .rr-gi .pav{position:absolute;right:-5px;bottom:-5px;width:16px;height:16px}
 @media (max-width:700px){.rrow{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"rd rd" "w sc" "l sc" "g g";row-gap:8px;column-gap:12px;padding:12px 14px}.rr-round{grid-area:rd;display:flex;gap:8px;justify-content:space-between}.rr-p.w{grid-area:w}.rr-p.l{grid-area:l;flex-direction:row}.rr-sc{grid-area:sc;flex-direction:column;align-items:center;gap:0;line-height:1.15}.rr-sc i{display:none}.rr-sc .lo{color:var(--mute)}.rr-g{grid-area:g;justify-content:flex-start;padding-top:2px}.rr-p .pav.md{width:32px;height:32px}}
 
+.localtime{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px;padding:7px 14px;border:1px solid rgba(63,183,196,.45);background:rgba(63,183,196,.08);font-size:.92rem;margin-top:-4px}
+.localtime .lt-k{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.localtime b{color:var(--fg);font-weight:600}
+.localtime .lt-z{color:var(--mute);font-size:.82rem}
+.localtime.same{color:var(--mute);font-size:.85rem;border-color:var(--line);background:none}
 /* game HUD */
 .hud{display:flex;gap:6px;align-items:center;padding:6px 10px;border-top:1px solid var(--line)}
 .pip{position:relative;width:28px;height:28px;flex:0 0 auto;border:1px solid var(--line);background-color:#0b111b;background-repeat:no-repeat;display:grid;place-items:center;font-size:.6rem;color:#56627a;font-weight:700}
@@ -914,11 +919,15 @@ function streamBtn(label){
 function renderHero(B, started){
   var d = new Date(S.start);
   var uk = d.toLocaleString("en-GB", {timeZone:"Europe/London", weekday:"long", day:"numeric", month:"long", hour:"numeric", minute:"2-digit", timeZoneName:"short"});
-  var mine = d.toLocaleString(undefined, {weekday:"short", hour:"numeric", minute:"2-digit"});
+  var mine = d.toLocaleString(undefined, {weekday:"long", day:"numeric", month:"long", hour:"numeric", minute:"2-digit"});
+  var zone = ""; try { var zp = new Intl.DateTimeFormat(undefined, {timeZoneName:"long"}).formatToParts(d).filter(function(x){ return x.type === "timeZoneName"; })[0]; zone = zp ? zp.value : ""; } catch(e){}
+  var ukKey = d.toLocaleString("en-GB", {timeZone:"Europe/London", day:"numeric", hour:"2-digit", minute:"2-digit"}), myKey = d.toLocaleString("en-GB", {day:"numeric", hour:"2-digit", minute:"2-digit"});
+  var local = ukKey === myKey ? h("div", {class:"localtime same"}, "That's your local time too")
+    : h("div", {class:"localtime"}, h("span", {class:"lt-k"}, "Your time"), h("b", null, mine), zone ? h("span", {class:"lt-z"}, zone) : null);
   var hero = h("header", {class:"hero"},
     h("div", {class:"eyebrow"}, "Puup Discord · League of Legends 1v1"),
     h("h1", null, S.name),
-    h("div", {class:"when"}, uk, " · ", mine, " your time"));
+    h("div", {class:"when"}, uk), local);
   tickEls = null;
   if (B && B.first){
     hero.appendChild(h("div", {class:"champ"},
