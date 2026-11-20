@@ -646,6 +646,19 @@ textarea{min-height:120px;resize:vertical}
 .toast.out{opacity:0;transition:opacity .4s}
 .mepill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(63,183,196,.5);background:rgba(63,183,196,.08);font-size:.9rem}
 .mepill b{color:var(--gold2)}
+.mecard{display:inline-flex;align-items:center;gap:12px;padding:8px 18px 8px 8px;border:1px solid rgba(63,183,196,.55);background:linear-gradient(90deg,rgba(63,183,196,.16),rgba(63,183,196,.04));clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);animation:fxrise .45s ease both;text-align:left}
+.mecard .pav{width:44px;height:44px;border:2px solid var(--teal);box-shadow:0 0 14px rgba(63,183,196,.35)}
+.me-t{display:grid;line-height:1.2}
+.me-k{font-size:.62rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+.me-t b{font-family:var(--display);font-size:1.05rem;color:var(--gold2)}
+.me-r{font-size:.75rem;color:var(--mute)}
+.linkbtn{background:none;border:0;color:var(--mute);font:inherit;font-size:.82rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px}
+.linkbtn:hover{color:var(--fg)}
+.claimlist{display:grid;gap:6px;max-height:50vh;overflow:auto}
+.claimrow{display:flex;align-items:center;gap:12px;padding:8px 10px;background:#121c2e;border:1px solid var(--line);color:inherit;font:inherit;text-align:left;cursor:pointer}
+.claimrow:hover{border-color:var(--teal);background:#16233a}
+.claimrow .pav{width:36px;height:36px}
+.cr-t{display:grid;line-height:1.2}.cr-t span{font-size:.75rem;color:var(--mute)}
 .youtag{margin-left:6px;padding:1px 6px;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:var(--teal);color:#06262a;font-family:var(--body);font-weight:800;vertical-align:middle}
 .vcard.mine{box-shadow:inset 0 0 0 2px var(--gold2)}
 .vcard.mine .vtap{color:var(--gold2)}
@@ -741,6 +754,22 @@ async function refresh(force){
 }
 function pollLoop(){ refresh(); setTimeout(pollLoop, document.hidden ? 15000 : 2500); }
 function canVoteOn(key){ return sandbox ? isAdmin : !!key && (key === S.live || key === S.nextKey); }
+var claimOpen = false;
+function renderClaim(){
+  var old = document.getElementById("claim"); if (old) old.remove();
+  if (!claimOpen) return;
+  var close = function(){ claimOpen = false; renderClaim(); };
+  var box = h("div", {class:"mbox"},
+    h("div", {class:"eyebrow"}, "Already signed up?"),
+    h("p", {class:"mute", style:"margin:0 0 10px"}, "Signed up on another phone or computer? Pick your name so this browser knows it's you."),
+    h("div", {class:"claimlist"}, S.players.map(function(p){
+      return h("button", {type:"button", class:"claimrow", onclick:function(){ myId = p.id; lsSet("puupPid", p.id); close(); render(); toast("Welcome back, " + p.name); }},
+        h("span", {class:"pav", style:profStyle(p.pi)}), h("span", {class:"cr-t"}, h("b", null, p.name), p.riot ? h("span", null, p.riot) : null));
+    })),
+    h("div", {class:"rollacts"}, h("button", {class:"btn ghost", type:"button", onclick:close}, "Cancel")));
+  var ov = h("div", {class:"modal", id:"claim", role:"dialog", "aria-modal":"true", "aria-label":"Already signed up", onclick:function(e){ if (e.target === ov) close(); }}, box);
+  document.body.appendChild(ov);
+}
 function canStrike(d){ return !!(d && !d.pick && (isAdmin || (!d.test && !sandbox && myId && myToken && (myId === d.a || myId === d.b) && (d.struckBy || []).indexOf(myId) < 0))); }
 function openLogin(){
   if (isAdmin){ drawerOpen = true; render(); renderDrawer(); return; }
@@ -1012,9 +1041,11 @@ function renderHero(B, started){
   if (!(B && B.first)) hero.appendChild(discordCta(started));
   var me = myId ? P(myId) : null, canSign = sandbox || (S.signupsOpen !== false && !(S.seeds && S.seeds.length));
   var acts = h("div", {style:"display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center"});
-  if (me && !sandbox) acts.appendChild(h("div", {class:"mepill"}, h("span", {class:"pav", style:profStyle(me.pi)}), "You're in as ", h("b", null, me.name)));
+  if (me && !sandbox) acts.appendChild(h("div", {class:"mecard"}, h("span", {class:"pav", style:profStyle(me.pi)}),
+      h("div", {class:"me-t"}, h("span", {class:"me-k"}, "✓ You're in"), h("b", null, me.name), me.riot ? h("span", {class:"me-r"}, me.riot) : null)));
   else if (canSign) acts.appendChild(h("button", {class:"btn", type:"button", onclick:function(){ suState = {pi:null, done:null}; renderSignup(); }}, sandbox ? "Sign up (test)" : "Sign up to play"));
   else if (!(S.seeds && S.seeds.length)) acts.appendChild(h("div", {class:"mute"}, "Sign-ups are closed."));
+  if (!me && !sandbox && S.players.length) acts.appendChild(h("button", {class:"linkbtn", type:"button", onclick:function(){ claimOpen = true; renderClaim(); }}, "Already signed up?"));
   if (isAdmin) acts.appendChild(h("a", {class:"btn ghost", href:"#stream"}, "Stream view"));
   if (acts.childNodes.length) hero.appendChild(acts);
   hero.appendChild(h("nav", {class:"nav"},
