@@ -642,7 +642,7 @@ var S = {};
 var SPRITE = {"cols": 14, "rows": 13, "names": ["Aatrox", "Ahri", "Akali", "Akshan", "Alistar", "Ambessa", "Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "Aurelion Sol", "Aurora", "Azir", "Bard", "Bel'Veth", "Blitzcrank", "Brand", "Braum", "Briar", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Draven", "Dr. Mundo", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Gwen", "Hecarim", "Heimerdinger", "Hwei", "Illaoi", "Irelia", "Ivern", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw", "K'Sante", "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Locke", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "Master Yi", "Mel", "Milio", "Miss Fortune", "Wukong", "Mordekaiser", "Morgana", "Naafiri", "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nilah", "Nocturne", "Nunu & Willump", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Qiyana", "Quinn", "Rakan", "Rammus", "Rek'Sai", "Rell", "Renata Glasc", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Samira", "Sejuani", "Senna", "Seraphine", "Sett", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Smolder", "Sona", "Soraka", "Swain", "Sylas", "Syndra", "Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Vel'Koz", "Vex", "Vi", "Viego", "Viktor", "Vladimir", "Volibear", "Warwick", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yone", "Yorick", "Yunara", "Yuumi", "Zaahen", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra"]};
 var PROFILE_URL = "assets/profile-icons.webp", PROFILE_IDS = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69];
 var ICONS_URL = "assets/champ-icons.webp", CARDS_URL = "assets/champ-cards.webp";
-var DEF = {signupsOpen:true,nextKey:null,fx:[],pool:[],rolls:[],draft:null,champs:{},name:"Puup 1v1 Showdown",start:"2026-11-21T20:00:00Z",stream:"",rules:[],prizes:[],players:[],seeds:[],games:{},undo:[],live:null,votes:{}};
+var DEF = {signupsOpen:true,nextKey:null,fx:[],pool:[],rolls:[],draft:null,champs:{},name:"Puup 1v1 Showdown",start:"2026-11-21T22:00:00Z",stream:"",rules:[],prizes:[],players:[],seeds:[],games:{},undo:[],live:null,votes:{}};
 for (var k in DEF) if (S[k] === undefined) S[k] = DEF[k];
 
 var api = null, isAdmin = false, dirty = false, armed = {};
@@ -1402,7 +1402,7 @@ function renderSignup(){
     box = h("div", {class:"mbox"},
       h("div", {class:"eyebrow"}, "Signed up"),
       h("div", {class:"suok"}, h("span", {class:"pav lg", style:profStyle(p.pi)}), h("div", {class:"vn"}, p.name), h("div", {class:"mute"}, p.riot),
-        h("p", {class:"mute", style:"margin:0"}, "You're in the Puup 1v1 Showdown. See you Saturday at 8 PM.")),
+        h("p", {class:"mute", style:"margin:0"}, "You're in the Puup 1v1 Showdown. See you Saturday at 10 PM (UK time).")),
       sandbox ? h("div", {class:"rollacts"}, h("button", {class:"btn", type:"button", onclick:function(){ suState = {pi:null, done:null}; renderSignup(); }}, "Sign up another"), h("button", {class:"btn ghost", type:"button", onclick:close}, "Close"))
         : h("div", {class:"rollacts"}, h("button", {class:"btn", type:"button", onclick:close}, "Done")));
   } else {
