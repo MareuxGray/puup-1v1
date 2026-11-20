@@ -497,6 +497,15 @@ html,body{overflow-x:clip}
 .stjoin .dmark svg{width:16px;height:16px}
 @media (max-width:1100px){.stjoin{display:none}}
 @media (max-width:440px){.dcta{gap:12px;padding:10px 12px 10px 10px}.dcta b{font-size:.98rem}.dcta-ic{width:44px;height:44px}.dcta-k{font-size:.6rem;letter-spacing:.14em}}
+.prov .bstage{filter:saturate(.55)}
+.prov .bcard{opacity:.92}
+.prov .bp.open .bn{font-style:italic;color:var(--mute);font-weight:500}
+.prov .bp.open .bav{background:repeating-linear-gradient(45deg,#16223a 0 4px,#121b2d 4px 8px)}
+.prov .bscroll{position:relative}
+.prov .bscroll::after{content:"PROVISIONAL";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-12deg);font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,9vw,6rem);letter-spacing:.12em;color:rgba(200,165,90,.09);pointer-events:none;white-space:nowrap}
+.provnote{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px;padding:10px 14px;border:1px dashed rgba(200,165,90,.55);background:rgba(200,165,90,.06);font-size:.9rem;color:var(--mute)}
+.provnote b{color:var(--fg);font-weight:600}
+.provtag{padding:3px 9px;background:var(--gold);color:#1a1408;font-weight:800;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase}
 /* game HUD */
 .hud{display:flex;gap:6px;align-items:center;padding:6px 10px;border-top:1px solid var(--line)}
 .pip{position:relative;width:28px;height:28px;flex:0 0 auto;border:1px solid var(--line);background-color:#0b111b;background-repeat:no-repeat;display:grid;place-items:center;font-size:.6rem;color:#56627a;font-weight:700}
@@ -1165,7 +1174,39 @@ function bcard(B, m, x, y, r){
     h("div", {class:"binner"}, bplayer(B, m, "a"), bplayer(B, m, "b"), bgames(m, live)));
   return card;
 }
-function renderBracket(B, forStream){
+var provShown = false;
+function renderProvisional(){
+  var keep = S, n = S.players.length, size = 4;
+  while (size < n + 1 && size < 64) size *= 2;
+  var tmp = {}; for (var k in S) tmp[k] = S[k];
+  tmp.players = S.players.slice();
+  for (var i = n; i < size; i++) tmp.players.push({id:"_open" + i, name:"Open slot", riot:"", main:"", quote:"", pi:29});
+  tmp.games = {}; tmp.live = null; tmp.champs = {}; tmp.draft = null;
+  tmp.seeds = seedPositions(size).map(function(x){ return tmp.players[x - 1] ? tmp.players[x - 1].id : null; });
+  var sec, wasAdmin = isAdmin;
+  try {
+    S = tmp; isAdmin = false;
+    var PB = compute();
+    PB.order.concat(PB.third ? [PB.third] : []).forEach(function(m){ m.ready = false; m.score = null; });
+    PB.rounds.forEach(function(rs){ rs.forEach(function(m){ m.ready = false; m.score = null; }); });
+    sec = renderBracket(PB, false, true);
+  }
+  finally { S = keep; isAdmin = wasAdmin; }
+  provShown = true;
+  sec.classList.add("prov");
+  Array.prototype.forEach.call(sec.querySelectorAll(".bp"), function(bp){
+    var nm = bp.querySelector(".bn"); if (nm && nm.textContent === "Open slot"){ bp.classList.add("empty", "open"); var av = bp.querySelector(".bav"); if (av) av.removeAttribute("style"); }
+  });
+  var h2 = sec.querySelector("h2");
+  var note = h("div", {class:"provnote"}, h("span", {class:"provtag"}, "Provisional"),
+    h("span", null, n + (n === 1 ? " player has" : " players have") + " signed up so far, placed in sign-up order. ",
+      h("b", null, "These are not the real matchups."), " The organiser draws the final bracket before the tournament."));
+  if (h2 && h2.nextSibling) sec.insertBefore(note, h2.nextSibling); else sec.appendChild(note);
+  return sec;
+}
+function renderBracket(B, forStream, isProv){
+  if (!B && !forStream && S.players.length) return renderProvisional();
+  if (B && !isProv && provShown){ provShown = false; bracketAnimated = false; }
   var sec = h("section", {id:"bracket"}, h("h2", null, "Bracket"));
   if (!B && forStream) return null;
   if (!B){
