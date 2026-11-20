@@ -616,6 +616,28 @@ textarea{min-height:120px;resize:vertical}
 .mrow .gbtns{display:flex;gap:6px;flex-wrap:wrap}
 .hint{font-size:.78rem;color:var(--mute);margin:0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+/* crowd favourite + upset */
+.bfav{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 0 10px rgba(240,213,140,.35)}
+.vfav{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#1a1408;background:linear-gradient(180deg,var(--gold2),var(--gold));padding:2px 9px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%);white-space:nowrap;animation:fxrise .4s ease both}
+.vcard.fav{padding-top:28px;box-shadow:0 0 0 1px var(--gold2),0 0 28px rgba(240,213,140,.25)}
+.stfav{display:inline-block;margin-right:8px;font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#1a1408;background:linear-gradient(180deg,var(--gold2),var(--gold));padding:1px 7px;vertical-align:1px}
+.upbadge{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:linear-gradient(90deg,#c2412f,#ff7a3d,#c2412f);background-size:200% 100%;padding:2px 10px 2px 8px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);white-space:nowrap;animation:upsheen 2.4s linear infinite}
+.upbadge i{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:7px solid #fff}
+.upbadge.massive{font-size:.66rem;background:linear-gradient(90deg,#b0182d,#ff4d3d,#ffb347,#ff4d3d,#b0182d);background-size:250% 100%;box-shadow:0 0 18px rgba(255,90,60,.55)}
+.upbadge.onbcard{position:absolute;z-index:3;top:-11px;left:10px;animation:upsheen 2.4s linear infinite,uppop .55s cubic-bezier(.2,1.6,.4,1) both}
+.bcard.upset .binner{box-shadow:0 0 0 1px rgba(255,110,70,.55),0 0 22px rgba(255,90,60,.18)}
+.bcard.upset.massive .binner{animation:upglow 2.2s ease-in-out infinite}
+.upbadge.inrow{justify-self:start;margin-top:5px;font-size:.56rem}
+.rrow.upset{border-left-color:#ff6a3d}
+.fxupset{display:grid;justify-items:center;gap:16px;margin:6px 0 6px}
+.fxup-t{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.6rem,6vmin,4.6rem);line-height:1;color:#fff;padding:.08em .5em .12em;background:linear-gradient(90deg,#c2412f,#ff7a3d,#c2412f);background-size:200% 100%;clip-path:polygon(.35em 0,100% 0,calc(100% - .35em) 100%,0 100%);transform:rotate(-4deg);animation:upslam .7s cubic-bezier(.2,1.5,.35,1) .7s both,upsheen 2.4s linear 1.4s infinite;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.fxupset.massive .fxup-t{background:linear-gradient(90deg,#b0182d,#ff4d3d,#ffb347,#ff4d3d,#b0182d);background-size:250% 100%;box-shadow:0 0 60px rgba(255,80,50,.5)}
+.fxup-s{font-size:clamp(.8rem,1.8vmin,1.2rem);color:#ffb59a;letter-spacing:.08em;animation:fxrise .5s ease 1.1s both}
+@keyframes upsheen{to{background-position:-200% 0}}
+@keyframes uppop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+@keyframes upslam{0%{transform:rotate(-4deg) scale(2.6);opacity:0;filter:blur(6px)}60%{transform:rotate(-4deg) scale(.92);opacity:1;filter:none}100%{transform:rotate(-4deg) scale(1)}}
+@keyframes upglow{0%,100%{box-shadow:0 0 0 1px rgba(255,110,70,.6),0 0 16px rgba(255,90,60,.2)}50%{box-shadow:0 0 0 1px rgba(255,150,90,.9),0 0 34px rgba(255,90,60,.45)}}
+
 
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
@@ -885,7 +907,7 @@ function renderStream(B, started){
       var id = m[sd], Pp = P(id), sc = m.score ? m.score[sd === "a" ? 0 : 1] : 0, pct = V.pct == null ? null : (sd === "a" ? V.pct : 100 - V.pct);
       var n = sd === "a" ? V.a : V.b;
       var kids = [h("span", {class:"bav big", style:profStyle(Pp ? Pp.pi : 29)}),
-        h("div", {class:"stp-t"}, h("div", {class:"stp-n"}, pname(id)), h("div", {class:"stp-r"}, Pp && Pp.riot ? Pp.riot : "", canVoteOn(m.key) ? h("em", null, (Pp && Pp.riot ? " · " : "") + (myVotes[m.key] === sd && !sandbox ? "your vote" : "click to vote")) : null)),
+        h("div", {class:"stp-t"}, h("div", {class:"stp-n"}, pname(id)), h("div", {class:"stp-r"}, favSide(m) === sd ? h("span", {class:"stfav"}, "\u2605 Favourite") : null, Pp && Pp.riot ? Pp.riot : "", canVoteOn(m.key) ? h("em", null, (Pp && Pp.riot ? " · " : "") + (myVotes[m.key] === sd && !sandbox ? "your vote" : "click to vote")) : null)),
         h("div", {class:"stp-s"}, m.need > 1 ? h("div", {class:"pips", role:"img", "aria-label":sc + " of " + m.need + " wins"}, [0, 1].slice(0, m.need).map(function(i){ return h("i", {class:i < sc ? "on" : null}); })) : "")];
       var bump = lastVote && lastVote.key === m.key && lastVote.side === sd && Date.now() - lastVote.at < 1500;
       return canVoteOn(m.key) ? h("button", {class:"stp " + sd + " clickable" + (bump ? " bump" : ""), type:"button", "aria-label":"Vote for " + pname(id), onclick:function(){ castVote(m.key, sd); }}, kids)
@@ -1084,6 +1106,20 @@ function voteOf(key){
   if (v != null && v !== "") return {a:null, b:null, total:null, pct:Math.max(0, Math.min(100, Number(v)))};
   return {a:0, b:0, total:0, pct:null};
 }
+/* crowd favourite / upset: needs at least 3 votes and a 60% lead; massive = 70%+ with 5+ votes */
+function crowdOf(key){
+  var V = voteOf(key); if (V.pct == null) return null;
+  var known = V.total != null, share = Math.max(V.pct, 100 - V.pct);
+  if ((known && V.total < 3) || share < 60) return null;
+  return {side: V.pct >= 50 ? "a" : "b", share: share, massive: share >= 70 && (!known || V.total >= 5)};
+}
+function favSide(m){ if (!m || !m.ready || m.winner || m.bye || !m.a || !m.b) return null; var c = crowdOf(m.key); return c ? c.side : null; }
+function upsetOf(m){
+  if (!m || !m.winner || m.bye) return null;
+  var c = crowdOf(m.key); if (!c || m[c.side] === m.winner) return null;
+  return {massive: c.massive, share: c.share, label: c.massive ? "Massive upset" : "Upset"};
+}
+function upsetBadge(u, cls){ return h("span", {class:"upbadge" + (u.massive ? " massive" : "") + (cls ? " " + cls : ""), title:"The crowd backed the other player " + u.share + "%"}, h("i", {"aria-hidden":"true"}), u.label); }
 function castVote(key, side){
   if (sandbox){
     var v0 = S.votes[key]; if (!v0 || typeof v0 !== "object") v0 = S.votes[key] = {a:0, b:0};
@@ -1109,7 +1145,9 @@ function renderVote(B, m){
       V.total != null ? h("div", {class:"vc"}, n + (n === 1 ? " vote" : " votes")) : null,
       canVoteOn(m.key) ? h("div", {class:"vtap"}, myVotes[m.key] === side && !sandbox ? "Your vote" : myVotes[m.key] && !sandbox ? "Switch vote" : "Click to vote") : null,
       has ? h("span", {class:"vbar", style:"width:" + pct + "%"}) : null];
-    var cls = "vcard " + side + (has && pct > 50 ? " lead" : "") + (bump ? " bump" : "") + (myVotes[m.key] === side && !sandbox ? " mine" : "");
+    var fav = favSide(m) === side;
+    if (fav) kids.unshift(h("span", {class:"vfav"}, "\u2605 Favourite"));
+    var cls = "vcard " + side + (has && pct > 50 ? " lead" : "") + (fav ? " fav" : "") + (bump ? " bump" : "") + (myVotes[m.key] === side && !sandbox ? " mine" : "");
     return canVoteOn(m.key) ? h("button", {class:cls + " clickable", type:"button", "aria-label":"Vote for " + pname(id), onclick:function(){ castVote(m.key, side); }}, kids)
                    : h("div", {class:cls}, kids);
   }
@@ -1147,7 +1185,7 @@ function bplayer(B, m, side){
   var label = id ? pname(id) : (m.bye && m.r === 0 ? "Bye" : "TBD");
   var kids = [
     h("span", {class:"bav", style:id ? profStyle(P1 ? P1.pi : 29) : ""}),
-    h("span", {class:"bnm"}, h("span", {class:"bn"}, label), P1 && P1.riot ? h("span", {class:"brid"}, P1.riot) : null),
+    h("span", {class:"bnm"}, h("span", {class:"bn"}, label), favSide(m) === side ? h("span", {class:"bfav"}, "\u2605 Favourite \u00b7 " + crowdOf(m.key).share + "%") : P1 && P1.riot ? h("span", {class:"brid"}, P1.riot) : null),
     h("span", {class:"bsc"}, m.ready ? String(sc) : (m.bye && id ? "BYE" : "–"))];
   var cls = "bp" + (win ? " win" : "") + (lose ? " lose" : "") + (!id ? " empty" : "") + (clickable ? " clickable" : "");
   return clickable ? h("button", {class:cls, type:"button", title:"Give " + label + " a game win", onclick:function(){ addGame(m.key, id); }}, kids) : h("div", {class:cls}, kids);
@@ -1167,10 +1205,11 @@ function bgames(m, live){
   return h("div", {class:"bgames"}, rows);
 }
 function bcard(B, m, x, y, r){
-  var live = S.live === m.key && m.ready && !m.winner;
-  var card = h("div", {class:"bcard" + (live ? " onair" : "") + (m.winner && !m.bye ? " decided" : "") + (m.bye ? " isbye" : "") + (!bracketAnimated ? " enter" : ""),
+  var live = S.live === m.key && m.ready && !m.winner, up = upsetOf(m);
+  var card = h("div", {class:"bcard" + (live ? " onair" : "") + (m.winner && !m.bye ? " decided" : "") + (up ? " upset" + (up.massive ? " massive" : "") : "") + (m.bye ? " isbye" : "") + (!bracketAnimated ? " enter" : ""),
     style:"left:" + x + "px;top:" + y + "px;animation-delay:" + (r*0.12 + (m.i||0)*0.04) + "s"},
     live ? h("span", {class:"blive"}, h("i"), "LIVE") : null,
+    up ? upsetBadge(up, "onbcard") : null,
     h("div", {class:"binner"}, bplayer(B, m, "a"), bplayer(B, m, "b"), bgames(m, live)));
   return card;
 }
@@ -1603,7 +1642,7 @@ function demoState(t){
 function buildFx(B, e){
   if (e.demo){
     var keep = S;
-    try { S = demoState(e.t); return buildFx2(compute(), {t:e.t, key:e.t === "podium" ? null : "0-0", at:e.at}, e); }
+    try { S = demoState(e.t); if (e.upset) S.votes = {"0-0":{a:2, b:11}}; return buildFx2(compute(), {t:e.t, key:e.t === "podium" ? null : "0-0", at:e.at}, e); }
     finally { S = keep; }
   }
   return buildFx2(B, e, e);
@@ -1632,7 +1671,7 @@ function buildFx2(B, e, orig){
   } else if (e.t === "victory"){
     if (!m || !m.winner || m.bye) return null;
     var w = m.winner, l = w === m.a ? m.b : m.a, pw = P(w);
-    var sc = m.score ? (w === m.a ? m.score : [m.score[1], m.score[0]]) : null;
+    var sc = m.score ? (w === m.a ? m.score : [m.score[1], m.score[0]]) : null, up = upsetOf(m);
     var adv = m.key === "3p" ? "Takes third place" : m.r === B.R - 1 ? "Tournament champion" : "Advances to the " + roundName(m.r + 1, B.R, B.N).replace(/finals$/, "final").toLowerCase();
     root = h("div", {class:"fx victory", role:"dialog", "aria-label":pname(w) + " wins"},
       h("div", {class:"fxbg"}), h("div", {class:"fxrays fa", style:"--d:.1s"}), h("canvas", {class:"fxconf"}),
@@ -1640,6 +1679,7 @@ function buildFx2(B, e, orig){
         fa("fxeyebrow", .15, ["Victory", h("i"), roundTitle(B, m)]),
         fa("fxav big", .25, h("span", {style:profStyle(pw ? pw.pi : 29)})),
         fa("fxname big", .55, pname(w)),
+        up ? h("div", {class:"fxupset" + (up.massive ? " massive" : "")}, h("div", {class:"fxup-t"}, up.label), h("div", {class:"fxup-s"}, "Only " + (100 - up.share) + "% of the crowd backed " + pname(w))) : null,
         fa("fxline", .8, [sc && m.need > 1 ? h("b", null, sc[0] + " – " + sc[1]) : h("b", null, "Sudden death"), " against ", pname(l)]),
         fa("fxadv", 1.05, adv)));
   } else if (e.t === "podium"){
@@ -1663,9 +1703,9 @@ function buildFx2(B, e, orig){
   root.appendChild(h("button", {class:"fxclose", type:"button", "aria-label":"Close", onclick:function(){ closeFx(orig); }}, "×"));
   return root;
 }
-function previewFx(t, key){
-  var B = compute(), demo = t === "podium" ? !(B && B.first) : !key;
-  localFx = {t:t, key:key || null, at:Date.now(), local:true, demo:demo}; render();
+function previewFx(t, key, upset){
+  var B = compute(), demo = upset ? true : t === "podium" ? !(B && B.first) : !key;
+  localFx = {t:t, key:upset ? null : key || null, at:Date.now(), local:true, demo:demo, upset:!!upset}; render();
 }
 
 function confetti(cv, mode, ago){
@@ -1784,9 +1824,9 @@ function renderResults(B){
   return h("section", {id:"results"}, h("h2", null, "Results"),
     h("div", {class:"results"}, done.map(function(m){
       var w = m.winner, l = w === m.a ? m.b : m.a, sc = m.score ? (w === m.a ? m.score : [m.score[1], m.score[0]]) : [1, 0];
-      var g = S.games[m.key] || [], ch = S.champs[m.key] || [];
-      return h("div", {class:"rrow"},
-        h("div", {class:"rr-round"}, m.key === "3p" ? "3rd place" : roundName(m.r, B.R, B.N), h("small", null, m.need > 1 ? "Best of 3" : "Sudden death")),
+      var g = S.games[m.key] || [], ch = S.champs[m.key] || [], up = upsetOf(m);
+      return h("div", {class:"rrow" + (up ? " upset" : "")},
+        h("div", {class:"rr-round"}, m.key === "3p" ? "3rd place" : roundName(m.r, B.R, B.N), h("small", null, m.need > 1 ? "Best of 3" : "Sudden death"), up ? upsetBadge(up, "inrow") : null),
         h("div", {class:"rr-p w"}, pav(w, "md"), h("span", {class:"n"}, pname(w))),
         h("div", {class:"rr-sc"}, h("span", null, sc[0]), h("i", null, "–"), h("span", {class:"lo"}, sc[1])),
         h("div", {class:"rr-p l"}, pav(l, "md"), h("span", {class:"n"}, pname(l))),
@@ -1932,6 +1972,7 @@ function renderDrawer(){
     h("div", {class:"row"},
       h("button", {class:"sbtn", type:"button", onclick:function(){ previewFx("intro", introM && introM.a && introM.b ? introM.key : null); }}, "Preview intro"),
       h("button", {class:"sbtn", type:"button", onclick:function(){ previewFx("victory", lastDone ? lastDone.key : null); }}, "Preview victory"),
+      h("button", {class:"sbtn", type:"button", onclick:function(){ previewFx("victory", null, true); }}, "Preview massive upset"),
       h("button", {class:"sbtn", type:"button", onclick:function(){ previewFx("podium"); }}, "Preview podium")),
     h("p", {class:"hint"}, "If there's no real match to preview yet, it uses sample players. Press Esc or the close button in the corner to close it."),
     h("label", {style:"display:flex;gap:8px;align-items:center;flex-direction:row"}, h("input", {type:"checkbox", checked:soundOn() ? true : null, onchange:function(e){ setSound(e.target.checked); }}), "Sound cues on this screen (roll, strikes, lock-in, intro, victory, podium)")));
