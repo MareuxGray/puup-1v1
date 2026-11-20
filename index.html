@@ -475,6 +475,28 @@ html,body{overflow-x:clip}
 .localtime b{color:var(--fg);font-weight:600}
 .localtime .lt-z{color:var(--mute);font-size:.82rem}
 .localtime.same{color:var(--mute);font-size:.85rem;border-color:var(--line);background:none}
+.dcta{position:relative;display:flex;align-items:center;gap:14px;width:min(460px,100%);padding:12px 16px 12px 12px;text-decoration:none;color:var(--fg);text-align:left;
+  background:linear-gradient(135deg,rgba(88,101,242,.22),rgba(20,30,46,.95) 55%);border:1px solid rgba(200,165,90,.55);
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);transition:transform .2s,box-shadow .2s,border-color .2s;overflow:hidden;isolation:isolate}
+.dcta::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(240,213,140,.16) 50%,transparent 70%);transform:translateX(-100%);animation:dshine 5s ease-in-out infinite 1.5s}
+@keyframes dshine{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.dcta:hover{transform:translateY(-2px);border-color:var(--gold2);box-shadow:0 10px 30px rgba(88,101,242,.25)}
+.dcta:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.dcta-ic{flex:0 0 auto;display:grid;place-items:center;width:50px;height:50px;background:linear-gradient(135deg,#7983f5,#5865f2 60%,#4049b8);color:#fff;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.dmark{display:inline-flex}.dmark svg{width:26px;height:26px}
+.dcta-t{display:grid;gap:1px;min-width:0;flex:1}
+.dcta-k{display:flex;align-items:center;gap:7px;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.dcta-k i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite}
+.dcta b{font-family:var(--display);font-weight:800;font-size:1.15rem;color:var(--gold2);letter-spacing:.02em;line-height:1.2}
+.dcta small{color:var(--mute);font-size:.8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dcta-go{flex:0 0 auto;font-size:1.3rem;color:var(--gold2);transition:transform .2s}
+.dcta:hover .dcta-go{transform:translateX(4px)}
+.dcta.live{border-color:rgba(224,96,90,.7)}
+.btn.dbtn .dmark svg{width:18px;height:18px}
+.stjoin{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid rgba(88,101,242,.6);background:rgba(88,101,242,.16);color:#dfe2ff;font-size:.8rem;font-weight:600;letter-spacing:.04em;white-space:nowrap}
+.stjoin .dmark svg{width:16px;height:16px}
+@media (max-width:1100px){.stjoin{display:none}}
+@media (max-width:440px){.dcta{gap:12px;padding:10px 12px 10px 10px}.dcta b{font-size:.98rem}.dcta-ic{width:44px;height:44px}.dcta-k{font-size:.6rem;letter-spacing:.14em}}
 /* game HUD */
 .hud{display:flex;gap:6px;align-items:center;padding:6px 10px;border-top:1px solid var(--line)}
 .pip{position:relative;width:28px;height:28px;flex:0 0 auto;border:1px solid var(--line);background-color:#0b111b;background-repeat:no-repeat;display:grid;place-items:center;font-size:.6rem;color:#56627a;font-weight:700}
@@ -818,7 +840,7 @@ function renderStream(B, started){
   var top = h("header", {class:"sttop"},
     h("div", {class:"stbrand"}, h("span", {class:"stmark"}, "P"), h("div", null, h("div", {class:"stname"}, S.name), h("div", {class:"stsub"}, "Puup Discord · League of Legends 1v1 · Howling Abyss"))),
     h("div", {class:"ststatus"}, live ? h("span", {class:"stlive"}, h("i"), "LIVE") : null, h("span", null, status)),
-    h("div", {class:"stright"}, clock, soundBtn("stbtn snd"),
+    h("div", {class:"stright"}, h("span", {class:"stjoin"}, discordMark(), discordUrl().replace(/^https?:\/\//, "")), clock, soundBtn("stbtn snd"),
       h("button", {class:"stbtn", type:"button", onclick:function(){ var d = document.documentElement; try { (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(function(){}); } catch(e){} }}, "Full screen"),
       h("a", {class:"stbtn", href:"#", onclick:function(){ try { sessionStorage.removeItem("sndStream"); } catch(e){} }}, "Exit")));
   var bodyEl = h("div", {class:"stbody"});
@@ -913,8 +935,21 @@ function render(){
   if (isAdmin) renderAdminButton();
   syncFx(B); draftSfx();
 }
+var DISCORD_DEFAULT = "https://discord.gg/CFXTHXrwum";
+function discordUrl(){ return S.stream || DISCORD_DEFAULT; }
+function discordMark(){ var sp = document.createElement("span"); sp.className = "dmark"; sp.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>'; return sp; }
 function streamBtn(label){
-  return S.stream ? h("a", {class:"btn", href:S.stream, target:"_blank", rel:"noopener"}, label || "Watch on Discord") : null;
+  return h("a", {class:"btn dbtn", href:discordUrl(), target:"_blank", rel:"noopener"}, discordMark(), label || "Watch on Discord");
+}
+function discordCta(started){
+  var short = discordUrl().replace(/^https?:\/\//, "");
+  return h("a", {class:"dcta" + (started ? " live" : ""), href:discordUrl(), target:"_blank", rel:"noopener", "aria-label":"Join the Puup voice channel on Discord"},
+    h("span", {class:"dcta-ic"}, discordMark()),
+    h("span", {class:"dcta-t"},
+      h("span", {class:"dcta-k"}, started ? [h("i"), "Live now in voice"] : "Puup Discord · voice channel"),
+      h("b", null, "Join the voice channel"),
+      h("small", null, short)),
+    h("span", {class:"dcta-go", "aria-hidden":"true"}, "\u2192"));
 }
 function renderHero(B, started){
   var d = new Date(S.start);
@@ -942,8 +977,8 @@ function renderHero(B, started){
     tick();
   } else {
     hero.appendChild(h("div", {class:"livepill"}, h("i"), "Live now"));
-    var sb = streamBtn(); if (sb) hero.appendChild(sb);
   }
+  if (!(B && B.first)) hero.appendChild(discordCta(started));
   var me = myId ? P(myId) : null, canSign = sandbox || (S.signupsOpen !== false && !(S.seeds && S.seeds.length));
   var acts = h("div", {style:"display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center"});
   if (me && !sandbox) acts.appendChild(h("div", {class:"mepill"}, h("span", {class:"pav", style:profStyle(me.pi)}), "You're in as ", h("b", null, me.name)));
