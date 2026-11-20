@@ -556,9 +556,9 @@ html,body{overflow-x:clip}
 @keyframes bkq{50%{transform:scale(1.08);text-shadow:0 0 26px rgba(240,213,140,.95),0 0 60px rgba(240,190,90,.5)}}
 @keyframes bkshine{0%,40%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 /* deal + reveal */
-.card.deal{animation:rdeal .7s cubic-bezier(.2,.9,.25,1.05) backwards}
-.card.deal .flip{animation:rflip .9s cubic-bezier(.3,.1,.25,1) backwards}
-.card.deal.last .flip{animation-name:rflipl;animation-duration:1.15s}
+.card.deal{animation:rdeal .8s cubic-bezier(.2,.9,.25,1.05) backwards}
+.card.deal .flip{animation:rflip 1.15s cubic-bezier(.3,.1,.25,1) backwards}
+.card.deal.last .flip{animation-name:rflipl;animation-duration:1.6s}
 .card.deal .plate{animation:rplate .5s cubic-bezier(.2,.9,.3,1.2) backwards}
 .cards.revealing .card{pointer-events:none}
 .card .burst{position:absolute;inset:-25%;z-index:3;pointer-events:none;border-radius:50%;opacity:0;
@@ -1742,7 +1742,7 @@ function rollLabel(B, key, g){
   var m = findMatch(B, key); if (!m || !m.a || !m.b) return null;
   return pname(m.a) + " vs " + pname(m.b) + (g ? " · game " + g : "");
 }
-var REVEAL_AT = [1.25, 1.95, 2.85], REVEAL_END = 3.8, cardSeen = {};
+var REVEAL_AT = [1.7, 2.9, 4.3], REVEAL_HIT = [.62, .62, 1.0], REVEAL_END = 5.9, cardSeen = {};
 function drawCards(d, loc){
   var k = loc + d.at, now = Date.now();
   var first = !dealt[k];
@@ -1761,13 +1761,13 @@ function drawCards(d, loc){
     var can = canStrike(d) && !st;
     var dl = function(t){ return "animation-delay:" + (t - el).toFixed(2) + "s"; };
     var back = h("div", {class:"back"}, h("span", {class:"bk-frame"}), h("span", {class:"bk-ring"}), h("span", {class:"bk-q"}, "?"), h("span", {class:"bk-brand"}, "Puup"));
-    var face = h("div", {class:"face", style:artStyle(c, CARDS_URL)}, isS ? h("span", {class:"slash"}) : null, h("div", {class:"plate", style:fresh ? dl(REVEAL_AT[i] + .45) : null}, c));
+    var face = h("div", {class:"face", style:artStyle(c, CARDS_URL)}, isS ? h("span", {class:"slash"}) : null, h("div", {class:"plate", style:fresh ? dl(REVEAL_AT[i] + REVEAL_HIT[i] + .1) : null}, c));
     var inner = [
       isP ? h("span", {class:"rays", "aria-hidden":"true"}) : null,
       h("div", {class:"flip", style:fresh ? dl(REVEAL_AT[i]) : null}, face, back),
-      fresh ? h("span", {class:"burst", style:dl(REVEAL_AT[i] + .3), "aria-hidden":"true"}) : null];
+      fresh ? h("span", {class:"burst", style:dl(REVEAL_AT[i] + REVEAL_HIT[i] - .05), "aria-hidden":"true"}) : null];
     var cls = "card" + st + anim + (fresh ? " deal" : "") + (i === 2 ? " last" : "");
-    var style = fresh ? dl(i * .16) : null;
+    var style = fresh ? dl(i * .22) : null;
     wrap.appendChild(can ? h("button", {class:cls, style:style, type:"button", title:"Strike " + c, onclick:function(){ strike(d, c); }}, inner)
                : h("div", {class:cls, style:style}, inner));
   });
@@ -2172,9 +2172,9 @@ function chord(c, notes, at, d, g, type){ notes.forEach(function(f){ tone(c, {f:
 function boom(c, at, g){ tone(c, {f:120, f2:38, d:1.1, g:g || .5, at:at}); noise(c, {type:"lowpass", f:500, f2:80, d:.45, g:(g || .5) * .6, at:at}); }
 var SFX = {
   roll: function(c){
-    for (var i = 0; i < 3; i++) noise(c, {f:2600, f2:700, d:.2, g:.14, at:.05 + i * .18, q:.8});
-    tone(c, {f:110, f2:220, d:1.1, g:.05, at:.6, type:"sawtooth"});
-    [0, 1, 2].forEach(function(i){ var at = REVEAL_AT[i] + .32;
+    for (var i = 0; i < 3; i++) noise(c, {f:2600, f2:700, d:.2, g:.14, at:.05 + i * .22, q:.8});
+    tone(c, {f:110, f2:220, d:1.4, g:.05, at:.7, type:"sawtooth"}); tone(c, {f:150, f2:330, d:1.3, g:.05, at:REVEAL_AT[2], type:"sawtooth"});
+    [0, 1, 2].forEach(function(i){ var at = REVEAL_AT[i] + REVEAL_HIT[i];
       noise(c, {f:4000, f2:1200, d:.16, g:.1, at:at - .08, q:.7});
       tone(c, {f:[659.25, 783.99, 1046.5][i], d:i === 2 ? .9 : .5, g:i === 2 ? .12 : .08, at:at, type:"triangle"});
       tone(c, {f:[1318.5, 1568, 2093][i], d:.35, g:.03, at:at + .02}); });
