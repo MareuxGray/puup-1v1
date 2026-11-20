@@ -922,6 +922,39 @@ body:has(.modal) .sufloat,body:has(.drawer) .sufloat{opacity:0;pointer-events:no
 @media (max-width:480px){.su-sep2{display:none}.su-sub b{flex-basis:100%;text-align:center}.sufloat{font-size:.85rem;padding:10px 18px 10px 14px}}
 @media (prefers-reduced-motion:reduce){.sucta,.sucta::after,.su-bw::before,.su-bw::after,.su-dot,.sufloat::after{animation:none}}
 
+/* giant cat */
+.bigcat{position:fixed;left:0;bottom:-44px;z-index:30;width:280px;height:229px;padding:0;border:0;background:none;cursor:pointer;transform-origin:50% 100%;-webkit-tap-highlight-color:transparent;will-change:transform}
+.bigcat[hidden]{display:none}
+.bg-body{display:block;width:100%;height:100%;transition:transform .35s cubic-bezier(.3,1.3,.5,1);filter:drop-shadow(0 -4px 14px rgba(0,0,0,.45))}
+.bg-body svg{width:100%;height:100%;display:block;overflow:visible}
+.bigcat:hover .bg-body{transform:translateY(-8px)}
+.bigcat.duck .bg-body{transform:translateY(160px)}
+.bigcat.duck{pointer-events:none}
+.bigcat .bg-eyes-happy,.bigcat .bg-eyes-sad,.bigcat .bg-eyes-mad,.bigcat .bg-mouth-open,.bigcat .bg-mouth-sad{display:none}
+.bigcat.happy .bg-eyes-open,.bigcat.happy .bg-mouth-norm{display:none}.bigcat.happy .bg-eyes-happy,.bigcat.happy .bg-mouth-open{display:inline}
+.bigcat.sad .bg-eyes-open,.bigcat.sad .bg-mouth-norm{display:none}.bigcat.sad .bg-eyes-sad,.bigcat.sad .bg-mouth-sad{display:inline}
+.bigcat.mad .bg-eyes-open,.bigcat.mad .bg-mouth-norm,.bigcat.mad .bg-eyes-sad,.bigcat.mad .bg-mouth-sad{display:none}.bigcat.mad .bg-eyes-mad,.bigcat.mad .bg-mouth-open{display:inline}
+.bg-earl,.bg-earr{transition:transform .5s cubic-bezier(.3,1.4,.5,1);transform-box:fill-box}
+.bg-earl{transform-origin:100% 100%}.bg-earr{transform-origin:0 100%}
+.bigcat.sad .bg-earl{transform:rotate(-28deg) translate(-6px,10px)}.bigcat.sad .bg-earr{transform:rotate(28deg) translate(6px,10px)}
+.bigcat.sad .bg-body{transform:translateY(14px)}
+.bigcat.sad .bg-blush{opacity:.35}
+.bg-tear{animation:bgtear 1.4s ease-in infinite}.bg-tear.t2{animation-delay:.7s}
+@keyframes bgtear{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(26px);opacity:0}}
+.bigcat.happy .bg-body{animation:bghop .6s cubic-bezier(.3,1.5,.5,1)}
+@keyframes bghop{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-34px) scale(1.06,.96)}70%{transform:translateY(0) scale(1.04,.94)}100%{transform:none}}
+.bigcat.mad .bg-body{animation:bgshake .1s linear 10}
+@keyframes bgshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-3deg)}75%{transform:translateX(5px) rotate(3deg)}}
+.bg-say{position:absolute;bottom:calc(100% - 6px);left:50%;transform:translateX(calc(-50% + var(--shift,0px)));max-width:min(300px,86vw);width:max-content;padding:10px 16px;background:#fff;color:#2a1608;
+  font-family:var(--display);font-weight:900;font-size:1.25rem;line-height:1.2;text-align:center;border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.45);pointer-events:none;animation:bgsay .35s cubic-bezier(.2,1.6,.4,1) both}
+.bg-say::after{content:"";position:absolute;top:100%;left:calc(50% - var(--shift,0px));margin-left:-9px;border:9px solid transparent;border-top-color:#fff}
+.bg-say.sad{background:#dbe9ff;color:#24324a;font-family:var(--body);font-weight:700;font-style:italic;font-size:.92rem}.bg-say.sad::after{border-top-color:#dbe9ff}
+.bg-say.angry{background:#ff5a3d;color:#fff;font-size:1.25rem}.bg-say.angry::after{border-top-color:#ff5a3d}
+@keyframes bgsay{from{opacity:0;transform:translateX(calc(-50% + var(--shift,0px))) translateY(10px) scale(.6)}to{opacity:1;transform:translateX(calc(-50% + var(--shift,0px)))}}
+.bg-heart{position:absolute;bottom:60%;color:#ff5d7a;font-size:1.6rem;pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.4);animation:bgheart 1.3s ease-out both}
+@keyframes bgheart{from{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:1}to{opacity:0;transform:translate(var(--dx),-140px) scale(1.2)}}
+@media (max-width:640px){.bigcat{width:150px;height:123px;bottom:-24px}.bigcat.duck .bg-body{transform:translateY(86px)}.bg-say{font-size:.88rem;padding:8px 12px}}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1323,7 +1356,7 @@ function catHop(to, cb){
   var done = function(){ catState.x = to; cat.style.transform = "translate(" + to + "px,0) scaleX(" + catState.face + ")"; catState.busy = false; if (cb) cb(); };
   if (a) a.onfinish = done; else done();
 }
-function syncCat(){
+function syncCatSmall(){
   var hide = location.hash === "#stream";
   try { if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) hide = true; } catch(e){}
   if (!cat){
@@ -1348,6 +1381,131 @@ function syncCat(){
     window.addEventListener("resize", function(){ if (catState.x > catBounds()[1]) catHop(catBounds()[1]); });
   }
   cat.hidden = hide;
+}
+
+/* ---------- the giant cat ---------- */
+var big = null, bigS = {x:-1, tx:0, mx:-1, my:-1, last:0, clicks:[], sad:false, mad:false, duck:false, raf:0, touch:false, sayT:0, phrase:-1};
+var BIG_PHRASES = ["SIRI PLEASE JOIN MIAOWWW", "Siri get in the call MIAOW", "MIAOWWW (Siri where are you)", "Siri sign up or I knock your drink over", "Purrrlease Siri, just one game", "SIRI THE BRACKET NEEDS YOU MIAOWWW", "Siri I saved you a spot MIAOW", "MRRRP. Siri. Join. Now.", "Siri I will sit on your keyboard", "MIAOW MIAOW SIRI MIAOW", "Siri, I believe in you. Join MIAOWWW", "SIRI PLEASE MIAOW PLEASE"];
+var BIG_SAD = ["nobody clicks me…", "*sad miaow*", "Siri would click me…", "am I not cute…", "miaow…?"];
+function bigCatOn(){ return S.bigCat !== false && location.hash !== "#stream"; }
+function bigSvg(){
+  var O = "#f2a24c", D = "#c4661f", L = "#fde8cb", K = "#3a1d08", Pk = "#f59fae";
+  return '<svg viewBox="0 0 220 180" aria-hidden="true">' +
+    '<g class="bg-earl"><path d="M38 78 L52 14 Q58 6 66 14 L96 52 Z" fill="' + O + '" stroke="' + K + '" stroke-width="4" stroke-linejoin="round"/><path d="M52 60 L58 26 L80 50 Z" fill="' + Pk + '"/></g>' +
+    '<g class="bg-earr"><path d="M182 78 L168 14 Q162 6 154 14 L124 52 Z" fill="' + O + '" stroke="' + K + '" stroke-width="4" stroke-linejoin="round"/><path d="M168 60 L162 26 L140 50 Z" fill="' + Pk + '"/></g>' +
+    '<ellipse cx="110" cy="112" rx="92" ry="70" fill="' + O + '" stroke="' + K + '" stroke-width="4"/>' +
+    '<path d="M96 46 q4 14 2 24 M110 44 v26 M124 46 q-4 14 -2 24" stroke="' + D + '" stroke-width="6" stroke-linecap="round" fill="none"/>' +
+    '<path d="M22 104 q14 -4 26 2 M20 120 q14 -6 28 0 M198 104 q-14 -4 -26 2 M200 120 q-14 -6 -28 0" stroke="' + D + '" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+    '<ellipse cx="110" cy="140" rx="40" ry="30" fill="' + L + '"/>' +
+    '<ellipse class="bg-blush" cx="52" cy="132" rx="15" ry="9" fill="' + Pk + '" opacity=".75"/><ellipse class="bg-blush" cx="168" cy="132" rx="15" ry="9" fill="' + Pk + '" opacity=".75"/>' +
+    '<g class="bg-eyes-open"><ellipse cx="72" cy="104" rx="17" ry="20" fill="' + K + '"/><ellipse cx="148" cy="104" rx="17" ry="20" fill="' + K + '"/>' +
+      '<g class="bg-pupils"><circle cx="66" cy="96" r="7" fill="#fff"/><circle cx="142" cy="96" r="7" fill="#fff"/><circle cx="77" cy="112" r="3.5" fill="#fff"/><circle cx="153" cy="112" r="3.5" fill="#fff"/></g></g>' +
+    '<g class="bg-eyes-happy"><path d="M56 108 q16 -22 32 0 M132 108 q16 -22 32 0" stroke="' + K + '" stroke-width="6" stroke-linecap="round" fill="none"/></g>' +
+    '<g class="bg-eyes-sad"><path d="M54 92 l30 -8 M166 92 l-30 -8" stroke="' + K + '" stroke-width="5" stroke-linecap="round"/><ellipse cx="72" cy="108" rx="15" ry="16" fill="' + K + '"/><ellipse cx="148" cy="108" rx="15" ry="16" fill="' + K + '"/><circle cx="66" cy="102" r="6" fill="#fff"/><circle cx="142" cy="102" r="6" fill="#fff"/>' +
+      '<path class="bg-tear" d="M60 124 q-6 10 0 14 q6 -4 0 -14z" fill="#7fd3ff"/><path class="bg-tear t2" d="M160 124 q-6 10 0 14 q6 -4 0 -14z" fill="#7fd3ff"/></g>' +
+    '<g class="bg-eyes-mad"><path d="M52 86 l34 12 M168 86 l-34 12" stroke="' + K + '" stroke-width="6" stroke-linecap="round"/><path d="M58 108 h28 M134 108 h28" stroke="' + K + '" stroke-width="7" stroke-linecap="round"/></g>' +
+    '<path d="M102 126 h16 l-8 9 z" fill="#e0707a" stroke="' + K + '" stroke-width="2" stroke-linejoin="round"/>' +
+    '<g class="bg-mouth-norm"><path d="M110 135 q-6 10 -16 5 M110 135 q6 10 16 5" stroke="' + K + '" stroke-width="3.5" stroke-linecap="round" fill="none"/></g>' +
+    '<g class="bg-mouth-open"><path d="M96 138 q14 26 28 0 z" fill="#8a2b35" stroke="' + K + '" stroke-width="3.5" stroke-linejoin="round"/><path d="M102 148 q8 6 16 0" fill="#f58ca0"/></g>' +
+    '<g class="bg-mouth-sad"><path d="M98 146 q12 -10 24 0" stroke="' + K + '" stroke-width="3.5" stroke-linecap="round" fill="none"/></g>' +
+    '<path d="M40 122 l-34 -6 M40 130 l-34 4 M180 122 l34 -6 M180 130 l34 4" stroke="' + K + '" stroke-width="2.2" stroke-linecap="round"/>' +
+    '<g class="bg-paws"><ellipse cx="62" cy="176" rx="30" ry="18" fill="' + O + '" stroke="' + K + '" stroke-width="4"/><path d="M50 166 v10 M62 164 v12 M74 166 v10" stroke="' + K + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<ellipse cx="158" cy="176" rx="30" ry="18" fill="' + O + '" stroke="' + K + '" stroke-width="4"/><path d="M146 166 v10 M158 164 v12 M170 166 v10" stroke="' + K + '" stroke-width="3" stroke-linecap="round"/></g>' +
+    '</svg>';
+}
+function bigBounds(){
+  var W = window.innerWidth, w = big ? big.offsetWidth : 200, lo = 8, hi = W - w - 8;
+  var sb = document.querySelector(".sndbtn"), ab = document.querySelector(".adm-btn");
+  if (sb && sb.getClientRects().length) lo = Math.max(lo, sb.getBoundingClientRect().right + 8);
+  if (ab && ab.getClientRects().length) hi = Math.min(hi, ab.getBoundingClientRect().left - w - 8);
+  if (bigS.touch) lo = Math.max(lo, hi - Math.max(0, W * .12));
+  return [lo, Math.max(lo, hi)];
+}
+function bigSay(text, cls){
+  var old = big.querySelector(".bg-say"); if (old) old.remove();
+  var b = h("span", {class:"bg-say" + (cls ? " " + cls : "")}, text); big.appendChild(b);
+  var x = big.getBoundingClientRect(), W = window.innerWidth;
+  b.style.setProperty("--shift", Math.max(0, 150 - x.left) - Math.max(0, x.right + 150 - W) + "px");
+  clearTimeout(bigS.sayT); bigS.sayT = setTimeout(function(){ if (b.isConnected) b.remove(); }, cls === "sad" ? 2600 : 2200);
+}
+function bigHearts(){
+  for (var i = 0; i < 5; i++){
+    var ht = h("span", {class:"bg-heart", style:"left:" + (30 + Math.random() * 60) + "%;animation-delay:" + (i * .07).toFixed(2) + "s;--dx:" + ((Math.random() - .5) * 120).toFixed(0) + "px"}, "\u2665");
+    big.appendChild(ht); (function(e){ setTimeout(function(){ e.remove(); }, 1500); })(ht);
+  }
+}
+function bigSetFace(){
+  if (!big) return;
+  var idle = Date.now() - bigS.last > 3000;
+  if (idle && !bigS.sad && !bigS.mad){ bigS.sad = true; big.classList.add("sad"); if (Math.random() < .6) bigSay(BIG_SAD[Math.floor(Math.random() * BIG_SAD.length)], "sad"); }
+}
+function bigClick(){
+  var now = Date.now();
+  bigS.last = now; bigS.sad = false; big.classList.remove("sad");
+  if (bigS.mad) return;
+  bigS.clicks = bigS.clicks.filter(function(t){ return now - t < 2500; }); bigS.clicks.push(now);
+  if (bigS.clicks.length >= 6){
+    bigS.clicks = []; bigS.mad = true; big.classList.add("mad"); big.classList.remove("happy");
+    bigSay("STOP IT SIRI", "angry"); miaow(true);
+    setTimeout(function(){ bigS.mad = false; bigS.last = Date.now(); if (big) big.classList.remove("mad"); }, 1800);
+    return;
+  }
+  var i; do { i = Math.floor(Math.random() * BIG_PHRASES.length); } while (i === bigS.phrase && BIG_PHRASES.length > 1);
+  bigS.phrase = i; bigSay(BIG_PHRASES[i]);
+  miaow(false); if (/MIAOWWW|MIAOW MIAOW/.test(BIG_PHRASES[i])) setTimeout(function(){ miaow(false); }, 380);
+  big.classList.remove("happy"); void big.offsetWidth; big.classList.add("happy");
+  clearTimeout(bigS.happyT); bigS.happyT = setTimeout(function(){ if (big) big.classList.remove("happy"); }, 900);
+  bigHearts();
+}
+function bigCheckDuck(){
+  if (!big || bigS.mx < 0 || bigS.touch) return;
+  var r = big.getBoundingClientRect(), over = bigS.mx >= r.left && bigS.mx <= r.right && bigS.my >= r.top - 10 && bigS.my <= window.innerHeight;
+  var duck = false;
+  if (over){
+    big.style.pointerEvents = "none";
+    var el = document.elementFromPoint(bigS.mx, bigS.my);
+    big.style.pointerEvents = "";
+    duck = !!(el && el.closest && el.closest('button,a,input,select,textarea,label,summary,[role="button"],.clickable,.bcard.openable,.vcard,.bp,.sufloat'));
+  }
+  if (duck !== bigS.duck){ bigS.duck = duck; big.classList.toggle("duck", duck); }
+}
+function bigLoop(){
+  bigS.raf = 0; if (!big || big.hidden) return;
+  var b = bigBounds(), w = big.offsetWidth;
+  var tx = (bigS.touch || (bigS.mx < 0 && window.innerWidth < 640)) ? b[1] : bigS.mx < 0 ? (b[0] + b[1]) / 2 : bigS.mx - w / 2;
+  tx = Math.max(b[0], Math.min(b[1], tx));
+  if (bigS.x < 0) bigS.x = tx;
+  var dx = (tx - bigS.x) * .085; bigS.x += dx;
+  var tilt = Math.max(-10, Math.min(10, dx * .6));
+  big.style.transform = "translateX(" + bigS.x.toFixed(1) + "px) rotate(" + tilt.toFixed(2) + "deg)";
+  // eyes follow the cursor
+  var pu = big.querySelector(".bg-pupils");
+  if (pu && bigS.mx >= 0){
+    var r = big.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height * .55;
+    var ax = bigS.mx - cx, ay = bigS.my - cy, d = Math.sqrt(ax * ax + ay * ay) || 1, k = Math.min(1, d / 300);
+    pu.setAttribute("transform", "translate(" + (ax / d * 7 * k).toFixed(1) + " " + (ay / d * 6 * k).toFixed(1) + ")");
+  }
+  if (Math.abs(dx) > .3 && (bigS.fr = (bigS.fr || 0) + 1) % 5 === 0) bigCheckDuck();
+  bigSetFace();
+  bigS.raf = requestAnimationFrame(bigLoop);
+}
+function syncCat(){
+  var on = bigCatOn();
+  try { if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) on = false; } catch(e){}
+  if (!big){
+    if (!on) return;
+    big = h("button", {class:"bigcat", type:"button", "aria-label":"A giant cat. Click it."});
+    var body = document.createElement("span"); body.className = "bg-body"; body.innerHTML = bigSvg(); big.appendChild(body);
+    big.addEventListener("click", function(e){ e.stopPropagation(); bigClick(); });
+    document.body.appendChild(big);
+    bigS.last = Date.now();
+    window.addEventListener("pointermove", function(e){ if (e.pointerType === "touch") return; bigS.touch = false; bigS.mx = e.clientX; bigS.my = e.clientY; bigCheckDuck(); }, {passive:true});
+    window.addEventListener("pointerdown", function(e){ if (e.pointerType === "touch"){ bigS.touch = true; bigS.mx = e.clientX; bigS.my = e.clientY; } }, {passive:true});
+    window.addEventListener("scroll", bigCheckDuck, {passive:true});
+    document.addEventListener("mouseleave", function(){ if (bigS.duck){ bigS.duck = false; big.classList.remove("duck"); } });
+  }
+  big.hidden = !on;
+  if (on && !bigS.raf) bigS.raf = requestAnimationFrame(bigLoop);
 }
 
 function render(){
@@ -2683,6 +2841,9 @@ function renderDrawer(){
       h("button", {class:"sbtn", type:"button", onclick:function(){ previewFx("podium"); }}, "Preview podium")),
     h("p", {class:"hint"}, "If there's no real match to preview yet, it uses sample players. Press Esc or the close button in the corner to close it."),
     h("label", {style:"display:flex;gap:8px;align-items:center;flex-direction:row"}, h("input", {type:"checkbox", checked:soundOn() ? true : null, onchange:function(e){ setSound(e.target.checked); }}), "Sound cues on this screen (roll, strikes, lock-in, intro, victory, podium)")));
+  body.appendChild(h("fieldset", null, h("legend", null, "Fun extras"),
+    h("label", {style:"display:flex;gap:8px;align-items:center;flex-direction:row"}, h("input", {type:"checkbox", checked:S.bigCat !== false ? true : null, onchange:function(e){ S.bigCat = e.target.checked; commit(); }}), "Giant cat that follows the mouse and begs Siri to join"),
+    h("p", {class:"hint"}, sandbox ? "In test mode this only changes your screen." : "Turns it on or off for everyone. It never shows on the stream view.")));
   // live control
   var mf = h("fieldset", null, h("legend", null, "Matches" + (sandbox ? " (test)" : "")));
   mf.appendChild(h("div", {class:"row"},
