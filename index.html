@@ -1717,9 +1717,17 @@ function renderStream(B, started){
     bodyEl.appendChild(holder);
     requestAnimationFrame(function(){
       var bw = bodyEl.clientWidth - 48, bh = bodyEl.clientHeight - 24 - (bodyEl.classList.contains("hasv") ? 150 : 0);
-      var sc = Math.min(bw / built.w, bh / built.h, 1.6);
+      var fit = Math.min(bw / built.w, bh / built.h), sc = Math.min(fit, 3), tx = 0, ty = 0;
       holder.style.width = built.w + "px"; holder.style.height = built.h + "px";
-      holder.style.transform = "translate(-50%,-50%) scale(" + sc + ")";
+      var fk = m ? m.key : null, card = fk && !(B && B.first) ? built.stage.querySelector('.bcard[data-key="' + fk + '"]') : null;
+      if (card){
+        sc = Math.min(Math.max(fit * 1.9, fit), 3.2);
+        var x = 0, y = 0, el = card; while (el && el !== holder){ x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; }
+        var cx = x + card.offsetWidth / 2, cy = y + card.offsetHeight / 2;
+        var mx = Math.max(0, (built.w * sc - bw) / 2), my = Math.max(0, (built.h * sc - bh) / 2);
+        tx = Math.max(-mx, Math.min(mx, (built.w / 2 - cx) * sc)); ty = Math.max(-my, Math.min(my, (built.h / 2 - cy) * sc));
+      }
+      holder.style.transform = "translate(calc(-50% + " + tx + "px), calc(-50% + " + ty + "px)) scale(" + sc + ")";
     });
   } else bodyEl.appendChild(h("div", {class:"stempty"}, "The bracket appears here once the draw is made."));
   streamAnimated = true;
