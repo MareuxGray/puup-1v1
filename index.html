@@ -1255,6 +1255,20 @@ button.pk-sd:active{transform:scale(.98)}
 .sp-x{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.4);color:var(--fg);font-size:24px;cursor:pointer;z-index:5}
 @media (prefers-reduced-motion:reduce){.pkbar::after,.pk-tro,.stv-bar ::after,.stv-spark{animation:none}}
 
+/* hi-res champion art in splashes */
+.fxsplash{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.fxsplash img{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;object-position:50% 25%;opacity:0;animation:fxsplin 1.2s .1s ease forwards,fxkb 14s ease-out forwards}
+.fxsplash::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 50% 45%,rgba(5,8,14,.35),rgba(5,8,14,.86) 70%,#05080e),linear-gradient(180deg,rgba(5,8,14,.55),transparent 30%,transparent 60%,rgba(5,8,14,.9))}
+@keyframes fxsplin{to{opacity:1}}
+@keyframes fxkb{from{transform:scale(1.08)}to{transform:scale(1)}}
+.fxav.card > span{position:relative;overflow:hidden}
+.fxav.card > span img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fxav.card > span{width:auto;height:min(46vh,560px)}
+.fxav.card.big > span{width:auto;height:min(56vh,640px)}
+.fx.intro .fxav.card > span{height:min(50vh,560px)}
+.pods .fxav.card > span{width:auto;height:min(26vh,300px)}.pods .fxav.card.big > span{width:auto;height:min(34vh,380px)}
+@media (prefers-reduced-motion:reduce){.fxsplash img{animation:fxsplin .3s forwards}}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -3240,6 +3254,7 @@ function activeFx(){
 function splashBusy(){ var e = activeFx(); return !!(e && e.t !== "podium"); }
 function syncFx(B){
   clearTimeout(fxTimer);
+  if (S.live && S.champs && S.champs[S.live]) S.champs[S.live].forEach(preloadChamp);
   var e = activeFx(), id = e ? fxId(e) : null;
   if (id !== fxShown){
     if (fxLayer){ var old = fxLayer; old.classList.add("out"); setTimeout(function(){ old.remove(); }, 450); fxLayer = null; }
@@ -3282,6 +3297,15 @@ function buildFx(B, e){
   }
   return buildFx2(B, e, e);
 }
+var DD = "https://ddragon.leagueoflegends.com/cdn/img/champion/";
+var DD_IDS = {"belveth":"Belveth","chogath":"Chogath","kaisa":"Kaisa","khazix":"Khazix","leblanc":"Leblanc","wukong":"MonkeyKing","nunuwillump":"Nunu","renataglasc":"Renata","velkoz":"Velkoz"};
+function ddId(n){ return DD_IDS[norm(n)] || String(n || "").replace(/[^A-Za-z]/g, ""); }
+function splashUrl(n){ return DD + "splash/" + ddId(n) + "_0.jpg"; }
+function loadUrl(n){ return DD + "loading/" + ddId(n) + "_0.jpg"; }
+var ddPre = {};
+function preloadChamp(n){ if (!n || ddPre[n]) return; ddPre[n] = 1; [splashUrl(n), loadUrl(n)].forEach(function(u){ var im = new Image(); im.src = u; }); }
+function hiImg(u){ var im = h("img", {src:u, alt:"", loading:"eager", decoding:"async"}); im.onerror = function(){ im.remove(); }; return im; }
+function fxSplash(champ, cls){ if (!champ) return null; return h("div", {class:"fxsplash" + (cls ? " " + cls : "")}, hiImg(splashUrl(champ))); }
 function matchChamp(key){
   var a = S.champs[key] || [], n = (S.games[key] || []).length, c = null;
   for (var i = 0; i < a.length; i++) if (a[i] && (i < Math.max(1, n))) c = a[i];
@@ -3294,7 +3318,7 @@ function playerChamp(B, id){
 }
 function fxArt(id, champ, cls, d){
   var p = P(id);
-  if (champ && artStyle(champ, CARDS_URL)) return fa("fxav card" + (cls ? " " + cls : ""), d, [h("span", {style:artStyle(champ, CARDS_URL)}), h("em", null, champ)]);
+  if (champ && artStyle(champ, CARDS_URL)) return fa("fxav card" + (cls ? " " + cls : ""), d, [h("span", {style:artStyle(champ, CARDS_URL)}, hiImg(loadUrl(champ))), h("em", null, champ)]);
   return fa("fxav" + (cls ? " " + cls : ""), d, h("span", {style:profStyle(p ? p.pi : 29)}));
 }
 function buildFx2(B, e, orig){
@@ -3312,7 +3336,7 @@ function buildFx2(B, e, orig){
           fa("fxriot", .62, [p && p.riot ? p.riot : "", sn ? h("b", null, (p && p.riot ? "  ·  " : "") + "Seed " + sn) : null])));
     };
     root = h("div", {class:"fx intro", role:"dialog", "aria-label":pname(m.a) + " versus " + pname(m.b)},
-      h("div", {class:"fxbg"}), side("a"), side("b"),
+      h("div", {class:"fxbg"}), fxSplash(champFor(m.key, 0)), side("a"), side("b"),
       h("div", {class:"fxseam fa", style:"--d:.45s"}),
       fa("fxvs", .7, h("span", null, "VS")),
       fa("fxtop", .2, [h("div", {class:"eyebrow"}, S.name), h("div", {class:"fxround"}, roundTitle(B, m))]),
@@ -3324,7 +3348,7 @@ function buildFx2(B, e, orig){
     var sc = m.score ? (w === m.a ? m.score : [m.score[1], m.score[0]]) : null, up = upsetOf(m);
     var adv = m.key === "3p" ? "Takes third place" : m.r === B.R - 1 ? "Tournament champion" : "Advances to the " + roundName(m.r + 1, B.R, B.N).replace(/finals$/, "final").toLowerCase();
     root = h("div", {class:"fx victory", role:"dialog", "aria-label":pname(w) + " wins"},
-      h("div", {class:"fxbg"}), h("div", {class:"fxrays fa", style:"--d:.1s"}), h("canvas", {class:"fxconf"}),
+      h("div", {class:"fxbg"}), fxSplash(matchChamp(m.key)), h("div", {class:"fxrays fa", style:"--d:.1s"}), h("canvas", {class:"fxconf"}),
       h("div", {class:"fxcol"},
         fa("fxeyebrow", .15, ["Victory", h("i"), roundTitle(B, m)]),
         fxArt(w, matchChamp(m.key), "big", .25),
@@ -3336,12 +3360,12 @@ function buildFx2(B, e, orig){
     if (!B.first) return null;
     var places = [[B.second, 2], [B.first, 1], [B.thirdP, 3]];
     root = h("div", {class:"fx podium", role:"dialog", "aria-label":"Final standings"},
-      h("div", {class:"fxbg"}), h("div", {class:"fxrays fa", style:"--d:.6s"}), h("canvas", {class:"fxconf"}),
+      h("div", {class:"fxbg"}), fxSplash(playerChamp(B, B.first)), h("div", {class:"fxrays fa", style:"--d:.6s"}), h("canvas", {class:"fxconf"}),
       fa("fxtop", .1, [h("div", {class:"eyebrow"}, S.name), h("div", {class:"fxround"}, "Final standings")]),
       h("div", {class:"pods"}, places.map(function(pp){
         var id = pp[0], n = pp[1], pr = S.prizes[n - 1], p = id ? P(id) : null, d = n === 1 ? 1.0 : n === 2 ? .65 : .35;
         return h("div", {class:"pod p" + n},
-          fa("pdwho", d + .35, [(function(){ var ch = playerChamp(B, id); return ch && artStyle(ch, CARDS_URL) ? h("span", {class:"fxav card" + (n === 1 ? " big" : "")}, h("span", {style:artStyle(ch, CARDS_URL)}), h("em", null, ch)) : h("span", {class:"fxav" + (n === 1 ? " big" : "")}, h("span", {style:profStyle(p ? p.pi : 29)})); })(),
+          fa("pdwho", d + .35, [(function(){ var ch = playerChamp(B, id); return ch && artStyle(ch, CARDS_URL) ? h("span", {class:"fxav card" + (n === 1 ? " big" : "")}, h("span", {style:artStyle(ch, CARDS_URL)}, hiImg(loadUrl(ch))), h("em", null, ch)) : h("span", {class:"fxav" + (n === 1 ? " big" : "")}, h("span", {style:profStyle(p ? p.pi : 29)})); })(),
             h("div", {class:"pdn"}, id ? pname(id) : "To be decided"), p && p.riot ? h("div", {class:"pdr"}, p.riot) : null]),
           fa("pdblock", d, [h("div", {class:"pdplace"}, ["1st", "2nd", "3rd"][n - 1]), pr ? h("div", {class:"pdrp"}, fmtRP(pr.rp), h("small", null, "RP")) : null]));
       })));
