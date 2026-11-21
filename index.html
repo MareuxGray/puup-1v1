@@ -3713,6 +3713,43 @@ function undo(){
   var g = S.games[key] || []; g.pop(); if (!g.length) delete S.games[key];
   S.live = key; S.fx = []; commit();
 }
+function lateJoinRow(){
+  var seeds = S.seeds || []; if (seeds.length < 2) return null;
+  var inB = {}; seeds.forEach(function(id){ if (id) inB[id] = 1; });
+  var free = S.players.filter(function(p){ return !inB[p.id]; });
+  var slots = [];
+  for (var i = 0; i < seeds.length; i += 2){
+    var a = seeds[i], b = seeds[i+1], k = (a && !b) ? i+1 : (!a && b) ? i : -1; if (k < 0) continue;
+    var nk = "1-" + Math.floor(i/4), ch = (S.champs || {})[nk] || [];
+    var begun = (S.games[nk] || []).length || S.live === nk || ch.some(function(c){ return c; });
+    slots.push({k:k, opp:a || b, begun:begun});
+  }
+  if (!slots.length) return null;
+  var open = slots.filter(function(x){ return !x.begun; });
+  var wrap = h("div", {class:"latej"}, h("p", {class:"hint"}, h("b", null, "Late joiners. "), "Add them under Players with \u201c+ Add player\u201d, then put them in a bye slot here. Only possible until the bye player's next match starts."));
+  if (!open.length){ wrap.appendChild(h("p", {class:"hint"}, "No bye slots left to fill.")); return wrap; }
+  if (!free.length){ wrap.appendChild(h("p", {class:"hint"}, open.length + " bye slot" + (open.length > 1 ? "s" : "") + " open. Add a player first.")); return wrap; }
+  open.forEach(function(sl){
+    var sel = h("select", {class:"lj-sel"}); free.forEach(function(p){ sel.appendChild(h("option", {value:p.id}, p.name || "Unnamed")); });
+    wrap.appendChild(h("div", {class:"row"}, sel, h("span", {class:"hint"}, " vs " + ((P(sl.opp) || {}).name || "?") + " "),
+      h("button", {class:"sbtn", type:"button", onclick:function(){ S.seeds[sl.k] = sel.value; if (typeof toast === "function") toast((P(sel.value) || {}).name + " is in the bracket"); commit(); }}, "Put in bracket")));
+  });
+  return wrap;
+}
+function voterResetRow(){
+  if (sandbox || typeof ballots === "undefined" || !ballots || !ballots.length) return null;
+  var seen = {}, vs = [];
+  ballots.forEach(function(b){ if (!seen[b.v]){ seen[b.v] = 1; vs.push({v:b.v, n:b.n || "Anonymous", c:0}); } });
+  ballots.forEach(function(b){ vs.forEach(function(x){ if (x.v === b.v) x.c++; }); });
+  vs.sort(function(a, b){ return a.n.localeCompare(b.n); });
+  var sel = h("select", {class:"lj-sel"}); vs.forEach(function(x){ sel.appendChild(h("option", {value:x.v}, x.n + " (" + x.c + " vote" + (x.c > 1 ? "s" : "") + ")")); });
+  return h("div", null, h("p", {class:"hint"}, h("b", null, "Reset a voter's picks. "), "Clears all of their votes and gives back their changes, so they can vote again. Nobody else is affected."),
+    h("div", {class:"row"}, sel, " ", confirmBtn("vreset", "Reset picks", "warn", async function(){
+      var x = vs.filter(function(y){ return y.v === sel.value; })[0];
+      try { await rpc("admin_reset_voter", {pass:adminPass, p_vhash:sel.value}); toast((x ? x.n : "Voter") + "'s picks were reset"); refresh(true); }
+      catch(e){ toast(/admin_reset_voter|function/i.test(String(e && e.message || e)) ? "Run reset-voter.sql in Supabase first" : String(e && e.message || e)); }
+    })));
+}
 function commit(){ if (!sandbox) dirty = true; clearTimeout(saveT); render(); renderDrawer(); publish(); }
 var sandbox = false, realS = null;
 var TEST_NAMES = ["Test Teemo Main", "Test Baron", "Test Blue Buff", "Test Krug", "Test Scuttle", "Test Poro"];
@@ -3821,6 +3858,7 @@ function renderDrawer(){
     h("div", {class:"row"}, h("button", {class:"sbtn", type:"button", onclick:function(){ startSpin(["Siri", "Lovebug", "Macabre", "Poro King", "Teemo Main", "Baron Bob", "Krug Life", "Yuumi Enjoyer"].map(function(n, i){ return {n:n, i:[3, 17, 41, 9, 22, 35, 12, 47][i]}; }), true); }}, "Test the winner spin")),
     h("p", {class:"hint"}, "Plays the case spin on your screen only with sample names. Nothing is saved. The real spin button appears in the Pick'em standings when the tournament ends with more than one perfect picker; that one shows for everyone, on the site and the stream view."),
     S.pickWin ? h("p", {class:"hint"}, "Spin winner: ", h("b", null, S.pickWin.n), " ", h("button", {class:"sbtn", type:"button", onclick:function(){ S.pickWin = null; S.spin = null; commit(); }}, "Clear and allow a re-spin")) : null));
+  body.appendChild(h("fieldset", null, h("legend", null, "Voters"), voterResetRow() || h("p", {class:"hint"}, "No votes yet.")));
   // live control
   var mf = h("fieldset", null, h("legend", null, "Matches" + (sandbox ? " (test)" : "")));
   mf.appendChild(h("div", {class:"row"},
@@ -3877,6 +3915,7 @@ function renderDrawer(){
   var bf = h("fieldset", null, h("legend", null, "Bracket"),
     h("p", {class:"hint"}, "Works with any number of players; top seeds get byes when the count isn't a power of 2. Rebuilding wipes all results."),
     S.seeds.some(function(id){ return id && !P(id); }) ? h("p", {class:"hint", style:"color:var(--red)"}, "A player in the bracket was removed. Rebuild the bracket.") : null,
+    lateJoinRow(),
     h("div", {class:"gbtns", style:"display:flex;gap:6px;flex-wrap:wrap"},
       (started ? confirmBtn.bind(null, "shuf") : function(l,c,f){ return h("button", {class:"sbtn "+c, type:"button", onclick:f}, l); })("Shuffle & draw", "primary", function(){
         if (S.players.length < 2) { setStatus("Add at least 2 players first"); return; }
