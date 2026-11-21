@@ -1721,6 +1721,7 @@ function renderStream(B, started){
   var built = renderBracket(B, true);
   if (built){
     var holder = h("div", {class:"stfit" + (streamAnimated ? "" : " first")}, built.stage);
+    if (stLast.tf){ holder.style.transition = "none"; holder.style.transform = stLast.tf; holder.style.width = stLast.w; holder.style.height = stLast.h; }
     bodyEl.appendChild(holder);
     requestAnimationFrame(function(){
       var bw = bodyEl.clientWidth - 48, bh = bodyEl.clientHeight - 24 - (bodyEl.classList.contains("hasv") ? 150 : 0);
@@ -1734,7 +1735,9 @@ function renderStream(B, started){
         var mx = Math.max(0, (built.w * sc - bw) / 2), my = Math.max(0, (built.h * sc - bh) / 2);
         tx = Math.max(-mx, Math.min(mx, (built.w / 2 - cx) * sc)); ty = Math.max(-my, Math.min(my, (built.h / 2 - cy) * sc));
       }
-      holder.style.transform = "translate(calc(-50% + " + tx + "px), calc(-50% + " + ty + "px)) scale(" + sc + ")";
+      var tf = "translate(calc(-50% + " + tx + "px), calc(-50% + " + ty + "px)) scale(" + sc + ")";
+      void holder.offsetWidth; holder.style.transition = ""; holder.style.transform = tf;
+      stLast = {tf:tf, w:holder.style.width, h:holder.style.height};
     });
   } else bodyEl.appendChild(h("div", {class:"stempty"}, "The bracket appears here once the draw is made."));
   streamAnimated = true;
@@ -3161,7 +3164,7 @@ window.addEventListener("scroll", syncPastHero, {passive:true});
 window.addEventListener("resize", syncPastHero);
 
 /* ---------- stream: live crowd vote panel ---------- */
-var stv = null, stvTimer = null, STV_CYCLE = 9000;
+var stv = null, stvTimer = null, STV_CYCLE = 9000; var stLast = {};
 function streamVote(B, m){
   if (!m || !m.a || !m.b){ stv = null; return null; }
   var V = voteOf(m.key), bf = ballotsFor(m.key), locked = voteLocked(m.key) || !!m.winner;
