@@ -1332,6 +1332,13 @@ button.pk-sd:active{transform:scale(.98)}
 .stflip-r{display:block;margin-top:6px;font:700 10px/1.2 var(--body);letter-spacing:.08em;text-transform:none;color:#2a1d08}
 .stflip-w .stflip-r{margin-top:0}
 
+.stv-mt{display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap;font:800 clamp(14px,1.3vw,20px)/1.1 var(--display);animation:stvmt .6s cubic-bezier(.2,1.2,.3,1) both}
+.stv-mt b.a{color:var(--teal)}.stv-mt b.b{color:var(--red)}
+.stv-mt em{font:700 10px var(--body);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.stv-mt small{flex-basis:100%;text-align:center;font:700 10px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold2)}
+@keyframes stvmt{from{opacity:0;transform:translateY(8px)}}
+.stfit{transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1719,7 +1726,7 @@ function renderStream(B, started){
       var bw = bodyEl.clientWidth - 48, bh = bodyEl.clientHeight - 24 - (bodyEl.classList.contains("hasv") ? 150 : 0);
       var fit = Math.min(bw / built.w, bh / built.h), sc = Math.min(fit, 3), tx = 0, ty = 0;
       holder.style.width = built.w + "px"; holder.style.height = built.h + "px";
-      var fk = m ? m.key : null, card = fk && !(B && B.first) ? built.stage.querySelector('.bcard[data-key="' + fk + '"]') : null;
+      var fk = fm ? fm.key : null, card = fk && !(B && B.first) ? built.stage.querySelector('.bcard[data-key="' + fk + '"]') : null;
       if (card){
         sc = Math.min(Math.max(fit * 1.9, fit), 3.2);
         var x = 0, y = 0, el = card; while (el && el !== holder){ x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; }
@@ -1733,6 +1740,14 @@ function renderStream(B, started){
   streamAnimated = true;
   var low = null;
   var m = live || nx;
+  var fm = m, cyc = [];
+  if (B && !live && !B.first){
+    cyc = B.order.filter(function(x){ return x.ready && !x.winner && x.a && x.b; });
+    if (cyc.length > 1){
+      var slot = Math.floor(Date.now() / STV_CYCLE); fm = cyc[slot % cyc.length];
+      clearTimeout(stvTimer); stvTimer = setTimeout(function(){ if (location.hash === "#stream") render(); }, STV_CYCLE - Date.now() % STV_CYCLE + 30);
+    }
+  }
   var nextStrip = null;
   if (live && nx && !(B && B.first)){
     nextStrip = h("div", {class:"stnext" + (nextAnimated ? " noanim" : "")}, h("span", {class:"k"}, "Up next"),
@@ -1773,7 +1788,7 @@ function renderStream(B, started){
     if (lowAnimated) low.classList.add("noanim");
     lowAnimated = true;
   }
-  var svEl = B && !B.first ? streamVote(B, m) : null;
+  var svEl = B && !B.first ? streamVote(B, fm) : null;
   if (B && !live){
     var ps = pickStandings(B);
     if (ps.rows.length && ps.decided){
@@ -3146,7 +3161,7 @@ window.addEventListener("scroll", syncPastHero, {passive:true});
 window.addEventListener("resize", syncPastHero);
 
 /* ---------- stream: live crowd vote panel ---------- */
-var stv = null;
+var stv = null, stvTimer = null, STV_CYCLE = 9000;
 function streamVote(B, m){
   if (!m || !m.a || !m.b){ stv = null; return null; }
   var V = voteOf(m.key), bf = ballotsFor(m.key), locked = voteLocked(m.key) || !!m.winner;
@@ -3154,10 +3169,11 @@ function streamVote(B, m){
     var el = h("div", {class:"stv"}), pa = h("b", {class:"stv-pc a"}, "50%"), pb = h("b", {class:"stv-pc b"}, "50%");
     var la = h("div", {class:"stv-ic a"}), lb = h("div", {class:"stv-ic b"});
     var fa2 = h("span", {class:"a"}), fb2 = h("span", {class:"b"}), spark = h("i", {class:"stv-spark"});
-    var lab = h("div", {class:"stv-lab"}, h("span", {class:"stv-live"}, h("i"), "Crowd picks"), h("span", {class:"stv-n"}));
+    var lab = h("div", {class:"stv-lab"}, h("span", {class:"stv-live"}, h("i"), S.live === m.key ? "Crowd picks \u00b7 live" : "Crowd picks"), h("span", {class:"stv-n"}));
+    var mt = h("div", {class:"stv-mt"}, h("b", {class:"a"}, pname(m.a)), h("em", null, "vs"), h("b", {class:"b"}, pname(m.b)), h("small", null, matchLabel(B, m)));
     var stamp = h("div", {class:"stv-stamp"}, "🔒 Votes locked");
     var feed = h("div", {class:"stv-feed"});
-    el.appendChild(h("div", {class:"stv-row"}, h("div", {class:"stv-side a"}, pa, la), h("div", {class:"stv-mid"}, lab, h("div", {class:"stv-bar"}, fa2, fb2, spark), stamp), h("div", {class:"stv-side b"}, lb, pb)));
+    el.appendChild(h("div", {class:"stv-row"}, h("div", {class:"stv-side a"}, pa, la), h("div", {class:"stv-mid"}, mt, lab, h("div", {class:"stv-bar"}, fa2, fb2, spark), stamp), h("div", {class:"stv-side b"}, lb, pb)));
     el.appendChild(feed);
     stv = {key:m.key, el:el, pa:pa, pb:pb, la:la, lb:lb, fa:fa2, fb:fb2, spark:spark, lab:lab, feed:feed, seen:{}, pct:50, locked:locked, first:true};
     if (locked) el.classList.add("locked");
