@@ -1025,6 +1025,30 @@ body:has(.modal) .sufloat,body:has(.drawer) .sufloat{opacity:0;pointer-events:no
 .cs-box{min-width:0}.cs-mid{min-width:0}
 @media (max-width:700px){.cs-t{white-space:normal;font-size:1.1rem}.cs{padding:10px;grid-template-columns:minmax(0,1fr)}.cs-box{padding:16px 14px 12px}.cs-head{grid-template-columns:1fr}.cs-pl{display:none}.cs-hint{display:none}.cs-grid{grid-template-columns:repeat(auto-fill,minmax(72px,1fr))}.cs-ic{width:52px;height:52px}}
 
+/* louder sign-up */
+.su-panel{position:relative;isolation:isolate;width:min(620px,100%);padding:22px 22px 18px;margin:10px 0 6px;gap:12px;
+  background:linear-gradient(180deg,rgba(60,44,14,.85),rgba(20,24,34,.92));border:2px solid transparent;
+  background-clip:padding-box;clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 16px,100% calc(100% - 16px),calc(100% - 16px) 100%,16px 100%,0 calc(100% - 16px),0 16px)}
+.su-panel::before{content:"";position:absolute;inset:0;z-index:-2;padding:2px;background:conic-gradient(from var(--spin),#ffe9a8,#c9963e,#fff6d8,#c9963e,#ffe9a8);animation:spin 3s linear infinite;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.sup-glow{position:absolute;inset:-40% -10%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(255,200,90,.28),transparent);animation:ttglow 3s ease-in-out infinite}
+.sup-k{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:#7ff0b0}
+.sup-h{font-family:var(--display);font-weight:900;font-size:clamp(1.35rem,4.6vw,2rem);line-height:1.15;color:#fff3cf;text-shadow:0 2px 14px rgba(240,190,90,.45)}
+.su-panel .sucta{font-size:clamp(1.2rem,4.6vw,1.6rem);padding:20px 44px 20px 34px}
+.su-panel .su-ic{width:28px;height:28px}
+#sutop{display:none;position:relative;z-index:6;width:100%;border:0;padding:0;cursor:pointer;color:#1a1206;font:inherit;overflow:hidden;
+  background:linear-gradient(90deg,#c9963e,#ffe9a8 30%,#f0c868 50%,#ffe9a8 70%,#c9963e);background-size:200% 100%;animation:stbg 4s linear infinite}
+#sutop.on{display:block}
+@keyframes stbg{to{background-position:-200% 0}}
+.st-in{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 14px;padding:9px 16px;font-size:.92rem}
+.st-badge{font-size:.62rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;background:#1a1206;color:#7ff0b0;padding:3px 8px;animation:pulse 1.4s infinite}
+.st-in b{font-family:var(--display);font-weight:900;letter-spacing:.04em}
+.st-m{opacity:.75;font-weight:600}
+.st-go{font-weight:900;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;background:#1a1206;color:var(--gold2);transition:transform .2s}
+#sutop:hover .st-go{transform:translateX(4px)}
+@media (max-width:520px){.st-m{display:none}.st-in{font-size:.82rem;gap:6px 10px}.su-panel{padding:18px 14px 14px}.su-panel .sucta{padding:17px 30px 17px 24px}}
+@media (prefers-reduced-motion:reduce){.su-panel::before,.sup-glow,#sutop{animation:none}}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1037,12 +1061,26 @@ body:has(.modal) .sufloat,body:has(.drawer) .sufloat{opacity:0;pointer-events:no
 .me-t{display:grid;line-height:1.2}
 .me-k{font-size:.62rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
 .me-t b{font-family:var(--display);font-size:1.05rem;color:var(--gold2)}
+.me-out{margin-left:10px;align-self:center;padding:6px 12px;border:1px solid rgba(141,151,168,.4);background:rgba(0,0,0,.2);color:var(--mute);font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+.me-out:hover{color:#ffd6d3;border-color:rgba(224,96,90,.7);background:rgba(224,96,90,.12)}
 .me-r{font-size:.75rem;color:var(--mute)}
 .linkbtn{background:none;border:0;color:var(--mute);font:inherit;font-size:.82rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px}
 .linkbtn:hover{color:var(--fg)}
 .claimlist{display:grid;gap:6px;max-height:50vh;overflow:auto}
 .claimrow{display:flex;align-items:center;gap:12px;padding:8px 10px;background:#121c2e;border:1px solid var(--line);color:inherit;font:inherit;text-align:left;cursor:pointer}
 .claimrow:hover{border-color:var(--teal);background:#16233a}
+.claimrow[hidden]{display:none}
+.claimrow .cr-t{flex:1}
+.cr-go{color:var(--teal);opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s}
+.claimrow:hover .cr-go{opacity:1;transform:none}
+.claimq{width:100%;padding:10px 12px;margin-bottom:8px;background:#0a111c;border:1px solid var(--line);color:var(--fg);font:inherit}
+.claimq:focus{outline:none;border-color:var(--teal)}
+.si-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 12px;font-size:.88rem;color:var(--mute)}
+.sibtn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border:1.5px solid rgba(63,183,196,.75);background:rgba(63,183,196,.1);color:#bff3f8;font:inherit;font-weight:700;font-size:.95rem;letter-spacing:.03em;cursor:pointer;
+  clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,9px 100%,0 50%);transition:background .2s,color .2s,transform .2s}
+.sibtn:hover{background:var(--teal);color:#05161a;transform:translateY(-1px)}
+.sibtn:active{transform:scale(.97)}
+.si-ic{display:inline-flex;width:18px;height:18px}.si-ic svg{width:100%;height:100%}
 .claimrow .pav{width:36px;height:36px}
 .cr-t{display:grid;line-height:1.2}.cr-t span{font-size:.75rem;color:var(--mute)}
 .youtag{margin-left:6px;padding:1px 6px;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:var(--teal);color:#06262a;font-family:var(--body);font-weight:800;vertical-align:middle}
@@ -1145,15 +1183,22 @@ function renderClaim(){
   var old = document.getElementById("claim"); if (old) old.remove();
   if (!claimOpen) return;
   var close = function(){ claimOpen = false; renderClaim(); };
+  var q = h("input", {class:"claimq", placeholder:"Find your name", autocomplete:"off", "aria-label":"Find your name"});
+  var list = h("div", {class:"claimlist"});
+  q.addEventListener("input", function(){ var v = q.value.toLowerCase(); Array.prototype.forEach.call(list.children, function(r){ r.hidden = v && r.textContent.toLowerCase().indexOf(v) < 0; }); });
+  setTimeout(function(){ if (window.innerWidth > 640) q.focus(); }, 50);
   var box = h("div", {class:"mbox"},
-    h("div", {class:"eyebrow"}, "Already signed up?"),
-    h("p", {class:"mute", style:"margin:0 0 10px"}, "Signed up on another phone or computer? Pick your name so this browser knows it's you."),
-    h("div", {class:"claimlist"}, S.players.map(function(p){
-      return h("button", {type:"button", class:"claimrow", onclick:function(){ myId = p.id; lsSet("puupPid", p.id); close(); render(); toast("Welcome back, " + p.name); }},
-        h("span", {class:"pav", style:profStyle(p.pi)}), h("span", {class:"cr-t"}, h("b", null, p.name), p.riot ? h("span", null, p.riot) : null));
-    })),
-    h("div", {class:"rollacts"}, h("button", {class:"btn ghost", type:"button", onclick:close}, "Cancel")));
-  var ov = h("div", {class:"modal", id:"claim", role:"dialog", "aria-modal":"true", "aria-label":"Already signed up", onclick:function(e){ if (e.target === ov) close(); }}, box);
+    h("div", {class:"eyebrow"}, "Sign in"),
+    h("h3", null, "Who are you?"),
+    h("p", {class:"mute", style:"margin:0 0 10px"}, "Pick your name and this browser will remember you. No password needed."),
+    S.players.length > 6 ? q : null,
+    list);
+  S.players.forEach(function(p){ list.appendChild((function(){
+      return h("button", {type:"button", class:"claimrow", onclick:function(){ myId = p.id; lsSet("puupPid", p.id); myToken = lsGet("puupTok_" + p.id) || null; lsSet("puupToken", myToken); close(); render(); toast("Welcome back, " + p.name); }},
+        h("span", {class:"pav", style:profStyle(p.pi)}), h("span", {class:"cr-t"}, h("b", null, p.name), p.riot ? h("span", null, p.riot) : null), h("span", {class:"cr-go", "aria-hidden":"true"}, "→"));
+    })()); });
+  box.appendChild(h("div", {class:"rollacts"}, h("button", {class:"btn ghost", type:"button", onclick:close}, "Cancel")));
+  var ov = h("div", {class:"modal", id:"claim", role:"dialog", "aria-modal":"true", "aria-label":"Sign in", onclick:function(e){ if (e.target === ov) close(); }}, box);
   document.body.appendChild(ov);
 }
 function canStrike(d){ return !!(d && !d.pick && (isAdmin || (!d.test && !sandbox && myId && myToken && (myId === d.a || myId === d.b) && (d.struckBy || []).indexOf(myId) < 0))); }
@@ -1178,6 +1223,11 @@ function openLogin(){
       h("div", {class:"rollacts"}, h("button", {class:"btn", type:"submit"}, "Log in"),
         h("button", {class:"btn ghost", type:"button", onclick:function(){ box.remove(); if (location.hash === "#admin") history.replaceState(null, "", location.pathname); }}, "Cancel"))));
   document.body.appendChild(box); setTimeout(function(){ inp1.focus(); }, 30);
+}
+function signOutPlayer(){
+  if (myId && myToken) lsSet("puupTok_" + myId, myToken);
+  myId = null; myToken = null; lsSet("puupPid", ""); lsSet("puupToken", "");
+  render(); toast("Signed out on this device. You're still in the tournament.");
 }
 function logoutAdmin(){ adminPass = ""; lsSet("puupAdmin", ""); isAdmin = false; drawerOpen = false; if (drawer){ drawer.remove(); drawer = null; } dirty = false; refresh(true); render(); }
 var saveT = null;
@@ -1716,7 +1766,7 @@ function render(){
   };
 })();
 /* ---------- sign-up call to action ---------- */
-var suFloatWanted = false, suFloat = null;
+var suFloatWanted = false, suFloat = null, suTop = null;
 function openSignupFlow(){ suState = {pi:null, done:null}; renderSignup(); }
 function suRipple(e){
   var b = e.currentTarget, r = b.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2;
@@ -1728,10 +1778,14 @@ function suIcon(){ var s = document.createElement("span"); s.className = "su-ic"
 function signupCta(label){
   var n = S.players.length;
   var btn = h("button", {class:"sucta", type:"button", onclick:function(e){ suRipple(e); setTimeout(openSignupFlow, 160); }},
-    suIcon(), h("span", {class:"su-l"}, label), h("span", {class:"su-arr", "aria-hidden":"true"}, "\u2192"));
+    suIcon(), h("span", {class:"su-l"}, label === "Sign up to play" ? "Sign up now" : label), h("span", {class:"su-arr", "aria-hidden":"true"}, "\u2192"));
   btn.addEventListener("pointermove", function(e){ var r = btn.getBoundingClientRect(); btn.style.setProperty("--gx", ((e.clientX - r.left) / r.width * 100).toFixed(1) + "%"); });
-  return h("div", {class:"su-wrap"}, h("span", {class:"su-bw"}, btn),
-    h("div", {class:"su-sub"}, h("span", {class:"su-dot"}), "Free entry", h("i", null, "\u00b7"), n ? (n + (n === 1 ? " challenger" : " challengers") + " so far") : "Be the first challenger",
+  return h("div", {class:"su-wrap su-panel"},
+    h("span", {class:"sup-glow", "aria-hidden":"true"}),
+    h("div", {class:"sup-k"}, h("span", {class:"su-dot"}), "Sign-ups are open"),
+    h("div", {class:"sup-h"}, "Claim your spot in the bracket"),
+    h("span", {class:"su-bw"}, btn),
+    h("div", {class:"su-sub"}, "Free entry", h("i", null, "\u00b7"), n ? (n + (n === 1 ? " challenger" : " challengers") + " so far") : "Be the first challenger",
       S.prizes && S.prizes[0] ? [h("i", {class:"su-sep2"}, "\u00b7"), h("b", null, fmtRP(S.prizes[0].rp) + " RP to the winner")] : null));
 }
 function syncSignupFloat(){
@@ -1745,7 +1799,12 @@ function syncSignupFloat(){
     };
     window.addEventListener("scroll", upd, {passive:true}); window.addEventListener("resize", upd);
     suFloat.upd = upd;
+    suTop = h("button", {id:"sutop", type:"button", onclick:function(){ var c = document.querySelector("#app .sucta"); if (c){ c.scrollIntoView({behavior:"smooth", block:"center"}); setTimeout(openSignupFlow, 450); } else openSignupFlow(); }});
+    document.body.insertBefore(suTop, document.body.firstChild);
   }
+  var tn = S.players.length, topOn = suFloatWanted && location.hash !== "#stream";
+  suTop.className = topOn ? "on" : "";
+  if (topOn){ suTop.textContent = ""; suTop.appendChild(h("span", {class:"st-in"}, h("span", {class:"st-badge"}, "Sign-ups open"), h("b", null, "Join the Puup 1v1 Showdown"), h("span", {class:"st-m"}, tn ? tn + " already in" : "Be the first"), h("span", {class:"st-go"}, "Sign up now \u2192"))); }
   suFloat.upd();
 }
 var DISCORD_DEFAULT = "https://discord.gg/CFXTHXrwum";
@@ -1858,12 +1917,17 @@ function renderHero(B, started){
   var me = myId ? P(myId) : null, canSign = sandbox || (S.signupsOpen !== false && !(S.seeds && S.seeds.length));
   var acts = h("div", {style:"display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center"});
   if (me && !sandbox) acts.appendChild(h("div", {class:"mecard"}, h("span", {class:"pav", style:profStyle(me.pi)}),
-      h("div", {class:"me-t"}, h("span", {class:"me-k"}, "✓ You're in"), h("b", null, me.name), me.riot ? h("span", {class:"me-r"}, me.riot) : null)));
+      h("div", {class:"me-t"}, h("span", {class:"me-k"}, "✓ You're in"), h("b", null, me.name), me.riot ? h("span", {class:"me-r"}, me.riot) : null),
+      h("button", {class:"me-out", type:"button", title:"Sign out on this device (you stay in the tournament)", onclick:signOutPlayer}, "Sign out")));
   else if (canSign){ acts.appendChild(signupCta(sandbox ? "Sign up (test)" : "Sign up to play")); acts.classList.add("su-acts"); }
   else if (!(S.seeds && S.seeds.length)) acts.appendChild(h("div", {class:"mute"}, "Sign-ups are closed."));
-  if (!me && !sandbox && S.players.length) acts.appendChild(h("button", {class:"linkbtn", type:"button", onclick:function(){ claimOpen = true; renderClaim(); }}, "Already signed up?"));
+  if (!me && !sandbox && S.players.length){
+    var siIc = document.createElement("span"); siIc.className = "si-ic"; siIc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>';
+    acts.appendChild(h("div", {class:"si-row"}, h("span", null, "Already signed up?"),
+      h("button", {class:"sibtn", type:"button", onclick:function(){ claimOpen = true; renderClaim(); }}, siIc, "Sign in")));
+  }
   if (isAdmin) acts.appendChild(h("a", {class:"btn ghost", href:"#stream"}, "Stream view"));
-  if (acts.childNodes.length){ var dc = hero.querySelector(".dcta"); if (dc && acts.querySelector(".sucta")) hero.insertBefore(acts, dc); else hero.appendChild(acts); }
+  if (acts.childNodes.length){ var dc = acts.querySelector(".sucta") ? (hero.querySelector(".count, .livepill") || hero.querySelector(".dcta")) : null; if (dc) hero.insertBefore(acts, dc); else hero.appendChild(acts); }
   suFloatWanted = !!acts.querySelector(".sucta");
   hero.appendChild(h("nav", {class:"nav"},
     h("a",{href:"#bracket"},"Bracket"), h("a",{href:"#roller"},"Roller"), h("a",{href:"#prizes"},"Prizes"), h("a",{href:"#players"},"Players"), h("a",{href:"#rules"},"Rules")));
