@@ -1269,6 +1269,60 @@ button.pk-sd:active{transform:scale(.98)}
 .pods .fxav.card > span{width:auto;height:min(26vh,300px)}.pods .fxav.card.big > span{width:auto;height:min(34vh,380px)}
 @media (prefers-reduced-motion:reduce){.fxsplash img{animation:fxsplin .3s forwards}}
 
+/* coin flip */
+.fx.flip{display:grid;place-items:center;align-content:center;gap:4vh}
+.fx.flip .fxtop{position:absolute;top:7vh;left:0;right:0;text-align:center}
+.cf-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6vw;width:min(1400px,92vw)}
+.cf-side{display:grid;justify-items:center;gap:14px;transition:opacity .6s,transform .6s}
+.cf-side b{font:800 clamp(22px,3.6vw,52px)/1 var(--display);letter-spacing:.02em}
+.cf-side.a b{color:var(--teal)}.cf-side.b b{color:var(--red)}
+.cf-av{width:clamp(80px,12vmin,160px);aspect-ratio:1;border-radius:50%;background-repeat:no-repeat;box-shadow:0 0 0 4px rgba(255,255,255,.1)}
+.fx.flip .cf-side{animation:cfdim .6s calc(3.4s - var(--el,0s)) both}
+.fx.flip .cf-side.win{animation:cfwin .7s calc(3.4s - var(--el,0s)) cubic-bezier(.2,1.6,.3,1) both}
+.fx.flip .cf-side.win .cf-av{box-shadow:0 0 0 5px var(--gold2),0 0 50px rgba(255,214,120,.7)}
+@keyframes cfdim{to{opacity:.35;transform:scale(.9)}}
+@keyframes cfwin{to{transform:scale(1.12)}}
+.cf-stage{position:relative;width:clamp(150px,22vmin,280px);aspect-ratio:1;perspective:1000px}
+.cf-coin{position:absolute;inset:0;transform-style:preserve-3d;animation:cfspin-a 3.3s calc(.3s - var(--el,0s)) cubic-bezier(.15,.6,.25,1) both, cfhop 3.3s calc(.3s - var(--el,0s)) ease-in-out both}
+.cf-b .cf-coin{animation-name:cfspin-b,cfhop}
+@keyframes cfspin-a{from{transform:rotateY(0) rotateX(12deg)}to{transform:rotateY(2160deg) rotateX(0)}}
+@keyframes cfspin-b{from{transform:rotateY(0) rotateX(12deg)}to{transform:rotateY(2340deg) rotateX(0)}}
+@keyframes cfhop{0%{translate:0 0}35%{translate:0 -22vh}70%{translate:0 0}82%{translate:0 -3vh}100%{translate:0 0}}
+.cf-face{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;display:grid;place-items:center;
+ background:radial-gradient(circle at 35% 30%,#fff3c4,var(--gold2) 40%,#7a5a20 100%);box-shadow:inset 0 0 0 6px rgba(255,240,200,.7),inset 0 0 0 12px rgba(120,85,30,.6),0 0 40px rgba(255,214,120,.45)}
+.cf-face span{width:72%;aspect-ratio:1;border-radius:50%;background-repeat:no-repeat;box-shadow:0 0 0 3px rgba(80,55,15,.8)}
+.cf-face.b{transform:rotateY(180deg)}
+.cf-shadow{position:absolute;left:15%;right:15%;bottom:-14%;height:12%;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(6px);animation:cfsh 3.3s calc(.3s - var(--el,0s)) ease-in-out both}
+@keyframes cfsh{35%{transform:scale(.5);opacity:.4}70%{transform:none;opacity:1}}
+.cf-res{position:absolute;bottom:12vh;left:0;right:0;text-align:center;font:600 clamp(18px,2.4vw,32px) var(--body);animation-name:fxrise}
+.cf-res b{display:block;font:900 clamp(34px,6vw,84px)/1.1 var(--display);color:var(--gold2);text-shadow:0 0 40px rgba(255,214,120,.55)}
+@media (max-width:640px){.cf-row{gap:3vw}.cf-side b{font-size:18px}}
+
+/* vote nudge */
+.vnudge{position:fixed;right:18px;bottom:18px;z-index:44;width:min(340px,calc(100vw - 32px));padding:14px 14px 12px;border-radius:14px;background:rgba(9,14,24,.96);border:1px solid rgba(76,201,190,.55);box-shadow:0 18px 40px -14px rgba(0,0,0,.9),0 0 30px -10px rgba(76,201,190,.6);animation:vnin .5s cubic-bezier(.2,1.4,.3,1) both}
+.vnudge.out{opacity:0;transform:translateY(16px);transition:all .35s}
+@keyframes vnin{from{opacity:0;transform:translateY(24px) scale(.95)}}
+.vn-x{position:absolute;top:6px;right:8px;border:0;background:none;color:var(--mute);font-size:20px;cursor:pointer;line-height:1}
+.vn-k{display:flex;gap:7px;align-items:center;font:800 10.5px/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--teal);padding-right:18px}
+.vn-k i{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pkping 1.6s infinite;flex:none}
+.vn-t{font:800 20px var(--display);margin:6px 0 10px}
+.vn-row{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+.vn-row em{font-style:normal;font-size:.75rem;color:var(--mute);text-transform:uppercase;letter-spacing:.1em}
+.vn-p{display:grid;justify-items:center;gap:6px;padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--fg);font:700 14px var(--body);cursor:pointer;transition:all .2s;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.vn-p.a:hover{border-color:var(--teal);background:rgba(76,201,190,.12)}.vn-p.b:hover{border-color:var(--red);background:rgba(232,84,84,.12)}
+.vn-av{width:44px;height:44px;border-radius:50%;background-repeat:no-repeat}
+@media (max-width:640px){.vnudge{right:16px;bottom:84px}}
+/* stream pick'em standings */
+.stpk{position:absolute;top:16px;right:24px;z-index:3;width:270px;padding:14px;border-radius:12px;background:rgba(8,12,22,.92);border:1px solid rgba(200,165,90,.45);animation:fxrise .7s both}
+.stpk-k{font:800 10.5px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+.stpk-t{font:800 22px var(--display);color:var(--gold2);margin:6px 0 10px}
+.stpk ol{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.stpk li{display:grid;grid-template-columns:18px 24px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:.95rem}
+.stpk li .vch{width:24px;height:24px;margin:0}
+.stpk li b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stpk li.pf b{color:var(--gold2)}
+.stpk-r{color:var(--mute);font:800 12px var(--display)}.stpk-s{font:800 13px var(--display)}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1366,6 +1420,7 @@ function applyRemote(j, force){
   }
   S.votes = j.votes || {};
   ballots = Array.isArray(j.ballots) ? j.ballots : null;
+  window.voterIcons = Array.isArray(j.vicons) ? j.vicons : [];
   strikes = j.strikes || [];
   applyStrikes();
   return true;
@@ -1485,7 +1540,7 @@ function buildSeeds(order){
   var n = 2; while (n < order.length) n *= 2;
   var pos = seedPositions(n);
   S.seeds = pos.map(function(s){ return order[s-1] || null; });
-  S.games = {}; S.undo = []; S.live = null; S.votes = {}; S.champs = {}; S.draft = null; S.fx = []; S.rolls = [];
+  S.games = {}; S.undo = []; S.live = null; S.fp = {}; S.spin = null; S.pickWin = null; S.votes = {}; S.champs = {}; S.draft = null; S.fx = []; S.rolls = [];
   if (!sandbox){ resetVotesNext = true; S.signupsOpen = false; }
 }
 function bestOf(key, R, r){ return (key === "3p" || r === R-1) ? 1 : 3; }
@@ -1557,7 +1612,7 @@ function streamMid(B, m, gi, ch, V){
   var canPick = isAdmin && m.ready && !m.winner && m.a && m.b;
   var roller = m.need === 1 || gi === 2;
   var k = m.key + ":" + gi, fresh = ch && stChSeen[k] !== undefined && stChSeen[k] !== ch; stChSeen[k] = ch || "";
-  var who = roller ? "Champion roller" : (gi === 0 ? pname(m.a) : pname(m.b)) + "'s pick";
+  var who = roller ? "Champion roller" : pname(pickerOf(m, gi)) + "'s pick";
   var top = ch ? h("span", {class:"stch" + (fresh ? " pop" : ""), style:artStyle(ch, ICONS_URL)})
                : canPick ? h("span", {class:"stpick-ic", "aria-hidden":"true"}, "+") : h("span", {class:"stvs"}, "VS");
   var label = ch ? h("div", {class:"stch-n" + (fresh ? " pop" : "")}, ch) : canPick ? h("div", {class:"stmid-t pick"}, "Pick champion") : null;
@@ -1573,7 +1628,7 @@ function openChampSelect(key){
   closeChampSelect();
   var B = compute(), m = B ? findAny(B, key) : null; if (!m || !m.ready || m.winner) return;
   var gi = gameIndex(m), roller = m.need === 1 || gi === 2, cur = champFor(m.key, gi) || "";
-  var picker = roller ? null : (gi === 0 ? m.a : m.b);
+  var picker = roller ? null : pickerOf(m, gi);
   var used = {}; (S.champs[m.key] || []).forEach(function(c, i){ if (c && i !== gi) used[norm(c)] = i + 1; });
   var q = "", act = 0, list = [];
   var search = h("input", {class:"cs-q", placeholder:"Search champions", autocomplete:"off", spellcheck:"false", "aria-label":"Search champions"});
@@ -1695,6 +1750,16 @@ function renderStream(B, started){
     lowAnimated = true;
   }
   var svEl = B && !B.first ? streamVote(B, m) : null;
+  if (B && !live){
+    var ps = pickStandings(B);
+    if (ps.rows.length && ps.decided){
+      var alive = ps.rows.filter(function(r){ return r.perfect; });
+      bodyEl.appendChild(h("div", {class:"stpk"},
+        h("div", {class:"stpk-k"}, "Pick'ems \u00b7 win £5 of RP"),
+        h("div", {class:"stpk-t"}, alive.length ? alive.length + (alive.length === 1 ? " still perfect" : " still perfect") : "Nobody perfect"),
+        h("ol", null, ps.rows.slice(0, 6).map(function(r, i){ return h("li", {class:r.perfect ? "pf" : ""}, h("span", {class:"stpk-r"}, i + 1), voterChip(r), h("b", null, r.n), h("span", {class:"stpk-s"}, r.ok + "/" + ps.decided)); }))));
+    }
+  }
   if (svEl){ bodyEl.appendChild(svEl); bodyEl.classList.add("hasv"); }
   var root = h("div", {class:"stream"}, top, bodyEl, nextStrip, low);
   function tickClock(){ if (!clock.isConnected) return; clock.textContent = new Date().toLocaleTimeString("en-GB", {timeZone:"Europe/London", hour:"2-digit", minute:"2-digit"}) + " GMT"; setTimeout(tickClock, 15000); }
@@ -1950,6 +2015,7 @@ function render(){
   app.textContent = "";
   if (location.hash === "#stream"){
     try { sessionStorage.setItem("sndStream", "1"); } catch(e){}
+    syncVoteNudge(null);
     app.appendChild(renderStream(B, started));
     var pop0 = renderPopup(B); if (pop0) app.appendChild(pop0);
     syncFx(B); draftSfx();
@@ -1960,6 +2026,7 @@ function render(){
   wrap.appendChild(renderHero(B, started));
   if (B && !B.first) wrap.appendChild(renderLive(B, started));
   wrap.appendChild(renderPicks(B));
+  setTimeout(function(){ syncVoteNudge(compute()); }, 0);
   wrap.appendChild(renderBracket(B));
   var rr = renderResults(B); if (rr) wrap.appendChild(rr);
   wrap.appendChild(renderRoller(B));
@@ -2231,7 +2298,7 @@ function gameList(m, live){
     var w = g[i], played = i < g.length, cur = live && !m.winner && i === g.length, skip = m.winner && i >= g.length;
     var c = ch[i];
     var right = played ? pname(w) : cur ? "LIVE" : skip ? "" : "";
-    var mid = c || (cur ? "Picking…" : skip ? "Not needed" : (n === 1 || i === 2) ? "Roller" : (i === 0 ? pname(m.a) + "'s pick" : pname(m.b) + "'s pick"));
+    var mid = c || (cur ? "Picking…" : skip ? "Not needed" : (n === 1 || i === 2) ? "Roller" : pname(pickerOf(m, i)) + "'s pick");
     rows.push(h("div", {class:"grow" + (cur ? " cur" : "") + (!played && !cur ? " idle" : "") + (skip ? " skip" : "")},
       h("span", {class:"gn"}, n === 1 ? "SD" : "G" + (i+1)),
       h("span", {class:"gi", style:c ? artStyle(c, ICONS_URL) : ""}),
@@ -2402,7 +2469,7 @@ function bgames(m, live){
   var n = m.need === 1 ? 1 : 3, g = S.games[m.key] || [], ch = S.champs[m.key] || [], rows = [];
   for (var i = 0; i < n; i++){
     var w = g[i], played = i < g.length, cur = live && !m.winner && i === g.length, skip = m.winner && i >= g.length, c = ch[i];
-    var mid = c || (cur ? "Picking…" : skip ? "Not needed" : (n === 1 || i === 2) ? "Champion roller" : (i === 0 ? pname(m.a) + "'s pick" : pname(m.b) + "'s pick"));
+    var mid = c || (cur ? "Picking…" : skip ? "Not needed" : (n === 1 || i === 2) ? "Champion roller" : pname(pickerOf(m, i)) + "'s pick");
     rows.push(h("div", {class:"bg" + (cur ? " cur" : "") + (played ? " done " + (w === m.a ? "ta" : "tb") : "") + (skip ? " skip" : "")},
       h("span", {class:"bgn"}, n === 1 ? "SD" : "G" + (i+1)),
       h("span", {class:"bgi", style:c ? artStyle(c, ICONS_URL) : ""}),
@@ -2538,7 +2605,7 @@ function renderMatchSheet(B){
   var rows = [];
   for (var i = 0; i < n; i++){
     var w = g[i], c = ch[i], cur = live && i === g.length, skip = m.winner && i >= g.length;
-    var lab = c || (cur ? "Picking now" : skip ? "Not needed" : (n === 1 || i === 2) ? "Champion roller" : (m.a && m.b ? (i === 0 ? pname(m.a) : pname(m.b)) + "'s pick" : "Mirror pick"));
+    var lab = c || (cur ? "Picking now" : skip ? "Not needed" : (n === 1 || i === 2) ? "Champion roller" : (m.a && m.b ? pname(pickerOf(m, i)) + "'s pick" : "Mirror pick"));
     rows.push(h("div", {class:"ms-g" + (w ? " done" : "") + (cur ? " cur" : "") + (skip ? " skip" : ""), style:"animation-delay:" + (.15 + i * .08) + "s"},
       h("span", {class:"ms-gn"}, n === 1 ? "Sudden death" : "Game " + (i + 1)),
       h("span", {class:"ms-gc"}, h("span", {class:"bgi", style:c ? artStyle(c, ICONS_URL) : ""}), h("span", null, lab)),
@@ -2923,6 +2990,7 @@ function ballotsFor(key){
 function takenIcons(){
   var t = {}; S.players.forEach(function(p){ if (p.pi != null) t[p.pi] = p.name; });
   (ballots || []).forEach(function(x){ if (x.i != null && t[x.i] == null) t[x.i] = x.n; });
+  (window.voterIcons || []).forEach(function(x){ if (x.i != null && t[x.i] == null && String(x.i) !== String(typeof voterPi !== "undefined" ? voterPi : "")) t[x.i] = x.n; });
   return t;
 }
 function voterChip(x, cls){
@@ -3019,6 +3087,30 @@ function renderStandings(B){
       h("span", {class:"pk-rs"}, ps.decided ? r.ok + "/" + ps.decided : "–"), r.perfect && ps.decided ? h("span", {class:"pk-pf"}, "Perfect") : null);
   })));
   return box;
+}
+/* vote reminder for the match about to start */
+var nudgeEl = null, nudgeSig = "";
+function syncVoteNudge(B){
+  var m = null;
+  if (B && !B.first && !sandbox && location.hash !== "#stream" && typeof myVotes !== "undefined"){
+    var lv = S.live ? findMatch(B, S.live) : null;
+    var cand = [lv, upNext(B)].filter(function(x){ return x && x.ready && !x.winner && x.a && x.b && !voteLocked(x.key) && canVoteKey(x.key) && !myVoteOn(x.key); });
+    m = cand[0] || null;
+    var hid = ""; try { hid = sessionStorage.getItem("puupNudgeX") || ""; } catch(e){}
+    if (m && hid === m.key) m = null;
+  }
+  var sig = m ? m.key + "|" + m.a + "|" + m.b + "|" + (S.live === m.key) : "";
+  if (sig === nudgeSig) return; nudgeSig = sig;
+  if (nudgeEl){ var o = nudgeEl; o.classList.add("out"); setTimeout(function(){ o.remove(); }, 400); nudgeEl = null; }
+  if (!m) return;
+  var key = m.key, live = S.live === key;
+  var pick = function(sd){ var p = P(m[sd]); return h("button", {class:"vn-p " + sd, type:"button", onclick:function(){ castVote(key, sd); }}, h("span", {class:"vn-av", style:profStyle(p ? p.pi : 29)}), pname(m[sd])); };
+  nudgeEl = h("div", {class:"vnudge", role:"status"},
+    h("button", {class:"vn-x", type:"button", "aria-label":"Hide", onclick:function(){ try { sessionStorage.setItem("puupNudgeX", key); } catch(e){} syncVoteNudge(null); }}, "\u00d7"),
+    h("div", {class:"vn-k"}, h("i"), live ? "Live now \u00b7 pick before champions lock in" : "Up next \u00b7 you haven't picked yet"),
+    h("div", {class:"vn-t"}, "Who wins?"),
+    h("div", {class:"vn-row"}, pick("a"), h("em", null, "vs"), pick("b")));
+  document.body.appendChild(nudgeEl);
 }
 var pastHeroOn = false;
 function syncPastHero(){
@@ -3235,7 +3327,7 @@ function renderRules(){
 }
 
 /* ---------- stream moments: splashes, confetti, sound ---------- */
-var FXDUR = {intro:7000, victory:5600, podium:60000};
+var FXDUR = {intro:7000, victory:5600, podium:60000, flip:7500};
 var localFx = null, fxShown = null, fxLayer = null, fxTimer = null, fxClosed = {}, confettiStop = null;
 function fxId(e){ return e.t + ":" + (e.key || "") + ":" + e.at; }
 function pushFx(e, chain){
@@ -3306,6 +3398,15 @@ var ddPre = {};
 function preloadChamp(n){ if (!n || ddPre[n]) return; ddPre[n] = 1; [splashUrl(n), loadUrl(n)].forEach(function(u){ var im = new Image(); im.src = u; }); }
 function hiImg(u){ var im = h("img", {src:u, alt:"", loading:"eager", decoding:"async"}); im.onerror = function(){ im.remove(); }; return im; }
 function fxSplash(champ, cls){ if (!champ) return null; return h("div", {class:"fxsplash" + (cls ? " " + cls : "")}, hiImg(splashUrl(champ))); }
+function pickerOf(m, gi){
+  var fp = S.fp && S.fp[m.key], first = fp === "b" ? m.b : m.a, second = first === m.a ? m.b : m.a;
+  return gi === 0 ? first : second;
+}
+function coinFlip(key){
+  var w = Math.random() < .5 ? "a" : "b";
+  S.fp = S.fp || {}; S.fp[key] = w;
+  pushFx({t:"flip", key:key, at:Date.now() + 300, w:w}); commit(); render();
+}
 function matchChamp(key){
   var a = S.champs[key] || [], n = (S.games[key] || []).length, c = null;
   for (var i = 0; i < a.length; i++) if (a[i] && (i < Math.max(1, n))) c = a[i];
@@ -3342,6 +3443,18 @@ function buildFx2(B, e, orig){
       fa("fxtop", .2, [h("div", {class:"eyebrow"}, S.name), h("div", {class:"fxround"}, roundTitle(B, m))]),
       fa("fxbot", .9, [h("span", {class:"fxfmt"}, m.need > 1 ? "Best of three" : "Sudden death · one game"),
         V.pct != null ? h("span", {class:"fxcrowd"}, "Crowd ", h("b", {class:"a"}, V.pct + "%"), " – ", h("b", {class:"b"}, (100 - V.pct) + "%")) : null]));
+  } else if (e.t === "flip"){
+    if (!m || !m.a || !m.b) return null;
+    var wi = e.w === "b" ? "b" : "a", wid = m[wi];
+    var face = function(sd){ var p = P(m[sd]); return h("div", {class:"cf-face " + sd}, h("span", {style:profStyle(p ? p.pi : 29)})); };
+    var fside = function(sd){ var p = P(m[sd]); return h("div", {class:"cf-side " + sd + (sd === wi ? " win" : "")}, h("span", {class:"cf-av", style:profStyle(p ? p.pi : 29)}), h("b", null, pname(m[sd]))); };
+    root = h("div", {class:"fx flip cf-" + wi, role:"dialog", "aria-label":"Coin flip: " + pname(wid) + " picks first"},
+      h("div", {class:"fxbg"}),
+      fa("fxtop", .1, [h("div", {class:"eyebrow"}, S.name), h("div", {class:"fxround"}, "Coin flip \u00b7 first pick")]),
+      h("div", {class:"cf-row"}, fside("a"),
+        h("div", {class:"cf-stage"}, h("div", {class:"cf-shadow"}), h("div", {class:"cf-coin"}, face("a"), face("b"), h("i", {class:"cf-edge"}))),
+        fside("b")),
+      h("div", {class:"cf-res fa", style:"--d:3.5s"}, h("b", null, pname(wid)), " picks the champion for game 1"));
   } else if (e.t === "victory"){
     if (!m || !m.winner || m.bye) return null;
     var w = m.winner, l = w === m.a ? m.b : m.a, pw = P(w);
@@ -3458,6 +3571,10 @@ var SFX = {
       noise(c, {f:4000, f2:1200, d:.16, g:.1, at:at - .08, q:.7});
       tone(c, {f:[659.25, 783.99, 1046.5][i], d:i === 2 ? .9 : .5, g:i === 2 ? .12 : .08, at:at, type:"triangle"});
       tone(c, {f:[1318.5, 1568, 2093][i], d:.35, g:.03, at:at + .02}); });
+  },
+  flip: function(c){
+    for (var i = 0; i < 14; i++) tone(c, {f:2400 + (i % 2) * 400, d:.04, g:.05, at:.15 + i * (.08 + i * .012), type:"square"});
+    boom(c, 3.4, .35); chord(c, [523.25, 659.25, 783.99], 3.45, 1.2, .06);
   },
   strike: function(c){ tone(c, {f:200, f2:70, d:.28, g:.32}); noise(c, {type:"lowpass", f:900, d:.12, g:.2}); },
   lock: function(c){ boom(c, 0, .5); chord(c, [261.63, 392, 523.25, 659.25], .04, 1.5, .07); tone(c, {f:1046.5, d:1.2, g:.04, at:.12}); },
@@ -3679,6 +3796,7 @@ function renderDrawer(){
     if (!m.winner){
       row.appendChild(h("div", {class:"gbtns"},
         h("button", {class:"sbtn" + (live ? " on" : ""), type:"button", onclick:function(){ if (!live && m.a && m.b) pushFx({t:"intro", key:m.key, at:Date.now()}); S.live = live ? null : m.key; autoRoll(); commit(); }}, live ? "Live now (click to clear)" : "Set as live"),
+        !m.winner && !(S.games[m.key] || []).length ? h("button", {class:"sbtn" + (S.fp && S.fp[m.key] ? "" : " on"), type:"button", title:"Flip a coin to decide who picks the game 1 champion", onclick:function(){ coinFlip(m.key); }}, S.fp && S.fp[m.key] ? "Re-flip (" + pname(m[S.fp[m.key]]) + " won)" : "Coin flip") : null,
         h("button", {class:"sbtn", type:"button", onclick:function(){ addGame(m.key, m.a); }}, "+1 " + pname(m.a)),
         h("button", {class:"sbtn", type:"button", onclick:function(){ addGame(m.key, m.b); }}, "+1 " + pname(m.b))));
       var gi = gameIndex(m);
@@ -3727,7 +3845,7 @@ function renderDrawer(){
       (started ? confirmBtn.bind(null, "seed") : function(l,c,f){ return h("button", {class:"sbtn "+c, type:"button", onclick:f}, l); })("Draw in list order (seeded)", "", function(){
         if (S.players.length < 2) { setStatus("Add at least 2 players first"); return; }
         buildSeeds(S.players.map(function(p){ return p.id; })); commit(); }),
-      S.seeds.length ? confirmBtn("wipe", "Remove bracket", "warn", function(){ S.seeds = []; S.games = {}; S.undo = []; S.live = null; S.votes = {}; S.champs = {}; S.draft = null; S.fx = []; S.rolls = []; if (!sandbox) resetVotesNext = true; commit(); }) : null));
+      S.seeds.length ? confirmBtn("wipe", "Remove bracket", "warn", function(){ S.seeds = []; S.games = {}; S.undo = []; S.live = null; S.fp = {}; S.spin = null; S.pickWin = null; S.votes = {}; S.champs = {}; S.draft = null; S.fx = []; S.rolls = []; if (!sandbox) resetVotesNext = true; commit(); }) : null));
   body.appendChild(bf);
 
   // event
