@@ -3269,7 +3269,8 @@ function demoState(t){
   d.players = ["Sample Teemo", "Sample Baron", "Sample Poro", "Sample Krug"].map(function(n, i){ return {id:"d" + i, name:n, riot:n.replace(/ /g, "") + "#DEMO", main:"", quote:"", pi:[3, 17, 52, 9][i]}; });
   d.seeds = ["d0", "d3", "d1", "d2"];
   d.games = t === "intro" ? {} : t === "victory" ? {"0-0":["d0", "d3", "d0"]} : {"0-0":["d0", "d3", "d0"], "0-1":["d1", "d2", "d1"], "3p":["d3"], "1-0":["d0"]};
-  d.votes = {"0-0":{a:7, b:4}}; d.champs = {};
+  d.champs = {"0-0":["Ahri", "Yasuo", "Jinx"], "0-1":["Lux", "Zed", "Riven"], "3p":["Garen"], "1-0":["Yasuo"]};
+  d.votes = {"0-0":{a:7, b:4}};
   if (!d.prizes || !d.prizes.length) d.prizes = [{place:"1st", rp:2800}, {place:"2nd", rp:1380}, {place:"3rd", rp:575}];
   return d;
 }
