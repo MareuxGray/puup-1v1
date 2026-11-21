@@ -1323,6 +1323,15 @@ button.pk-sd:active{transform:scale(.98)}
 .stpk li.pf b{color:var(--gold2)}
 .stpk-r{color:var(--mute);font:800 12px var(--display)}.stpk-s{font:800 13px var(--display)}
 
+.stflip-w{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin-top:8px}
+.stflip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px 6px 7px;border-radius:999px;border:1px solid rgba(26,18,6,.5);background:rgba(26,18,6,.88);color:var(--gold2);font:800 10.5px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.stflip:hover{transform:translateY(-1px);box-shadow:0 6px 18px -6px rgba(0,0,0,.7)}
+.stflip i{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c4,var(--gold2) 45%,#7a5a20);box-shadow:inset 0 0 0 2px rgba(255,240,200,.6)}
+.stflip:hover i{animation:stfl .6s ease}
+@keyframes stfl{to{transform:rotateY(360deg)}}
+.stflip-r{display:block;margin-top:6px;font:700 10px/1.2 var(--body);letter-spacing:.08em;text-transform:none;color:#2a1d08}
+.stflip-w .stflip-r{margin-top:0}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1741,7 +1750,14 @@ function renderStream(B, started){
                      : h("div", {class:"stp " + sd}, kids);
     };
     low = h("footer", {class:"stlow"},
-      h("div", {class:"stl-tag"}, live ? "Now playing" : started ? "Up next" : "First up", h("small", null, matchLabel(B, m))),
+      h("div", {class:"stl-tag"}, live ? "Now playing" : started ? "Up next" : "First up", h("small", null, matchLabel(B, m)),
+        (function(){
+          var fpS = S.fp && S.fp[m.key], fresh = !(S.games[m.key] || []).length && !champFor(m.key, 0) && !m.winner;
+          var won = fpS ? h("span", {class:"stflip-r"}, "\u25CF " + pname(m[fpS]) + " won the flip") : null;
+          if (!isAdmin || !fresh) return won;
+          return h("span", {class:"stflip-w"}, h("button", {class:"stflip", type:"button", title:"Flip a coin for who picks the game 1 champion", onclick:function(e){ e.stopPropagation(); coinFlip(m.key); }},
+            h("i", {"aria-hidden":"true"}), fpS ? "Re-flip" : "Coin flip"), won);
+        })()),
       side("a"),
       streamMid(B, m, gi, ch, V),
       side("b"),
