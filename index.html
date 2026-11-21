@@ -3910,7 +3910,7 @@ function renderDrawer(){
         h("button", {class:"sbtn ix", type:"button", "aria-label":"Move down", disabled: i < S.players.length-1 ? null : true, onclick:function(){ S.players.splice(i+1, 0, S.players.splice(i,1)[0]); markDirty(); renderDrawer(); }}, "↓"),
         confirmBtn("rm"+p.id, "Remove", "warn", function(){ if (!sandbox) removedIds.push(p.id); S.players.splice(i,1); markDirty(); renderDrawer(); }))));
   });
-  pf.appendChild(h("button", {class:"sbtn", type:"button", onclick:function(){ S.players.push({id:uid(), name:"Player " + (S.players.length+1), riot:"", main:"", quote:""}); markDirty(); renderDrawer(); }}, "+ Add player"));
+  pf.appendChild(h("button", {class:"sbtn", type:"button", onclick:function(){ var tk = takenIcons(), fi = 0; while (fi < 50 && tk[fi] != null) fi++; S.players.push({id:uid(), name:"Player " + (S.players.length+1), riot:"", main:"", quote:"", pi:fi < 50 ? fi : 29}); markDirty(); renderDrawer(); }}, "+ Add player"));
   body.appendChild(pf);
 
   // bracket
