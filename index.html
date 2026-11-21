@@ -1049,6 +1049,58 @@ body:has(.modal) .sufloat,body:has(.drawer) .sufloat{opacity:0;pointer-events:no
 @media (max-width:520px){.st-m{display:none}.st-in{font-size:.82rem;gap:6px 10px}.su-panel{padding:18px 14px 14px}.su-panel .sucta{padding:17px 30px 17px 24px}}
 @media (prefers-reduced-motion:reduce){.su-panel::before,.sup-glow,#sutop{animation:none}}
 
+/* prize skin decks */
+.hero{position:relative}
+.pzside{position:absolute;top:64px;width:232px;display:none;text-align:left;z-index:1}
+.pzside.l{right:calc(50% + 452px)}.pzside.r{left:calc(50% + 452px)}
+@media (min-width:1560px){.pzside{display:block}.pzrow{display:none}}
+.pzhead{display:grid;gap:3px;margin-bottom:14px;padding-left:2px}
+.pzk{font:700 10.5px/1 var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.pzt{font:800 22px/1.05 var(--display);color:var(--gold2);letter-spacing:.02em;transition:color .5s}
+.pzt small{font:600 12px var(--body);color:var(--fg);opacity:.75;letter-spacing:.04em;margin-left:6px}
+.pzside.l .pzhead,.pzside.l .pzcap,.pzside.l .pzdots,.pzside.l .pznote{text-align:right;justify-content:flex-end}
+.pzstage{position:relative;height:330px;perspective:900px}
+.pzc{position:absolute;inset:0 auto auto 0;width:180px;height:327px;border-radius:10px;background-image:var(--pzimg);background-size:500% 400%;background-color:#0b0f19;
+ box-shadow:0 18px 40px -14px rgba(0,0,0,.85),0 0 0 1px rgba(200,170,110,.55),inset 0 0 0 1px rgba(255,236,190,.12);
+ transition:transform .9s cubic-bezier(.2,.75,.2,1),opacity .7s ease,filter .7s ease;transform-origin:50% 90%;opacity:0;pointer-events:none;overflow:hidden}
+.pzside.l .pzc{inset:0 0 auto auto}
+.pzc::before{content:"";position:absolute;inset:5px;border:1px solid rgba(240,214,150,.45);border-radius:6px;pointer-events:none}
+.pzc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(5,8,15,.92));pointer-events:none}
+.pzc i{position:absolute;inset:-40%;background:linear-gradient(105deg,transparent 42%,rgba(255,244,214,.55) 50%,transparent 58%);transform:translateX(-80%);z-index:2;pointer-events:none}
+.pzc.p0 i{animation:pzshine 1.6s .35s ease-out}
+@keyframes pzshine{to{transform:translateX(80%)}}
+.pzc.p0{opacity:1;transform:none;z-index:3;filter:none}
+.pzc.p1{opacity:.75;z-index:2;filter:brightness(.55) saturate(.8)}
+.pzc.p2{opacity:.4;z-index:1;filter:brightness(.4) saturate(.6)}
+.pzside.r .pzc.p1{transform:translate(26px,8px) rotate(6deg) scale(.93)}.pzside.r .pzc.p2{transform:translate(48px,18px) rotate(11deg) scale(.86)}
+.pzside.l .pzc.p1{transform:translate(-26px,8px) rotate(-6deg) scale(.93)}.pzside.l .pzc.p2{transform:translate(-48px,18px) rotate(-11deg) scale(.86)}
+.pzside.l .pzc.out{opacity:0;z-index:4;transform:translate(70px,-6px) rotate(14deg) scale(1.02)}
+.pzside.r .pzc.out{opacity:0;z-index:4;transform:translate(-70px,-6px) rotate(-14deg) scale(1.02)}
+.pzc.wait{opacity:0;transform:translate(60px,24px) rotate(14deg) scale(.8)}.pzside.l .pzc.wait{transform:translate(-60px,24px) rotate(-14deg) scale(.8)}
+.pzside.l .pztag{left:auto;right:12px}
+.pztag{position:absolute;left:12px;top:12px;z-index:3;font:800 10px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;padding:5px 8px;border-radius:999px;color:#1a1206;background:linear-gradient(135deg,var(--gold2),var(--gold))}
+.pztag.t2{background:linear-gradient(135deg,#dfe7f2,#9aa9bf)}.pztag.t3{background:linear-gradient(135deg,#f0c49a,#b07a4a)}
+.pzcap{margin-top:12px;min-height:44px;display:grid;gap:3px}
+.pzcap b{font:800 16px/1.15 var(--display);color:var(--fg);letter-spacing:.02em}
+.pzcap span{font:500 12px var(--body);color:var(--mute)}
+.pzcap.sw b,.pzcap.sw span{animation:pzin .6s ease both}.pzcap.sw span{animation-delay:.08s}
+@keyframes pzin{from{opacity:0;transform:translateY(6px)}}
+.pzdots{display:flex;gap:5px;margin-top:10px}
+.pzdots u{width:6px;height:6px;border-radius:50%;background:rgba(200,170,110,.25);transition:all .4s}
+.pzdots u.on{width:18px;border-radius:4px;background:var(--gold2)}
+.pzdots u.t2{background:rgba(170,185,205,.22)}.pzdots u.t2.on{background:#c9d3e2}
+.pzdots u.t3{background:rgba(200,140,90,.22)}.pzdots u.t3.on{background:#e0a878}
+.pznote{margin-top:12px;font:500 10.5px/1.4 var(--body);color:var(--mute);opacity:.7}
+.pzrow{margin-top:22px}
+.pzrow h3{font:800 15px var(--display);letter-spacing:.06em;color:var(--gold2);margin:0 0 4px}
+.pzstrip{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 2px 12px;scrollbar-width:thin}
+.pzmini{flex:0 0 118px;scroll-snap-align:start;display:grid;gap:6px}
+.pzmini .pzc{position:relative;inset:auto;width:118px;height:214px;opacity:1;transform:none;filter:none}
+.pzmini .pztag{font-size:8.5px;padding:4px 6px;left:8px;top:8px}
+.pzmini b{font:700 12px/1.2 var(--body);color:var(--fg)}
+.pzmini span{font:500 11px var(--body);color:var(--mute);margin-top:-4px}
+@media (prefers-reduced-motion:reduce){.pzc,.pzcap.sw b,.pzcap.sw span{transition:none;animation:none}.pzc.p0 i{animation:none}}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1898,6 +1950,7 @@ function renderHero(B, started){
     h("div", {class:"eyebrow"}, "Puup Discord · League of Legends"),
     epicTitle(S.name),
     h("div", {class:"when"}, uk), local);
+  pzSides().forEach(function(d){ hero.appendChild(d); });
   tickEls = null;
   if (B && B.first){
     hero.appendChild(h("div", {class:"champ"},
@@ -2610,6 +2663,59 @@ function renderRoller(B){
       h("div", {class:"chips"}, S.pool.map(function(c){ return h("span", null, icon(c), c); })))));
   return sec;
 }
+
+var PRIZE_URL = "assets/prize-skins.webp";
+var SKINS = [{"t": "t1", "c": "Yasuo", "n": "PROJECT: Yasuo"}, {"t": "t1", "c": "Yasuo", "n": "Nightbringer Yasuo"}, {"t": "t1", "c": "Zed", "n": "PROJECT: Zed"}, {"t": "t1", "c": "Zed", "n": "Galaxy Slayer Zed"}, {"t": "t1", "c": "Garen", "n": "God-King Garen"}, {"t": "t1", "c": "Darius", "n": "God-King Darius"}, {"t": "t1", "c": "Thresh", "n": "Dark Star Thresh"}, {"t": "t1", "c": "Swain", "n": "Dragon Master Swain"}, {"t": "t1", "c": "Hecarim", "n": "Arcade Hecarim"}, {"t": "t1", "c": "Sion", "n": "Mecha Zero Sion"}, {"t": "t2", "c": "Ahri", "n": "Spirit Blossom Ahri"}, {"t": "t2", "c": "Lux", "n": "Battle Academia Lux"}, {"t": "t2", "c": "Riven", "n": "Dawnbringer Riven"}, {"t": "t2", "c": "Jinx", "n": "Odyssey Jinx"}, {"t": "t2", "c": "Jhin", "n": "Blood Moon Jhin"}, {"t": "t3", "c": "Caitlyn", "n": "Safari Caitlyn"}, {"t": "t3", "c": "Ezreal", "n": "Nottingham Ezreal"}, {"t": "t3", "c": "Garen", "n": "Sanguine Garen"}, {"t": "t3", "c": "Riven", "n": "Crimson Elite Riven"}, {"t": "t3", "c": "Annie", "n": "Goth Annie"}];
+var PZT = {t1:{place:"1st place",i:0}, t2:{place:"2nd place",i:1}, t3:{place:"3rd place",i:2}};
+var PZ_MS = 3800;
+function pzCard(sk, idx){
+  var c = h("div", {class:"pzc", style:"--pzimg:url(" + PRIZE_URL + ");background-position:" + (idx % 5) * 25 + "% " + (Math.floor(idx / 5) * 100 / 3) + "%"});
+  c.appendChild(h("i"));
+  c.appendChild(h("span", {class:"pztag " + sk.t}, PZT[sk.t].place));
+  return c;
+}
+function pzPrize(t){ var p = S.prizes[PZT[t].i]; return p ? fmtRP(p.rp) + " RP" : ""; }
+function pzDeck(side, list){
+  var cards = list.map(function(o){ return pzCard(o.s, o.k); });
+  var dots = list.map(function(o){ return h("u", {class:o.s.t}); });
+  var ttl = h("div", {class:"pzt"}), cap = h("div", {class:"pzcap"});
+  var el = h("aside", {class:"pzside " + side, "aria-label":"Example skins you could unlock"},
+    h("div", {class:"pzhead"}, h("div", {class:"pzk"}, "Skins you could unlock"), ttl),
+    h("div", {class:"pzstage"}, cards), cap, h("div", {class:"pzdots"}, dots),
+    side === "l" ? h("div", {class:"pznote"}, "Example skins. Prizes are paid as RP, so the winner picks any skin it covers.") : null);
+  el._pz = {list:list, cards:cards, dots:dots, ttl:ttl, cap:cap, cur:-1, off: side === "r" ? 0.5 : 0};
+  pzSet(el, true);
+  return el;
+}
+function pzSet(el, first){
+  var z = el._pz, n = z.list.length, i = Math.floor(Date.now() / PZ_MS + z.off) % n;
+  if (i === z.cur) return; z.cur = i;
+  z.cards.forEach(function(c, k){
+    var d = (k - i + n) % n;
+    c.className = "pzc " + (d === 0 ? "p0" : d === 1 ? "p1" : d === 2 ? "p2" : d === n - 1 ? (first ? "wait" : "out") : "wait");
+  });
+  z.dots.forEach(function(u, k){ u.classList.toggle("on", k === i); });
+  var s = z.list[i].s;
+  z.ttl.textContent = ""; z.ttl.appendChild(document.createTextNode(PZT[s.t].place)); z.ttl.appendChild(h("small", null, pzPrize(s.t)));
+  z.cap.textContent = ""; z.cap.className = "pzcap" + (first ? "" : " sw");
+  z.cap.appendChild(h("b", null, s.n)); z.cap.appendChild(h("span", null, s.c));
+}
+setInterval(function(){ if (document.hidden) return; document.querySelectorAll(".pzside").forEach(function(el){ if (el._pz && el.offsetParent) pzSet(el, false); }); }, 400);
+function pzSides(){
+  var all = SKINS.map(function(s, k){ return {s:s, k:k}; });
+  return [pzDeck("l", all.filter(function(o){ return o.s.t === "t1"; })), pzDeck("r", all.filter(function(o){ return o.s.t !== "t1"; }))];
+}
+function pzRow(){
+  var row = h("div", {class:"pzrow"}, h("h3", null, "Skins you could unlock"),
+    h("p", {class:"hint", style:"margin:0"}, "A few examples. Prizes are paid as RP, so winners can pick any skin it covers."));
+  var strip = h("div", {class:"pzstrip"});
+  SKINS.forEach(function(s, k){
+    var c = pzCard(s, k); c.querySelector("i").remove();
+    strip.appendChild(h("div", {class:"pzmini"}, c, h("b", null, s.n), h("span", null, PZT[s.t].place + " · " + pzPrize(s.t))));
+  });
+  row.appendChild(strip);
+  return row;
+}
 function renderPrizes(B){
   var who = B ? [B.first, B.second, B.thirdP] : [];
   return h("section", {id:"prizes"}, h("h2", null, "Prizes"),
@@ -2621,6 +2727,7 @@ function renderPrizes(B){
         who[i] ? h("div", {class:"who"}, pname(who[i])) : null);
     })),
     h("p", {class:"hint", style:"margin-top:10px"}, "RP is sold in fixed bundles, so each prize is the closest UK bundle to its value."),
+    pzRow(),
     giftNote());
 }
 function giftNote(){
