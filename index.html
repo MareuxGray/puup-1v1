@@ -1101,6 +1101,160 @@ body:has(.modal) .sufloat,body:has(.drawer) .sufloat{opacity:0;pointer-events:no
 .pzmini span{font:500 11px var(--body);color:var(--mute);margin-top:-4px}
 @media (prefers-reduced-motion:reduce){.pzc,.pzcap.sw b,.pzcap.sw span{transition:none;animation:none}.pzc.p0 i{animation:none}}
 
+/* pick'ems bar */
+.pkbar{display:flex;align-items:center;gap:14px;margin:18px 0 0;padding:12px 14px 12px 16px;text-decoration:none;color:var(--fg);position:relative;overflow:hidden;
+ background:linear-gradient(100deg,rgba(76,201,190,.16),rgba(14,22,36,.92) 38%,rgba(14,22,36,.92) 62%,rgba(200,165,90,.16));border:1px solid rgba(76,201,190,.45);border-radius:12px;
+ box-shadow:0 0 0 1px rgba(0,0,0,.3),0 12px 30px -16px rgba(76,201,190,.5)}
+.pkbar::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.09) 50%,transparent 60%);transform:translateX(-100%);animation:pksheen 4.5s ease-in-out infinite}
+@keyframes pksheen{60%,100%{transform:translateX(100%)}}
+.pk-tro{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:10px;color:#0b1a18;background:linear-gradient(135deg,#8ff0e4,var(--teal));box-shadow:0 0 18px rgba(76,201,190,.55);animation:pkbob 2.4s ease-in-out infinite}
+.pk-tro svg{width:22px;height:22px}
+@keyframes pkbob{50%{transform:translateY(-2px) rotate(-4deg)}}
+.pk-badge{flex:none;font:800 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(76,201,190,.5);padding:6px 8px;border-radius:999px}
+.pk-main{display:grid;gap:3px;min-width:0;flex:1}
+.pk-t{font:800 clamp(15px,2.1vw,20px)/1.15 var(--display);letter-spacing:.02em}
+.pk-t b{color:var(--gold2)}
+.pk-s{font-size:.85rem;color:var(--mute)}
+.pk-btn{flex:none;display:inline-flex;gap:8px;align-items:center;font:800 13px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:#0b1a18;background:linear-gradient(135deg,#8ff0e4,var(--teal));padding:11px 14px;border-radius:8px;position:relative;z-index:1;transition:transform .2s}
+.pkbar:hover .pk-btn{transform:translateX(3px)}
+@media (max-width:640px){.pkbar{flex-wrap:wrap;gap:10px}.pk-badge{display:none}.pk-btn{width:100%;justify-content:center}.pk-s{font-size:.8rem}}
+/* votes board */
+.pk{margin-top:34px}
+.pk-head h2{margin:4px 0 6px}
+.pk-k{display:flex;align-items:center;gap:8px;font:800 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--teal)}
+.pk-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(76,201,190,.6);animation:pkping 1.8s infinite}
+@keyframes pkping{70%{box-shadow:0 0 0 8px rgba(76,201,190,0)}100%{box-shadow:0 0 0 0 rgba(76,201,190,0)}}
+.pk-how{margin:0 0 14px;color:var(--mute);font-size:.92rem;max-width:720px}
+.pk-how b{color:var(--gold2)}
+.pk-wait{padding:16px;border:1px dashed rgba(76,201,190,.4);border-radius:10px;color:var(--mute)}.pk-wait b{color:var(--fg)}
+.pk-g{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.pk-gt{grid-column:1/-1;display:flex;align-items:center;gap:10px;font:800 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
+.pk-gt i{flex:1;height:1px;background:linear-gradient(90deg,rgba(200,165,90,.5),transparent)}
+.pk-m{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;display:grid;gap:5px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.pk-m.canvote{border-color:rgba(76,201,190,.4)}
+.pk-m.canvote:hover{box-shadow:0 8px 24px -14px rgba(76,201,190,.7)}
+.pk-m.tbd{display:flex;gap:8px;align-items:center;justify-content:center;color:var(--mute);font-size:.85rem;opacity:.6;padding:12px}
+.pk-m.tbd em{font-style:normal;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+.pk-mh{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.pk-st{display:inline-flex;gap:6px;align-items:center;font-weight:800}
+.pk-st.popen{color:var(--teal)}.pk-st.plock{color:var(--gold2)}.pk-st.pdone{color:var(--mute)}.pk-st.plive{color:var(--red)}
+.pk-st.plive i{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pkping 1.4s infinite}
+.pk-sd{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"av nm pc" "av st st";column-gap:9px;row-gap:2px;align-items:center;text-align:left;width:100%;padding:6px 8px;border-radius:8px;border:1px solid transparent;background:rgba(255,255,255,.03);color:var(--fg);font:inherit;position:relative}
+button.pk-sd{cursor:pointer;transition:background .2s,border-color .2s,transform .15s}
+button.pk-sd:hover{background:rgba(76,201,190,.1);border-color:rgba(76,201,190,.45)}
+button.pk-sd:active{transform:scale(.98)}
+.pk-sd .pav.pk-av{grid-area:av;width:34px;height:34px}
+.pk-nm{grid-area:nm;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pk-pc{grid-area:pc;font:800 15px var(--display)}
+.pk-sd.a .pk-pc{color:var(--teal)}.pk-sd.b .pk-pc{color:var(--red)}
+.pk-sd .vstack{grid-area:st}
+.pk-sd.mine{border-color:var(--gold2);background:rgba(200,165,90,.12)}
+.pk-sd.mine::after{content:"Your pick";position:absolute;right:8px;bottom:6px;font:800 9px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold2)}
+.pk-sd.won{background:rgba(76,201,190,.1)}.pk-sd.lost{opacity:.5}
+.pk-won{position:absolute;left:30px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--teal);color:#06201d;font:900 10px/16px var(--body);text-align:center}
+.pk-bar{display:flex;height:3px;border-radius:2px;overflow:hidden;margin-top:2px}.pk-bar span{transition:width .6s}.pk-bar .a{background:var(--teal)}.pk-bar .b{background:var(--red)}
+.vstack{display:flex;align-items:center;min-height:20px;padding-left:5px}
+.vch{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:-5px;border-radius:50%;border:2px solid #0e1624;background:#1b2537;flex:none}
+.vch-i{width:100%;height:100%;border-radius:50%;background-repeat:no-repeat}
+.vch-i.none{display:grid;place-items:center;font:800 10px var(--body);color:var(--fg);background:linear-gradient(135deg,#3a4a66,#22304a)}
+.vch.more{font:800 9px var(--body);color:var(--mute);width:auto;min-width:22px;padding:0 5px;border-radius:11px}
+.vch.in{animation:vchin .55s cubic-bezier(.2,1.6,.3,1) both}
+@keyframes vchin{from{transform:scale(0) translateY(10px);opacity:0}}
+.pk-sb{margin-top:18px;display:grid;gap:8px}
+.pk-rows{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-width:520px}
+.pk-rows li{display:grid;grid-template-columns:22px 22px minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:5px 8px;border-radius:8px;background:rgba(255,255,255,.03)}
+.pk-rows li .vch{margin:0}
+.pk-rows li.perfect{background:linear-gradient(90deg,rgba(200,165,90,.18),rgba(255,255,255,.02))}
+.pk-rk{font:800 12px var(--display);color:var(--mute);text-align:center}
+.pk-rn{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pk-rs{font:800 13px var(--display);color:var(--fg)}
+.pk-pf{font:800 9px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#1a1206;background:linear-gradient(135deg,var(--gold2),var(--gold));padding:4px 6px;border-radius:999px}
+.pk-win{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--gold2);border-radius:10px;background:rgba(200,165,90,.1)}
+.pk-win .vch{width:44px;height:44px;margin:0}.pk-win div{display:grid}.pk-win small{color:var(--mute);text-transform:uppercase;letter-spacing:.14em;font-size:.68rem}.pk-win b{font:800 20px var(--display);color:var(--gold2)}
+.pk-tie{padding:12px;border:1px solid var(--gold2);border-radius:10px;font-weight:700;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pk-spin{font:900 14px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;padding:12px 16px;border:0;border-radius:8px;cursor:pointer;color:#1a1206;background:linear-gradient(135deg,#fff3c4,var(--gold2),var(--gold));box-shadow:0 0 24px rgba(200,165,90,.6);animation:pkbob 1.6s ease-in-out infinite}
+.iconpick button.taken{filter:grayscale(1) brightness(.45);cursor:not-allowed;opacity:.6}
+/* left rail on wide screens */
+@media (min-width:1760px){
+ #picks.pk{position:fixed;left:14px;top:64px;bottom:16px;width:min(310px,calc((100vw - 1100px)/2 - 76px));margin:0;overflow-y:auto;overscroll-behavior:contain;z-index:8;padding:14px 12px 14px 14px;
+  background:rgba(9,14,24,.92);backdrop-filter:blur(8px);border:1px solid rgba(76,201,190,.35);border-radius:14px;box-shadow:0 20px 50px -20px rgba(0,0,0,.8);
+  opacity:0;transform:translateX(-30px);pointer-events:none;transition:opacity .45s,transform .45s cubic-bezier(.2,.8,.2,1);scrollbar-width:thin}
+ html.past-hero #picks.pk{opacity:1;transform:none;pointer-events:auto}
+ #picks.pk h2{font-size:1.25rem}
+ #picks .pk-how{font-size:.8rem}
+ #picks .pk-g{grid-template-columns:1fr}
+ #picks.flash{animation:pkflash 1.2s .3s}
+}
+@keyframes pkflash{30%{box-shadow:0 0 0 3px var(--teal),0 0 40px rgba(76,201,190,.6)}}
+/* fx champion cards */
+.fxav.card{position:relative}
+.fxav.card > span{width:clamp(110px,19vmin,230px);aspect-ratio:220/400;background-size:auto;background-color:#0b111b}
+.fxav.card.big > span{width:clamp(130px,24vmin,290px)}
+.fxav.card em{position:absolute;left:4px;right:4px;bottom:4px;padding:18px 6px 8px;font:800 clamp(11px,1.6vmin,15px)/1 var(--display);font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);text-align:center;background:linear-gradient(transparent,rgba(5,8,14,.95));clip-path:polygon(0 0,100% 0,100% 70%,86% 100%,14% 100%,0 70%)}
+.pods .fxav.card > span{width:clamp(80px,13vmin,170px)}.pods .fxav.card.big > span{width:clamp(100px,16vmin,210px)}
+/* stream crowd vote panel */
+.stbody.hasv .stfit{top:calc(50% - 75px)!important}
+.stv{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:min(980px,calc(100% - 56px));z-index:3;animation:fxrise .8s cubic-bezier(.2,.8,.2,1) both}
+.stv-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,1.2fr) minmax(0,1fr);align-items:center;gap:18px;padding:14px 20px;border-radius:14px;
+ background:linear-gradient(90deg,rgba(76,201,190,.14),rgba(8,12,22,.94) 30%,rgba(8,12,22,.94) 70%,rgba(232,84,84,.14));border:1px solid rgba(200,165,90,.4);box-shadow:0 18px 40px -18px rgba(0,0,0,.9)}
+.stv-side{display:flex;align-items:center;gap:14px;min-width:0}.stv-side.b{justify-content:flex-end}
+.stv-pc{font:900 clamp(30px,4.2vw,54px)/1 var(--display);font-variant-numeric:tabular-nums;text-shadow:0 0 24px currentColor}
+.stv-pc.a{color:var(--teal)}.stv-pc.b{color:var(--red)}
+.stv-ic{display:flex;flex-wrap:wrap;gap:4px;min-width:0;max-height:64px;overflow:hidden}.stv-ic.b{justify-content:flex-end}
+.stv-ic .vch{width:30px;height:30px;margin:0;border-color:rgba(255,255,255,.15)}
+.stv-mid{display:grid;gap:8px;position:relative}
+.stv-lab{display:flex;justify-content:space-between;font:800 11px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.stv-live{display:inline-flex;gap:7px;align-items:center;color:var(--gold2)}.stv-live i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pkping 1.4s infinite}
+.stv-bar{position:relative;display:flex;height:14px;border-radius:7px;overflow:hidden;background:#111a2a;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.stv-bar .a,.stv-bar .b{position:relative;transition:width 1s cubic-bezier(.2,.9,.2,1);overflow:hidden}
+.stv-bar .a{background:linear-gradient(90deg,#1d6f68,var(--teal))}.stv-bar .b{background:linear-gradient(90deg,var(--red),#7a2323)}
+.stv-bar .a::after,.stv-bar .b::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.18) 0 8px,transparent 8px 18px);animation:stvflow 1.2s linear infinite}
+.stv-bar .b::after{animation-direction:reverse}
+@keyframes stvflow{to{background-position:42px 0}}
+.stv-spark{position:absolute;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:radial-gradient(circle,#fff 0,#fff6d0 25%,rgba(255,220,140,.5) 45%,transparent 70%);transition:left 1s cubic-bezier(.2,.9,.2,1);animation:stvspark .9s ease-in-out infinite alternate;pointer-events:none}
+@keyframes stvspark{to{transform:scale(1.35);filter:brightness(1.3)}}
+.stv-stamp{position:absolute;inset:-6px -10px;display:grid;place-items:center;font:900 clamp(18px,2.4vw,28px)/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);
+ background:rgba(8,12,22,.88);border:2px solid var(--gold2);border-radius:10px;opacity:0;transform:scale(1.6) rotate(-4deg);pointer-events:none;text-shadow:0 0 18px rgba(200,165,90,.7)}
+.stv.locked .stv-stamp{opacity:1;transform:scale(1) rotate(-2deg);transition:opacity .2s,transform .45s cubic-bezier(.3,1.8,.4,1)}
+.stv.locked .stv-spark,.stv.locked .stv-bar ::after{animation:none}
+.stv.slam .stv-row{animation:stvshake .5s .1s}
+@keyframes stvshake{20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.stv-feed{position:absolute;left:0;right:0;bottom:calc(100% + 10px);display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.stv-fi{display:flex;gap:8px;align-items:center;padding:6px 12px 6px 6px;border-radius:999px;background:rgba(8,12,22,.94);border:1px solid rgba(255,255,255,.15);font-size:.95rem;animation:stvfi .5s cubic-bezier(.2,1.4,.3,1) both}
+.stv-fi .vch{width:26px;height:26px;margin:0}.stv-fi b.a{color:var(--teal)}.stv-fi b.b{color:var(--red)}
+.stv-fi.a{border-color:rgba(76,201,190,.6)}.stv-fi.b{border-color:rgba(232,84,84,.6)}
+.stv-fi.out{opacity:0;transform:translateY(-10px);transition:all .45s}
+@keyframes stvfi{from{opacity:0;transform:translateY(16px) scale(.9)}}
+/* case spin */
+.spin{position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:radial-gradient(ellipse at center,rgba(30,22,8,.94),rgba(3,5,10,.97));animation:fxin .4s ease both}
+.spin.out{opacity:0;transition:opacity .45s}
+.sp-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sp-box{position:relative;width:min(1000px,calc(100vw - 40px));display:grid;gap:22px;justify-items:center}
+.sp-t{display:grid;gap:6px;text-align:center}
+.sp-t span{font:900 clamp(24px,4vw,44px)/1 var(--display);letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(180deg,#fff6d6,var(--gold2) 55%,#8a6a2a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp-t small{color:var(--mute);letter-spacing:.16em;text-transform:uppercase;font-size:.78rem}
+.sp-win{position:relative;width:100%;height:210px;overflow:hidden;border-radius:12px;background:#070b14;border:1px solid rgba(200,165,90,.5);box-shadow:inset 0 0 60px rgba(0,0,0,.9),0 0 50px -10px rgba(200,165,90,.5)}
+.sp-reel{position:absolute;left:0;top:15px;display:flex;will-change:transform}
+.sp-card{flex:none;width:calc(var(--w) - 12px);margin:0 6px;height:180px;border-radius:10px;display:grid;justify-items:center;align-content:center;gap:10px;
+ background:linear-gradient(180deg,#1a2438,#0d1424);border:1px solid rgba(255,255,255,.1);border-bottom:4px solid var(--teal)}
+.sp-card:nth-child(3n){border-bottom-color:var(--gold2)}.sp-card:nth-child(3n+1){border-bottom-color:#9b6bff}
+.sp-ic{width:92px;height:92px;border-radius:50%;background-repeat:no-repeat;box-shadow:0 0 0 3px rgba(255,255,255,.12)}
+.sp-ic.none{display:grid;place-items:center;font:900 36px var(--display);background:linear-gradient(135deg,#3a4a66,#22304a)}
+.sp-card b{font:800 15px var(--display);max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-line{position:absolute;left:50%;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--gold2);z-index:3;box-shadow:0 0 14px var(--gold2),0 0 30px rgba(200,165,90,.8)}
+.sp-line::before,.sp-line::after{content:"";position:absolute;left:50%;margin-left:-10px;border:10px solid transparent}
+.sp-line::before{top:0;border-top-color:var(--gold2)}.sp-line::after{bottom:0;border-bottom-color:var(--gold2)}
+.sp-fade{position:absolute;top:0;bottom:0;width:22%;z-index:2;pointer-events:none}.sp-fade.l{left:0;background:linear-gradient(90deg,#070b14,transparent)}.sp-fade.r{right:0;background:linear-gradient(270deg,#070b14,transparent)}
+.spin.done .sp-card.win{border-color:var(--gold2);box-shadow:0 0 0 2px var(--gold2),0 0 40px rgba(255,214,120,.9);animation:spwin .9s ease-in-out infinite alternate;z-index:4;position:relative}
+@keyframes spwin{to{transform:scale(1.06)}}
+.sp-res{text-align:center;opacity:0;transform:translateY(16px) scale(.9);transition:all .7s cubic-bezier(.2,1.4,.3,1) .35s}
+.spin.done .sp-res{opacity:1;transform:none}
+.sp-k{font:800 12px/1 var(--body);letter-spacing:.24em;text-transform:uppercase;color:var(--teal)}
+.sp-n{font:900 clamp(36px,7vw,80px)/1.05 var(--display);color:var(--gold2);text-shadow:0 0 40px rgba(255,214,120,.6);margin:6px 0}
+.sp-p{font:700 18px var(--body);color:var(--fg)}
+.sp-x{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.4);color:var(--fg);font-size:24px;cursor:pointer;z-index:5}
+@media (prefers-reduced-motion:reduce){.pkbar::after,.pk-tro,.stv-bar ::after,.stv-spark{animation:none}}
+
 /* hosted-site additions */
 .bootscr{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center}
 .bootscr .stmark{width:56px;height:56px;font-size:1.6rem}
@@ -1166,6 +1320,8 @@ var adminPass = lsGet("puupAdmin"), myToken = lsGet("puupToken"), myId = lsGet("
 var voterId = lsGet("puupVoter");
 if (!voterId){ voterId = "v" + Math.random().toString(36).slice(2) + Date.now().toString(36); lsSet("puupVoter", voterId); }
 var myVotes = {}; try { myVotes = JSON.parse(lsGet("puupMyVotes") || "{}") || {}; } catch(e){}
+var myChanged = {}; try { myChanged = JSON.parse(lsGet("puupChg") || "{}") || {}; } catch(e){}
+var voterName = lsGet("puupVName"), voterPi = lsGet("puupVPi");
 var removedIds = [], resetVotesNext = false, strikes = [], loaded = false, lastRemote = "", netErr = false, pickSeen = {};
 async function rpc(fn, args){
   if (!CFG.url) throw new Error("The site is not connected to its database yet");
@@ -1195,6 +1351,7 @@ function applyRemote(j, force){
     S = rs; S.players = players.filter(function(p){ return removedIds.indexOf(p.id) < 0; });
   }
   S.votes = j.votes || {};
+  ballots = Array.isArray(j.ballots) ? j.ballots : null;
   strikes = j.strikes || [];
   applyStrikes();
   return true;
@@ -1229,7 +1386,7 @@ async function refresh(force){
   refreshing = false;
 }
 function pollLoop(){ refresh(); setTimeout(pollLoop, document.hidden ? 15000 : 2500); }
-function canVoteOn(key){ return sandbox ? isAdmin : !!key && (key === S.live || key === S.nextKey); }
+function canVoteOn(key){ if (sandbox) return isAdmin; if (!key || voteLocked(key)) return false; if (ballots) return true; return key === S.live || key === S.nextKey; }
 var claimOpen = false;
 function renderClaim(){
   var old = document.getElementById("claim"); if (old) old.remove();
@@ -1481,7 +1638,7 @@ function renderStream(B, started){
     var holder = h("div", {class:"stfit" + (streamAnimated ? "" : " first")}, built.stage);
     bodyEl.appendChild(holder);
     requestAnimationFrame(function(){
-      var bw = bodyEl.clientWidth - 48, bh = bodyEl.clientHeight - 24;
+      var bw = bodyEl.clientWidth - 48, bh = bodyEl.clientHeight - 24 - (bodyEl.classList.contains("hasv") ? 150 : 0);
       var sc = Math.min(bw / built.w, bh / built.h, 1.6);
       holder.style.width = built.w + "px"; holder.style.height = built.h + "px";
       holder.style.transform = "translate(-50%,-50%) scale(" + sc + ")";
@@ -1523,6 +1680,8 @@ function renderStream(B, started){
     if (lowAnimated) low.classList.add("noanim");
     lowAnimated = true;
   }
+  var svEl = B && !B.first ? streamVote(B, m) : null;
+  if (svEl){ bodyEl.appendChild(svEl); bodyEl.classList.add("hasv"); }
   var root = h("div", {class:"stream"}, top, bodyEl, nextStrip, low);
   function tickClock(){ if (!clock.isConnected) return; clock.textContent = new Date().toLocaleTimeString("en-GB", {timeZone:"Europe/London", hour:"2-digit", minute:"2-digit"}) + " GMT"; setTimeout(tickClock, 15000); }
   tickClock();
@@ -1770,7 +1929,7 @@ function render(){
       h("p", {class:"mute"}, loaded === "error" ? "Can't reach the tournament data right now. Retrying…" : "Loading the tournament…")));
     return;
   }
-  syncMarquee();
+  syncMarquee(); syncSpin(); setTimeout(syncPastHero, 0);
   var B = compute();
   var started = Date.now() >= new Date(S.start).getTime();
   app.className = isAdmin ? "admin-on" : "";
@@ -1783,8 +1942,10 @@ function render(){
     return;
   }
   var wrap = h("div", {class:"wrap"});
+  if (!(B && B.first && pickStandings(B).done && S.pickWin)) wrap.appendChild(pickBar());
   wrap.appendChild(renderHero(B, started));
   if (B && !B.first) wrap.appendChild(renderLive(B, started));
+  wrap.appendChild(renderPicks(B));
   wrap.appendChild(renderBracket(B));
   var rr = renderResults(B); if (rr) wrap.appendChild(rr);
   wrap.appendChild(renderRoller(B));
@@ -2085,19 +2246,84 @@ function upsetOf(m){
   return {massive: c.massive, share: c.share, label: c.massive ? "Massive upset" : "Upset"};
 }
 function upsetBadge(u, cls){ return h("span", {class:"upbadge" + (u.massive ? " massive" : "") + (cls ? " " + cls : ""), title:"The crowd backed the other player " + u.share + "%"}, h("i", {"aria-hidden":"true"}), u.label); }
-function castVote(key, side){
+function castVote(key, side, ok){
   if (sandbox){
     var v0 = S.votes[key]; if (!v0 || typeof v0 !== "object") v0 = S.votes[key] = {a:0, b:0};
     v0[side] = (v0[side]|0) + 1; lastVote = {key:key, side:side, at:Date.now()}; render(); return;
   }
-  var prev = myVotes[key]; if (prev === side) return;
+  if (voteLocked(key)){ toast("Votes are locked for this match"); return; }
+  var me = myId ? P(myId) : null;
+  if (ballots && !me && !voterName){ openVoterSetup(function(){ castVote(key, side, ok); }); return; }
+  var prev = myVotes[key];
+  if (prev && ballots){
+    if (prev === side){ if (!ok) return askVote(key, null); return removeVote(key); }
+    if (!ok) return askVote(key, side);
+  } else if (prev === side) return;
   var v = S.votes[key]; if (!v || typeof v !== "object") v = S.votes[key] = {a:0, b:0};
   if (prev) v[prev] = Math.max(0, (v[prev]|0) - 1);
   v[side] = (v[side]|0) + 1;
   myVotes[key] = side; lsSet("puupMyVotes", JSON.stringify(myVotes));
+  if (prev) { myChanged[key] = 1; lsSet("puupChg", JSON.stringify(myChanged)); }
   lastVote = {key:key, side:side, at:Date.now()}; render();
-  rpc("cast_vote", {p_key:key, p_voter:voterId, p_side:side}).then(function(){ refresh(true); })
-    .catch(function(e){ if (prev) myVotes[key] = prev; else delete myVotes[key]; lsSet("puupMyVotes", JSON.stringify(myVotes)); toast(e.message); refresh(true); });
+  var args = ballots ? {p_key:key, p_voter:voterId, p_side:side, p_name:me ? me.name : voterName, p_pi:me || voterPi === "" ? null : +voterPi, p_player:me ? me.id : null}
+                     : {p_key:key, p_voter:voterId, p_side:side};
+  rpc("cast_vote", args).then(function(){ if (!prev) toast("Vote locked in for " + pname(side === "a" ? keyPlayer(key, "a") : keyPlayer(key, "b"))); refresh(true); })
+    .catch(function(e){ if (prev) myVotes[key] = prev; else delete myVotes[key]; lsSet("puupMyVotes", JSON.stringify(myVotes));
+      if (/icon is taken/i.test(e.message)){ voterPi = ""; lsSet("puupVPi", ""); }
+      toast(e.message); refresh(true); });
+}
+function keyPlayer(key, sd){ var B = compute(), m = B && findMatch(B, key); return m ? m[sd] : null; }
+function removeVote(key){
+  var prev = myVotes[key]; if (!prev) return;
+  var v = S.votes[key]; if (v && typeof v === "object") v[prev] = Math.max(0, (v[prev]|0) - 1);
+  delete myVotes[key]; lsSet("puupMyVotes", JSON.stringify(myVotes));
+  myChanged[key] = 1; lsSet("puupChg", JSON.stringify(myChanged)); render();
+  rpc("remove_vote", {p_key:key, p_voter:voterId}).then(function(){ toast("Vote removed"); refresh(true); })
+    .catch(function(e){ myVotes[key] = prev; lsSet("puupMyVotes", JSON.stringify(myVotes)); toast(e.message); refresh(true); });
+}
+function askVote(key, side){
+  var old = document.getElementById("vconf"); if (old) old.remove();
+  var close = function(){ ov.remove(); };
+  if (myChanged[key]){ toast("You already used your one change for this match"); return; }
+  var B = compute(), m = B && findMatch(B, key); if (!m) return;
+  var to = side ? pname(m[side]) : null, from = pname(m[myVotes[key]]);
+  var box = h("div", {class:"mbox", style:"max-width:440px"},
+    h("div", {class:"eyebrow"}, side ? "Change your vote" : "Remove your vote"),
+    h("h3", null, side ? "Switch from " + from + " to " + to + "?" : "Remove your vote for " + from + "?"),
+    h("p", {class:"mute", style:"margin:0 0 6px"}, "You get ", h("b", null, "one change per match"), ", and only until its champions lock in. After this, your pick for this match is final" + (side ? "." : " and you can't vote on it again.")),
+    h("div", {class:"rollacts"},
+      h("button", {class:"btn", type:"button", onclick:function(){ close(); if (side) castVote(key, side, true); else removeVote(key); }}, side ? "Yes, switch to " + to : "Yes, remove it"),
+      h("button", {class:"btn ghost", type:"button", onclick:close}, "Keep my vote")));
+  var ov = h("div", {class:"modal", id:"vconf", role:"dialog", "aria-modal":"true", "aria-label":"Confirm vote change", onclick:function(e){ if (e.target === ov) close(); }}, box);
+  document.body.appendChild(ov);
+}
+function openVoterSetup(then){
+  var old = document.getElementById("vsetup"); if (old) old.remove();
+  var close = function(){ ov.remove(); };
+  var err = h("p", {class:"suerr", "aria-live":"polite"}), pick = voterPi === "" ? null : +voterPi;
+  var nameI = h("input", {id:"vs-name", autocomplete:"off", placeholder:"Your Discord name", maxlength:"24", value:voterName || ""});
+  var taken = takenIcons();
+  var grid = h("div", {class:"iconpick", role:"radiogroup", "aria-label":"Your icon"}, PROFILE_IDS.map(function(_, i){
+    var t = taken[i] != null && i !== pick;
+    return h("button", {type:"button", class:(pick === i ? "sel" : "") + (t ? " taken" : ""), disabled:t ? true : null, title:t ? "Taken by " + taken[i] : null, style:profStyle(i), role:"radio", "aria-checked":pick === i ? "true" : "false", "aria-label":"Icon " + (i + 1) + (t ? " (taken)" : ""),
+      onclick:function(e){ pick = i; Array.prototype.forEach.call(grid.children, function(b){ b.classList.remove("sel"); b.setAttribute("aria-checked", "false"); }); e.currentTarget.classList.add("sel"); e.currentTarget.setAttribute("aria-checked", "true"); }});
+  }));
+  var box = h("form", {class:"mbox suform", style:"max-width:560px", onsubmit:function(e){
+      e.preventDefault();
+      var n = nameI.value.trim();
+      if (n.length < 2){ err.textContent = "Enter a name of at least 2 characters."; return; }
+      if (pick == null){ err.textContent = "Pick an icon so people can see your votes."; return; }
+      voterName = n; voterPi = String(pick); lsSet("puupVName", n); lsSet("puupVPi", voterPi); close(); then();
+    }},
+    h("div", {class:"eyebrow"}, "Pick'ems"),
+    h("h3", null, "Who's voting?"),
+    h("p", {class:"mute", style:"margin:0 0 10px"}, "Your name and icon show next to your votes, and on the pick'em standings. Get every match right to win £5 of RP."),
+    h("label", {for:"vs-name"}, "Name"), nameI,
+    h("label", null, "Icon ", h("span", {class:"mute", style:"font-weight:400"}, "(greyed out ones are taken)")), grid, err,
+    h("div", {class:"rollacts"}, h("button", {class:"btn", type:"submit"}, "Save and vote"), h("button", {class:"btn ghost", type:"button", onclick:function(){ close(); claimOpen = true; renderClaim(); }}, "I'm a player, sign in"), h("button", {class:"btn ghost", type:"button", onclick:close}, "Cancel")));
+  var ov = h("div", {class:"modal", id:"vsetup", role:"dialog", "aria-modal":"true", "aria-label":"Who's voting", onclick:function(e){ if (e.target === ov) close(); }}, box);
+  document.body.appendChild(ov);
+  setTimeout(function(){ if (window.innerWidth > 640) nameI.focus(); }, 50);
 }
 var lastVote = null;
 function renderVote(B, m){
@@ -2108,6 +2334,7 @@ function renderVote(B, m){
     var kids = [pav(id, "lg"), h("div", {class:"vn"}, pname(id)), P1 && P1.riot ? h("div", {class:"vr"}, P1.riot) : null,
       h("div", {class:"vp"}, has ? pct + "%" : "–"),
       V.total != null ? h("div", {class:"vc"}, n + (n === 1 ? " vote" : " votes")) : null,
+      chipStack(ballotsFor(m.key)[side], 8),
       canVoteOn(m.key) ? h("div", {class:"vtap"}, myVotes[m.key] === side && !sandbox ? "Your vote" : myVotes[m.key] && !sandbox ? "Switch vote" : "Click to vote") : null,
       has ? h("span", {class:"vbar", style:"width:" + pct + "%"}) : null];
     var fav = favSide(m) === side;
@@ -2117,7 +2344,7 @@ function renderVote(B, m){
                    : h("div", {class:cls}, kids);
   }
   return h("div", {class:"vote", "aria-label":"Crowd prediction"}, card("a"), h("div", {class:"vmid"}, "VS"), card("b"),
-    h("div", {class:"vnote"}, has ? (V.total ? "Crowd prediction · " + V.total + (V.total === 1 ? " vote" : " votes") : "Crowd prediction") : "Who wins? No votes yet"));
+    h("div", {class:"vnote"}, voteLocked(m.key) ? "\uD83D\uDD12 Votes locked · champions are in" : has ? (V.total ? "Crowd prediction · " + V.total + (V.total === 1 ? " vote" : " votes") : "Crowd prediction") : "Who wins? No votes yet"));
 }
 function gameHud(m, live){
   if (!m.ready) return null;
@@ -2557,8 +2784,10 @@ function renderSignup(){
     var err = h("p", {class:"suerr", "aria-live":"polite"});
     var nameI = h("input", {id:"su-name", autocomplete:"off", placeholder:"e.g. mareux", maxlength:"32"});
     var riotI = h("input", {id:"su-riot", autocomplete:"off", placeholder:"Name#TAG", maxlength:"40"});
+    var taken0 = takenIcons();
     var grid = h("div", {class:"iconpick", role:"radiogroup", "aria-label":"Profile icon"}, PROFILE_IDS.map(function(_, i){
-      return h("button", {type:"button", class:(suState.pi === i ? "sel" : ""), style:profStyle(i), role:"radio", "aria-checked":suState.pi === i ? "true" : "false", "aria-label":"Icon " + (i+1), onclick:function(e){
+      var tk = taken0[i] != null;
+      return h("button", {type:"button", class:(suState.pi === i ? "sel" : "") + (tk ? " taken" : ""), disabled:tk ? true : null, title:tk ? "Taken by " + taken0[i] : null, style:profStyle(i), role:"radio", "aria-checked":suState.pi === i ? "true" : "false", "aria-label":"Icon " + (i+1), onclick:function(e){
         suState.pi = i; Array.prototype.forEach.call(grid.children, function(b){ b.className = ""; b.setAttribute("aria-checked","false"); }); e.currentTarget.className = "sel"; e.currentTarget.setAttribute("aria-checked","true"); }});
     }));
     var form = h("form", {class:"suform", onsubmit:function(e){
@@ -2663,6 +2892,230 @@ function renderRoller(B){
       h("div", {class:"chips"}, S.pool.map(function(c){ return h("span", null, icon(c), c); })))));
   return sec;
 }
+
+/* ---------- pick'ems + votes board ---------- */
+var ballots = null; // [{k, s, n, i, v}] from the server once the pick'ems update is in
+function voteLocked(key){
+  if ((S.games[key] || []).length) return true;
+  return (S.champs[key] || []).some(function(c){ return !!c; });
+}
+function canVoteKey(key){ return typeof canVoteOn === "function" ? canVoteOn(key) : isAdmin; }
+function myVoteOn(key){ return typeof myVotes !== "undefined" && !sandbox ? myVotes[key] || null : null; }
+function ballotsFor(key){
+  var o = {a:[], b:[]};
+  (sandbox ? (window.sbBallots || []) : (ballots || [])).forEach(function(x){ if (x.k === key && o[x.s]) o[x.s].push(x); });
+  return o;
+}
+function takenIcons(){
+  var t = {}; S.players.forEach(function(p){ if (p.pi != null) t[p.pi] = p.name; });
+  (ballots || []).forEach(function(x){ if (x.i != null && t[x.i] == null) t[x.i] = x.n; });
+  return t;
+}
+function voterChip(x, cls){
+  var ic = x.i != null ? h("span", {class:"vch-i", style:profStyle(x.i)}) : h("span", {class:"vch-i none"}, (x.n || "?").charAt(0).toUpperCase());
+  return h("span", {class:"vch" + (cls ? " " + cls : ""), title:(x.n || "Anonymous voter")}, ic);
+}
+function chipStack(list, max){
+  var named = list.filter(function(x){ return x.n; }), anon = list.length - named.length, out = [];
+  named.slice(0, max).forEach(function(x){ out.push(voterChip(x)); });
+  var more = named.length - Math.min(max, named.length) + anon;
+  if (more > 0) out.push(h("span", {class:"vch more", title:more + " more"}, "+" + more));
+  return h("span", {class:"vstack"}, out);
+}
+function pickStandings(B){
+  var src = sandbox ? (window.sbBallots || []) : (ballots || []);
+  if (!B) return {rows:[], decided:0, done:false};
+  var dec = B.order.filter(function(m){ return m.ready && m.winner; }), by = {};
+  src.forEach(function(x){ if (!x.n) return; var r = by[x.v] || (by[x.v] = {v:x.v, n:x.n, i:x.i, ok:0, bad:0}); r.n = x.n; r.i = x.i; });
+  dec.forEach(function(m){ src.forEach(function(x){ var r = by[x.v]; if (x.k !== m.key || !r) return; if (m[x.s] === m.winner) r.ok++; else r.bad++; }); });
+  var rows = Object.keys(by).map(function(k){ var r = by[k]; r.perfect = r.ok === dec.length; return r; });
+  rows.sort(function(a, b){ return b.ok - a.ok || a.bad - b.bad || a.n.localeCompare(b.n); });
+  return {rows:rows, decided:dec.length, done:B.order.length > 0 && B.order.every(function(m){ return m.winner; })};
+}
+function pickBar(){
+  var go = function(e){
+    var rail = window.matchMedia && matchMedia("(min-width:1760px)").matches, el = document.getElementById("picks");
+    if (!el) return; e.preventDefault();
+    if (rail){ var b = document.getElementById("bracket"); if (b) window.scrollTo({top:b.offsetTop - 70, behavior:"smooth"}); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); }
+    else el.scrollIntoView({behavior:"smooth", block:"start"});
+  };
+  var tr = document.createElement("span"); tr.className = "pk-tro";
+  tr.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>';
+  return h("a", {class:"pkbar", href:"#picks", onclick:go},
+    tr, h("span", {class:"pk-badge"}, "Pick'ems"),
+    h("span", {class:"pk-main"}, h("span", {class:"pk-t"}, "Call every match right, win ", h("b", null, "£5 of RP")),
+      h("span", {class:"pk-s"}, "Vote now on who wins each match. Votes lock when champions lock in.")),
+    h("span", {class:"pk-btn"}, "Make your picks", h("i", {"aria-hidden":"true"}, "→")));
+}
+function pkSide(B, m, sd, open, bf, V){
+  var id = m[sd], mine = myVoteOn(m.key) === sd, won = m.winner && m.winner === id, lost = m.winner && m.winner !== id;
+  var pct = V.pct == null ? null : (sd === "a" ? V.pct : 100 - V.pct);
+  var kids = [pav(id, "pk-av"), h("span", {class:"pk-nm"}, pname(id)), h("span", {class:"pk-pc"}, pct == null ? "" : pct + "%"),
+    chipStack(bf[sd], 7), won ? h("span", {class:"pk-won", title:"Winner"}, "✓") : null];
+  var cls = "pk-sd " + sd + (mine ? " mine" : "") + (won ? " won" : "") + (lost ? " lost" : "");
+  if (!open) return h("div", {class:cls}, kids);
+  return h("button", {class:cls + " open", type:"button", "aria-label":"Vote for " + pname(id), onclick:function(){ castVote(m.key, sd); }}, kids);
+}
+function pkMatch(B, m){
+  if (!m.a || !m.b) return h("div", {class:"pk-m tbd"}, h("span", null, m.a ? pname(m.a) : "TBD"), h("em", null, "vs"), h("span", null, m.b ? pname(m.b) : "TBD"));
+  var V = voteOf(m.key), bf = ballotsFor(m.key), locked = voteLocked(m.key) || !!m.winner, open = !locked && canVoteKey(m.key);
+  var st = m.winner ? h("span", {class:"pk-st pdone"}, "Final") : locked ? h("span", {class:"pk-st plock"}, "🔒 Locked") : S.live === m.key ? h("span", {class:"pk-st plive"}, h("i"), "Live · vote now") : h("span", {class:"pk-st popen"}, "Open");
+  var tot = bf.a.length + bf.b.length || V.total || 0;
+  return h("div", {class:"pk-m" + (open ? " canvote" : "") + (locked ? " locked" : "")},
+    h("div", {class:"pk-mh"}, st, h("span", {class:"pk-mt"}, tot + (tot === 1 ? " vote" : " votes"))),
+    pkSide(B, m, "a", open, bf, V), pkSide(B, m, "b", open, bf, V),
+    h("div", {class:"pk-bar"}, h("span", {class:"a", style:"width:" + (V.pct == null ? 50 : V.pct) + "%"}), h("span", {class:"b", style:"width:" + (V.pct == null ? 50 : 100 - V.pct) + "%"})));
+}
+function renderPicks(B){
+  var sec = h("section", {id:"picks", class:"pk"});
+  sec.appendChild(h("div", {class:"pk-head"},
+    h("div", {class:"pk-k"}, h("span", {class:"pk-dot"}), "Pick'ems · win £5 of RP"),
+    h("h2", null, "Vote on every match"),
+    h("p", {class:"pk-how"}, "Tap who you think wins. You can change your mind until that match's champions lock in. Get every match right to win ", h("b", null, "£5 of RP (575 RP)"), ". If more than one person is perfect, a case spin on stream picks the winner.")));
+  if (!B){
+    sec.appendChild(h("div", {class:"pk-wait"}, h("b", null, "Voting opens when the bracket is drawn."), " Sign-ups are still open, so the matchups aren't set yet. Check back once the draw is made."));
+    return sec;
+  }
+  var groups = [];
+  B.rounds.forEach(function(rs, r){
+    var ms = rs.filter(function(m){ return !m.bye; });
+    if (r === B.R - 1 && B.third && !B.third.bye) groups.push({t:"Third place", ms:[B.third]});
+    if (ms.length) groups.push({t:roundName(r, B.R, B.N), ms:ms});
+  });
+  groups.forEach(function(g){
+    var done = g.ms.every(function(m){ return m.winner; });
+    sec.appendChild(h("div", {class:"pk-g" + (done ? " done" : "")}, h("div", {class:"pk-gt"}, h("span", null, g.t), h("i")), g.ms.map(function(m){ return pkMatch(B, m); })));
+  });
+  sec.appendChild(renderStandings(B));
+  return sec;
+}
+function renderStandings(B){
+  var ps = pickStandings(B), perfect = ps.rows.filter(function(r){ return r.perfect; });
+  var box = h("div", {class:"pk-sb"}, h("div", {class:"pk-gt"}, h("span", null, "Pick'em standings"), h("i")));
+  if (!ps.rows.length){ box.appendChild(h("p", {class:"hint"}, "No named picks yet. Be the first!")); return box; }
+  if (ps.done){
+    var pw = S.pickWin;
+    if (perfect.length === 1) box.appendChild(h("div", {class:"pk-win"}, voterChip(perfect[0]), h("div", null, h("small", null, "Pick'em winner"), h("b", null, perfect[0].n), h("span", null, "£5 of RP"))));
+    else if (perfect.length > 1 && pw) box.appendChild(h("div", {class:"pk-win"}, voterChip(pw), h("div", null, h("small", null, "Won the case spin"), h("b", null, pw.n), h("span", null, "£5 of RP"))));
+    else if (perfect.length > 1) box.appendChild(h("div", {class:"pk-tie"}, perfect.length + " perfect pickers! ", isAdmin ? h("button", {class:"pk-spin", type:"button", onclick:function(){ startSpin(perfect, false); }}, "Spin for the winner") : "The organiser will spin for the winner on stream."));
+    else box.appendChild(h("p", {class:"hint"}, "Nobody got every match right this time."));
+  }
+  box.appendChild(h("ol", {class:"pk-rows"}, ps.rows.slice(0, 30).map(function(r, i){
+    return h("li", {class:r.perfect && ps.decided ? "perfect" : ""}, h("span", {class:"pk-rk"}, i + 1), voterChip(r), h("span", {class:"pk-rn"}, r.n),
+      h("span", {class:"pk-rs"}, ps.decided ? r.ok + "/" + ps.decided : "–"), r.perfect && ps.decided ? h("span", {class:"pk-pf"}, "Perfect") : null);
+  })));
+  return box;
+}
+var pastHeroOn = false;
+function syncPastHero(){
+  var hero = document.querySelector("#app .hero"), on = false;
+  if (hero && location.hash !== "#stream") on = window.scrollY > hero.offsetTop + hero.offsetHeight - 120;
+  if (on !== pastHeroOn){ pastHeroOn = on; document.documentElement.classList.toggle("past-hero", on); }
+}
+window.addEventListener("scroll", syncPastHero, {passive:true});
+window.addEventListener("resize", syncPastHero);
+
+/* ---------- stream: live crowd vote panel ---------- */
+var stv = null;
+function streamVote(B, m){
+  if (!m || !m.a || !m.b){ stv = null; return null; }
+  var V = voteOf(m.key), bf = ballotsFor(m.key), locked = voteLocked(m.key) || !!m.winner;
+  if (!stv || stv.key !== m.key){
+    var el = h("div", {class:"stv"}), pa = h("b", {class:"stv-pc a"}, "50%"), pb = h("b", {class:"stv-pc b"}, "50%");
+    var la = h("div", {class:"stv-ic a"}), lb = h("div", {class:"stv-ic b"});
+    var fa2 = h("span", {class:"a"}), fb2 = h("span", {class:"b"}), spark = h("i", {class:"stv-spark"});
+    var lab = h("div", {class:"stv-lab"}, h("span", {class:"stv-live"}, h("i"), "Crowd picks"), h("span", {class:"stv-n"}));
+    var stamp = h("div", {class:"stv-stamp"}, "🔒 Votes locked");
+    var feed = h("div", {class:"stv-feed"});
+    el.appendChild(h("div", {class:"stv-row"}, h("div", {class:"stv-side a"}, pa, la), h("div", {class:"stv-mid"}, lab, h("div", {class:"stv-bar"}, fa2, fb2, spark), stamp), h("div", {class:"stv-side b"}, lb, pb)));
+    el.appendChild(feed);
+    stv = {key:m.key, el:el, pa:pa, pb:pb, la:la, lb:lb, fa:fa2, fb:fb2, spark:spark, lab:lab, feed:feed, seen:{}, pct:50, locked:locked, first:true};
+    if (locked) el.classList.add("locked");
+  }
+  var z = stv, pct = V.pct == null ? 50 : V.pct;
+  z.lab.lastChild.textContent = (V.total || 0) + ((V.total || 0) === 1 ? " vote" : " votes");
+  z.fa.style.width = pct + "%"; z.fb.style.width = (100 - pct) + "%"; z.spark.style.left = pct + "%";
+  if (pct !== z.pct){ var from = z.pct, t0 = performance.now(); z.pct = pct;
+    (function step(t){ var k = Math.min(1, (t - t0) / 700), e = 1 - Math.pow(1 - k, 3), v = Math.round(from + (pct - from) * e);
+      z.pa.textContent = v + "%"; z.pb.textContent = (100 - v) + "%"; if (k < 1) requestAnimationFrame(step); })(t0);
+  } else { z.pa.textContent = pct + "%"; z.pb.textContent = (100 - pct) + "%"; }
+  ["a", "b"].forEach(function(sd){
+    var box = sd === "a" ? z.la : z.lb;
+    bf[sd].forEach(function(x){
+      var id = x.v + ":" + sd;
+      if (z.seen[id]) return;
+      var other = x.v + ":" + (sd === "a" ? "b" : "a");
+      if (z.seen[other]){ z.seen[other].remove(); delete z.seen[other]; }
+      var c = voterChip(x, z.first ? "" : "in"); box.appendChild(c); z.seen[id] = c;
+      if (!z.first && x.n){
+        var fi = h("div", {class:"stv-fi " + sd}, voterChip(x), h("span", null, h("b", null, x.n), " backs ", h("b", {class:sd}, pname(m[sd]))));
+        z.feed.appendChild(fi); setTimeout(function(){ fi.classList.add("out"); }, 3200); setTimeout(function(){ fi.remove(); }, 3700);
+      }
+    });
+    Object.keys(z.seen).forEach(function(id){ if (id.slice(-2) === ":" + sd && !bf[sd].some(function(x){ return x.v + ":" + sd === id; }) && !/^undefined/.test(id)){ z.seen[id].remove(); delete z.seen[id]; } });
+  });
+  if (locked && !z.locked){ z.locked = true; z.el.classList.add("locked", "slam"); sfx("lock"); }
+  else if (!locked && z.locked){ z.locked = false; z.el.classList.remove("locked", "slam"); }
+  z.first = false;
+  return z.el;
+}
+
+/* ---------- pick'em tie-break: case spin ---------- */
+var spinEl = null, spinId = null, spinLocal = null;
+function seedRand(seed){ var s = seed % 2147483647; if (s <= 0) s += 2147483646; return function(){ s = s * 16807 % 2147483647; return (s - 1) / 2147483646; }; }
+function startSpin(list, test){
+  var names = list.map(function(r){ return {n:r.n, i:r.i == null ? null : r.i}; });
+  var at = Date.now() + 600, w = Math.floor(Math.random() * names.length);
+  var sp = {at:at, names:names, w:w, test:!!test};
+  if (test || sandbox){ spinLocal = sp; syncSpin(); return; }
+  S.spin = sp; S.pickWin = null; commit(); syncSpin();
+}
+var SPIN_MS = 9000, SPIN_HOLD = 9000;
+function syncSpin(){
+  var sp = spinLocal || S.spin, now = Date.now();
+  if (location.hash === "#stream" && false) sp = null;
+  var id = sp ? sp.at + ":" + sp.w : null;
+  if (sp && now > sp.at + SPIN_MS + SPIN_HOLD) id = null;
+  if (id && id === spinClosed) id = null;
+  if (id === spinId) return;
+  if (spinEl){ var o = spinEl; o.classList.add("out"); setTimeout(function(){ o.remove(); }, 450); spinEl = null; }
+  spinId = id; if (!id) return;
+  var rnd = seedRand(sp.at), N = 64, W = 176, WIN = 54, items = [];
+  for (var i = 0; i < N; i++) items.push(i === WIN ? sp.names[sp.w] : sp.names[Math.floor(rnd() * sp.names.length)]);
+  var reel = h("div", {class:"sp-reel"}, items.map(function(x, i){
+    return h("div", {class:"sp-card" + (i === WIN ? " win" : "")}, x.i != null ? h("span", {class:"sp-ic", style:profStyle(x.i)}) : h("span", {class:"sp-ic none"}, x.n.charAt(0).toUpperCase()), h("b", null, x.n));
+  }));
+  var win = sp.names[sp.w];
+  var res = h("div", {class:"sp-res"}, h("div", {class:"sp-k"}, sp.test ? "Test spin · not real" : "Pick'em winner"), h("div", {class:"sp-n"}, win.n), h("div", {class:"sp-p"}, "wins £5 of RP"));
+  var cv = h("canvas", {class:"sp-cv"});
+  var close = h("button", {class:"sp-x", type:"button", "aria-label":"Close", onclick:function(){ spinLocal = null; if (S.spin && sp === S.spin) spinClosed = id; if (spinEl){ spinEl.classList.add("out"); var o2 = spinEl; setTimeout(function(){ o2.remove(); }, 450); spinEl = null; } }}, "×");
+  var win2 = h("div", {class:"sp-win"}, h("div", {class:"sp-line"}), reel, h("div", {class:"sp-fade l"}), h("div", {class:"sp-fade r"}));
+  spinEl = h("div", {class:"spin"}, cv, h("div", {class:"sp-box"}, h("div", {class:"sp-t"}, h("span", null, "Pick'ems tie-break"), h("small", null, sp.names.length + " perfect pickers · one wins £5 of RP")), win2, res), close);
+  document.body.appendChild(spinEl);
+  var vw = Math.min(window.innerWidth - 40, 1000), jitter = (rnd() - .5) * (W - 40), dist = WIN * W + W / 2 - vw / 2 + jitter;
+  reel.style.setProperty("--w", W + "px");
+  var anim = reel.animate([{transform:"translateX(0)"}, {transform:"translateX(" + (-dist) + "px)"}], {duration:SPIN_MS, easing:"cubic-bezier(.05,.72,.1,1)", fill:"forwards"});
+  var ago = now - sp.at; if (ago > 0) anim.currentTime = Math.min(ago, SPIN_MS); else { anim.pause(); setTimeout(function(){ anim.play(); }, -ago); }
+  var lastIdx = -1;
+  (function tick(){
+    if (!spinEl || spinId !== id) return;
+    var tr = getComputedStyle(reel).transform, x = 0; if (tr && tr !== "none"){ var mm = tr.match(/matrix\(([^)]+)\)/); if (mm) x = parseFloat(mm[1].split(",")[4]); }
+    var idx = Math.floor((-x + vw / 2) / W);
+    if (idx !== lastIdx){ if (lastIdx >= 0 && soundOn()){ var c = audio(); if (c) tone(c, {f:1800, f2:900, d:.05, g:.07, type:"square"}); } lastIdx = idx; }
+    var t = Date.now() - sp.at;
+    if (t >= SPIN_MS){
+      if (!spinEl.classList.contains("done")){
+        spinEl.classList.add("done");
+        if (t < SPIN_MS + 1500){ sfx("podium"); }
+        confetti(cv, "burst", t - SPIN_MS);
+        if (!sp.test && !sandbox && isAdmin && S.spin === sp && !S.pickWin){ S.pickWin = win; commit(); }
+      }
+      return;
+    }
+    requestAnimationFrame(tick);
+  })();
+}
+var spinClosed = null; window.startSpin = startSpin;
 
 var PRIZE_URL = "assets/prize-skins.webp";
 var SKINS = [{"t": "t1", "c": "Yasuo", "n": "PROJECT: Yasuo"}, {"t": "t1", "c": "Yasuo", "n": "Nightbringer Yasuo"}, {"t": "t1", "c": "Zed", "n": "PROJECT: Zed"}, {"t": "t1", "c": "Zed", "n": "Galaxy Slayer Zed"}, {"t": "t1", "c": "Garen", "n": "God-King Garen"}, {"t": "t1", "c": "Darius", "n": "God-King Darius"}, {"t": "t1", "c": "Thresh", "n": "Dark Star Thresh"}, {"t": "t1", "c": "Swain", "n": "Dragon Master Swain"}, {"t": "t1", "c": "Hecarim", "n": "Arcade Hecarim"}, {"t": "t1", "c": "Sion", "n": "Mecha Zero Sion"}, {"t": "t2", "c": "Ahri", "n": "Spirit Blossom Ahri"}, {"t": "t2", "c": "Lux", "n": "Battle Academia Lux"}, {"t": "t2", "c": "Riven", "n": "Dawnbringer Riven"}, {"t": "t2", "c": "Jinx", "n": "Odyssey Jinx"}, {"t": "t2", "c": "Jhin", "n": "Blood Moon Jhin"}, {"t": "t3", "c": "Caitlyn", "n": "Safari Caitlyn"}, {"t": "t3", "c": "Ezreal", "n": "Nottingham Ezreal"}, {"t": "t3", "c": "Garen", "n": "Sanguine Garen"}, {"t": "t3", "c": "Riven", "n": "Crimson Elite Riven"}, {"t": "t3", "c": "Annie", "n": "Goth Annie"}];
@@ -2828,6 +3281,21 @@ function buildFx(B, e){
   }
   return buildFx2(B, e, e);
 }
+function matchChamp(key){
+  var a = S.champs[key] || [], n = (S.games[key] || []).length, c = null;
+  for (var i = 0; i < a.length; i++) if (a[i] && (i < Math.max(1, n))) c = a[i];
+  return c;
+}
+function playerChamp(B, id){
+  var c = null; if (!B || !id) return null;
+  B.order.forEach(function(m){ if ((m.a === id || m.b === id) && matchChamp(m.key)) c = matchChamp(m.key); });
+  return c;
+}
+function fxArt(id, champ, cls, d){
+  var p = P(id);
+  if (champ && artStyle(champ, CARDS_URL)) return fa("fxav card" + (cls ? " " + cls : ""), d, [h("span", {style:artStyle(champ, CARDS_URL)}), h("em", null, champ)]);
+  return fa("fxav" + (cls ? " " + cls : ""), d, h("span", {style:profStyle(p ? p.pi : 29)}));
+}
 function buildFx2(B, e, orig){
   var m = e.key ? findMatch(B, e.key) : null, dur = FXDUR[e.t] || 6000;
   var root = null;
@@ -2838,7 +3306,7 @@ function buildFx2(B, e, orig){
       var id = m[sd], p = P(id), sn = seedOf(id);
       return h("div", {class:"fxside " + sd + " fa", style:"--d:.05s"},
         h("div", {class:"fxwho"},
-          fa("fxav", .35, h("span", {style:profStyle(p ? p.pi : 29)})),
+          fxArt(id, champFor(m.key, 0), "", .35),
           fa("fxname", .5, pname(id)),
           fa("fxriot", .62, [p && p.riot ? p.riot : "", sn ? h("b", null, (p && p.riot ? "  ·  " : "") + "Seed " + sn) : null])));
     };
@@ -2858,7 +3326,7 @@ function buildFx2(B, e, orig){
       h("div", {class:"fxbg"}), h("div", {class:"fxrays fa", style:"--d:.1s"}), h("canvas", {class:"fxconf"}),
       h("div", {class:"fxcol"},
         fa("fxeyebrow", .15, ["Victory", h("i"), roundTitle(B, m)]),
-        fa("fxav big", .25, h("span", {style:profStyle(pw ? pw.pi : 29)})),
+        fxArt(w, matchChamp(m.key), "big", .25),
         fa("fxname big", .55, pname(w)),
         up ? h("div", {class:"fxupset" + (up.massive ? " massive" : "")}, h("div", {class:"fxup-t"}, up.label), h("div", {class:"fxup-s"}, "Only " + (100 - up.share) + "% of the crowd backed " + pname(w))) : null,
         fa("fxline", .8, [sc && m.need > 1 ? h("b", null, sc[0] + " – " + sc[1]) : h("b", null, "Sudden death"), " against ", pname(l)]),
@@ -2872,7 +3340,7 @@ function buildFx2(B, e, orig){
       h("div", {class:"pods"}, places.map(function(pp){
         var id = pp[0], n = pp[1], pr = S.prizes[n - 1], p = id ? P(id) : null, d = n === 1 ? 1.0 : n === 2 ? .65 : .35;
         return h("div", {class:"pod p" + n},
-          fa("pdwho", d + .35, [h("span", {class:"fxav" + (n === 1 ? " big" : "")}, h("span", {style:profStyle(p ? p.pi : 29)})),
+          fa("pdwho", d + .35, [(function(){ var ch = playerChamp(B, id); return ch && artStyle(ch, CARDS_URL) ? h("span", {class:"fxav card" + (n === 1 ? " big" : "")}, h("span", {style:artStyle(ch, CARDS_URL)}), h("em", null, ch)) : h("span", {class:"fxav" + (n === 1 ? " big" : "")}, h("span", {style:profStyle(p ? p.pi : 29)})); })(),
             h("div", {class:"pdn"}, id ? pname(id) : "To be decided"), p && p.riot ? h("div", {class:"pdr"}, p.riot) : null]),
           fa("pdblock", d, [h("div", {class:"pdplace"}, ["1st", "2nd", "3rd"][n - 1]), pr ? h("div", {class:"pdrp"}, fmtRP(pr.rp), h("small", null, "RP")) : null]));
       })));
@@ -3167,6 +3635,10 @@ function renderDrawer(){
   body.appendChild(h("fieldset", null, h("legend", null, "Fun extras"),
     h("label", {style:"display:flex;gap:8px;align-items:center;flex-direction:row"}, h("input", {type:"checkbox", checked:S.bigCat !== false ? true : null, onchange:function(e){ S.bigCat = e.target.checked; commit(); }}), "Giant cat that follows the mouse and begs Siri to join"),
     h("p", {class:"hint"}, sandbox ? "In test mode this only changes your screen." : "Turns it on or off for everyone. It never shows on the stream view.")));
+  body.appendChild(h("fieldset", null, h("legend", null, "Pick'ems"),
+    h("div", {class:"row"}, h("button", {class:"sbtn", type:"button", onclick:function(){ startSpin(["Siri", "Lovebug", "Macabre", "Poro King", "Teemo Main", "Baron Bob", "Krug Life", "Yuumi Enjoyer"].map(function(n, i){ return {n:n, i:[3, 17, 41, 9, 22, 35, 12, 47][i]}; }), true); }}, "Test the winner spin")),
+    h("p", {class:"hint"}, "Plays the case spin on your screen only with sample names. Nothing is saved. The real spin button appears in the Pick'em standings when the tournament ends with more than one perfect picker; that one shows for everyone, on the site and the stream view."),
+    S.pickWin ? h("p", {class:"hint"}, "Spin winner: ", h("b", null, S.pickWin.n), " ", h("button", {class:"sbtn", type:"button", onclick:function(){ S.pickWin = null; S.spin = null; commit(); }}, "Clear and allow a re-spin")) : null));
   // live control
   var mf = h("fieldset", null, h("legend", null, "Matches" + (sandbox ? " (test)" : "")));
   mf.appendChild(h("div", {class:"row"},
