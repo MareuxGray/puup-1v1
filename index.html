@@ -3711,6 +3711,13 @@ function clearResult(key){
   S.fx = []; S.live = key; S.draft = null;
   commit();
 }
+function clearGames(key){
+  // wipe recorded games (and champions) for one unfinished match only; live match and other results stay
+  delete S.games[key]; delete S.champs[key];
+  S.undo = S.undo.filter(function(k){ return k !== key; });
+  if (S.draft && S.draft.key === key) S.draft = null;
+  commit();
+}
 function undo(){
   var key = S.undo.pop(); if (!key) return;
   var g = S.games[key] || []; g.pop(); if (!g.length) delete S.games[key];
@@ -3879,7 +3886,8 @@ function renderDrawer(){
         h("button", {class:"sbtn" + (live ? " on" : ""), type:"button", onclick:function(){ if (!live && m.a && m.b) pushFx({t:"intro", key:m.key, at:Date.now()}); S.live = live ? null : m.key; autoRoll(); commit(); }}, live ? "Live now (click to clear)" : "Set as live"),
         !m.winner && !(S.games[m.key] || []).length ? h("button", {class:"sbtn" + (S.fp && S.fp[m.key] ? "" : " on"), type:"button", title:"Flip a coin to decide who picks the game 1 champion", onclick:function(){ coinFlip(m.key); }}, S.fp && S.fp[m.key] ? "Re-flip (" + pname(m[S.fp[m.key]]) + " won)" : "Coin flip") : null,
         h("button", {class:"sbtn", type:"button", onclick:function(){ addGame(m.key, m.a); }}, "+1 " + pname(m.a)),
-        h("button", {class:"sbtn", type:"button", onclick:function(){ addGame(m.key, m.b); }}, "+1 " + pname(m.b))));
+        h("button", {class:"sbtn", type:"button", onclick:function(){ addGame(m.key, m.b); }}, "+1 " + pname(m.b)),
+        (S.games[m.key] || []).length ? confirmBtn("clg"+m.key, "Clear games", "warn", function(){ clearGames(m.key); }) : null));
       var gi = gameIndex(m);
       row.appendChild(field("Champion for game " + (gi+1) + (m.need === 1 || gi === 2 ? " (use the roller)" : " (the player's pick)"),
         champPicker(champFor(m.key, gi), function(v){ var a = S.champs[m.key] = S.champs[m.key] || []; a[gi] = v || null; markDirty(); })));
